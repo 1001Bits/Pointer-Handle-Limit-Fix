@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.exe
+*.dll
+*.pdb
+*.bin
+*.7z
+*.zip
+build/
+package/

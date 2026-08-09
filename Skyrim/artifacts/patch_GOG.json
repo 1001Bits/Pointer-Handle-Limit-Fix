@@ -1,0 +1,8756 @@
+{
+ "runtime": "GOG",
+ "exe_size": 36958208,
+ "exe_sha256": "9b0fc7880c4b12d436bfb59bcae64868f176dbc04010adbd9bc2ecb64bc8ed3f",
+ "image_base": 5368709120,
+ "table_rva": 34593280,
+ "head_rva": 34593260,
+ "tail_rva": 34593264,
+ "lock_rva": 34593272,
+ "lock_write_rva": 13413376,
+ "unlock_write_rva": 13413968,
+ "stock_entries": 1048576,
+ "raised_entries": 4194304,
+ "entry_size": 16,
+ "regions": [
+  [
+   76064,
+   76146
+  ],
+  [
+   1507760,
+   1521553
+  ],
+  [
+   1543408,
+   1543796
+  ],
+  [
+   1543808,
+   1544196
+  ],
+  [
+   1545248,
+   1545290
+  ],
+  [
+   1545290,
+   1545411
+  ],
+  [
+   1545411,
+   1545530
+  ],
+  [
+   1545536,
+   1545569
+  ],
+  [
+   1545569,
+   1545690
+  ],
+  [
+   1545690,
+   1545802
+  ],
+  [
+   1558736,
+   1558959
+  ],
+  [
+   1559504,
+   1559790
+  ],
+  [
+   1559808,
+   1560092
+  ],
+  [
+   1615840,
+   1615882
+  ],
+  [
+   1615882,
+   1616003
+  ],
+  [
+   1616003,
+   1616122
+  ],
+  [
+   1645696,
+   1646759
+  ],
+  [
+   1773776,
+   1774314
+  ],
+  [
+   1844000,
+   1844273
+  ],
+  [
+   2236752,
+   2236991
+  ],
+  [
+   2237008,
+   2237150
+  ],
+  [
+   2260912,
+   2273539
+  ],
+  [
+   2328000,
+   2329173
+  ],
+  [
+   2497648,
+   2497681
+  ],
+  [
+   2497681,
+   2497802
+  ],
+  [
+   2497802,
+   2497914
+  ],
+  [
+   2648768,
+   2653642
+  ],
+  [
+   2854912,
+   2855679
+  ],
+  [
+   2860896,
+   2861267
+  ],
+  [
+   2861280,
+   2861651
+  ],
+  [
+   2973440,
+   2973924
+  ],
+  [
+   3471536,
+   3473048
+  ],
+  [
+   3523200,
+   3526181
+  ],
+  [
+   3734096,
+   3734443
+  ],
+  [
+   3962064,
+   3963419
+  ],
+  [
+   3987632,
+   3988534
+  ],
+  [
+   4032064,
+   4032339
+  ],
+  [
+   4434784,
+   4434849
+  ],
+  [
+   4435344,
+   4435771
+  ],
+  [
+   4461456,
+   4461570
+  ],
+  [
+   4496896,
+   4496962
+  ],
+  [
+   4507984,
+   4508101
+  ],
+  [
+   4562800,
+   4563410
+  ],
+  [
+   4568208,
+   4568731
+  ],
+  [
+   4613376,
+   4613792
+  ],
+  [
+   4618080,
+   4618826
+  ],
+  [
+   4619296,
+   4619437
+  ],
+  [
+   4619904,
+   4620668
+  ],
+  [
+   4621056,
+   4621197
+  ],
+  [
+   4635200,
+   4635232
+  ],
+  [
+   4635232,
+   4635391
+  ],
+  [
+   4635391,
+   4635397
+  ],
+  [
+   4661616,
+   4662227
+  ],
+  [
+   4675808,
+   4676584
+  ],
+  [
+   4712048,
+   4712995
+  ],
+  [
+   4714016,
+   4714958
+  ],
+  [
+   4743456,
+   4743643
+  ],
+  [
+   4743744,
+   4744044
+  ],
+  [
+   4759488,
+   4760316
+  ],
+  [
+   4780336,
+   4780409
+  ],
+  [
+   6013888,
+   6014276
+  ],
+  [
+   6014288,
+   6014330
+  ],
+  [
+   6014330,
+   6014451
+  ],
+  [
+   6014451,
+   6014570
+  ],
+  [
+   6044960,
+   6045002
+  ],
+  [
+   6045002,
+   6045123
+  ],
+  [
+   6045123,
+   6045242
+  ],
+  [
+   6045248,
+   6045281
+  ],
+  [
+   6045281,
+   6045402
+  ],
+  [
+   6045402,
+   6045514
+  ],
+  [
+   6100400,
+   6100442
+  ],
+  [
+   6100442,
+   6100563
+  ],
+  [
+   6100563,
+   6100682
+  ],
+  [
+   6367936,
+   6368063
+  ],
+  [
+   6435120,
+   6435771
+  ],
+  [
+   6537728,
+   6538116
+  ],
+  [
+   6542208,
+   6543345
+  ],
+  [
+   6546512,
+   6547974
+  ],
+  [
+   6549664,
+   6550349
+  ],
+  [
+   6562688,
+   6566878
+  ],
+  [
+   6688256,
+   6689100
+  ],
+  [
+   6738384,
+   6739363
+  ],
+  [
+   6749248,
+   6750244
+  ],
+  [
+   6820912,
+   6821061
+  ],
+  [
+   6855856,
+   6859963
+  ],
+  [
+   6931568,
+   6932958
+  ],
+  [
+   6960128,
+   6960527
+  ],
+  [
+   7001424,
+   7001517
+  ],
+  [
+   7001517,
+   7001579
+  ],
+  [
+   7001579,
+   7001588
+  ],
+  [
+   7090480,
+   7090732
+  ],
+  [
+   7256544,
+   7257751
+  ],
+  [
+   7269872,
+   7270639
+  ],
+  [
+   7282048,
+   7282653
+  ],
+  [
+   7351424,
+   7354023
+  ],
+  [
+   7372928,
+   7374020
+  ],
+  [
+   7493856,
+   7493925
+  ],
+  [
+   7586800,
+   7586924
+  ],
+  [
+   7601872,
+   7604671
+  ],
+  [
+   7683280,
+   7683990
+  ],
+  [
+   7779264,
+   7780107
+  ],
+  [
+   7780288,
+   7781147
+  ],
+  [
+   7781168,
+   7782021
+  ],
+  [
+   7981984,
+   7983742
+  ],
+  [
+   7991408,
+   7991676
+  ],
+  [
+   8196112,
+   8196526
+  ],
+  [
+   8221520,
+   8221908
+  ],
+  [
+   8235952,
+   8236453
+  ],
+  [
+   8328224,
+   8328597
+  ],
+  [
+   8417984,
+   8419785
+  ],
+  [
+   9309856,
+   9312171
+  ],
+  [
+   9312192,
+   9312533
+  ],
+  [
+   9314656,
+   9315043
+  ],
+  [
+   9326336,
+   9326933
+  ],
+  [
+   9563856,
+   9570196
+  ],
+  [
+   9606752,
+   9607293
+  ],
+  [
+   9976736,
+   9976940
+  ],
+  [
+   9976960,
+   9977480
+  ],
+  [
+   9978112,
+   9978187
+  ],
+  [
+   9979552,
+   9979761
+  ],
+  [
+   9979776,
+   9980063
+  ],
+  [
+   9981200,
+   9981900
+  ],
+  [
+   9987408,
+   9990396
+  ],
+  [
+   23908944,
+   23909165
+  ]
+ ],
+ "lea_disp_rvas": [
+  76073,
+  76121,
+  1510811,
+  1543474,
+  1543874,
+  1545301,
+  1545580,
+  1558826,
+  1559663,
+  1559968,
+  1615893,
+  1645874,
+  1773931,
+  1844088,
+  2236804,
+  2237062,
+  2265943,
+  2328089,
+  2497692,
+  2652490,
+  2855159,
+  2860969,
+  2861353,
+  2973670,
+  3472655,
+  3472745,
+  3525671,
+  3734214,
+  3962654,
+  3962738,
+  3988016,
+  3988100,
+  4032151,
+  4434790,
+  4435535,
+  4461469,
+  4496903,
+  4508031,
+  4563049,
+  4568291,
+  4613436,
+  4618347,
+  4619313,
+  4620169,
+  4621073,
+  4635240,
+  4661901,
+  4676100,
+  4712193,
+  4714186,
+  4743473,
+  4743766,
+  4759851,
+  4780342,
+  6013954,
+  6014341,
+  6045013,
+  6045292,
+  6100453,
+  6367961,
+  6435570,
+  6537794,
+  6542819,
+  6542912,
+  6547168,
+  6549953,
+  6550042,
+  6563530,
+  6688957,
+  6738526,
+  6749653,
+  6820992,
+  6858996,
+  6931709,
+  6960343,
+  7001440,
+  7090584,
+  7257128,
+  7270174,
+  7282391,
+  7352517,
+  7373353,
+  7493866,
+  7586822,
+  7603587,
+  7683418,
+  7683539,
+  7779427,
+  7780443,
+  7781030,
+  7781320,
+  7781904,
+  7982176,
+  7991477,
+  8196254,
+  8196342,
+  8221586,
+  8236112,
+  8236196,
+  8328367,
+  8418264,
+  9310884,
+  9312231,
+  9314688,
+  9326559,
+  9569688,
+  9607082,
+  9976804,
+  9977342,
+  9978117,
+  9979600,
+  9979869,
+  9981462,
+  9987553,
+  23908965
+ ],
+ "table_refs": [
+  {
+   "rva": 76070,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0dd3b00e02",
+   "asm": "lea rcx, [rip + 0x20eb0d3]"
+  },
+  {
+   "rva": 76118,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0da3b00e02",
+   "asm": "lea rcx, [rip + 0x20eb0a3]"
+  },
+  {
+   "rva": 1510808,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d61ccf801",
+   "asm": "lea rcx, [rip + 0x1f8cc61]"
+  },
+  {
+   "rva": 1543471,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d35ca4cf801",
+   "asm": "lea r14, [rip + 0x1f84cca]"
+  },
+  {
+   "rva": 1543871,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d353a4bf801",
+   "asm": "lea r14, [rip + 0x1f84b3a]"
+  },
+  {
+   "rva": 1545298,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05a745f801",
+   "asm": "lea rax, [rip + 0x1f845a7]"
+  },
+  {
+   "rva": 1545577,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d059044f801",
+   "asm": "lea rax, [rip + 0x1f84490]"
+  },
+  {
+   "rva": 1558823,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0dd210f801",
+   "asm": "lea rcx, [rip + 0x1f810d2]"
+  },
+  {
+   "rva": 1559660,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d058d0df801",
+   "asm": "lea rax, [rip + 0x1f80d8d]"
+  },
+  {
+   "rva": 1559965,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d055c0cf801",
+   "asm": "lea rax, [rip + 0x1f80c5c]"
+  },
+  {
+   "rva": 1615890,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05e731f701",
+   "asm": "lea rax, [rip + 0x1f731e7]"
+  },
+  {
+   "rva": 1645871,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d25cabcf601",
+   "asm": "lea r12, [rip + 0x1f6bcca]"
+  },
+  {
+   "rva": 1773928,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d3591c8f401",
+   "asm": "lea r14, [rip + 0x1f4c891]"
+  },
+  {
+   "rva": 1844085,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d2d84b6f301",
+   "asm": "lea rbp, [rip + 0x1f3b684]"
+  },
+  {
+   "rva": 2236801,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d3578b8ed01",
+   "asm": "lea r14, [rip + 0x1edb878]"
+  },
+  {
+   "rva": 2237059,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d1d76b7ed01",
+   "asm": "lea rbx, [rip + 0x1edb776]"
+  },
+  {
+   "rva": 2265940,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05a546ed01",
+   "asm": "lea rax, [rip + 0x1ed46a5]"
+  },
+  {
+   "rva": 2328086,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d25e353ec01",
+   "asm": "lea r12, [rip + 0x1ec53e3]"
+  },
+  {
+   "rva": 2497689,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0560bde901",
+   "asm": "lea rax, [rip + 0x1e9bd60]"
+  },
+  {
+   "rva": 2652487,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05b260e701",
+   "asm": "lea rax, [rip + 0x1e760b2]"
+  },
+  {
+   "rva": 2855156,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d2d0549e401",
+   "asm": "lea rbp, [rip + 0x1e44905]"
+  },
+  {
+   "rva": 2860966,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d2d5332e401",
+   "asm": "lea rbp, [rip + 0x1e43253]"
+  },
+  {
+   "rva": 2861350,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d2dd330e401",
+   "asm": "lea rbp, [rip + 0x1e430d3]"
+  },
+  {
+   "rva": 2973667,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d35167ae201",
+   "asm": "lea r14, [rip + 0x1e27a16]"
+  },
+  {
+   "rva": 3472652,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05eddcda01",
+   "asm": "lea r8, [rip + 0x1dadced]"
+  },
+  {
+   "rva": 3472742,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d0593dcda01",
+   "asm": "lea r8, [rip + 0x1dadc93]"
+  },
+  {
+   "rva": 3525668,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05d50dda01",
+   "asm": "lea rax, [rip + 0x1da0dd5]"
+  },
+  {
+   "rva": 3734211,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d3d36dfd601",
+   "asm": "lea r15, [rip + 0x1d6df36]"
+  },
+  {
+   "rva": 3962651,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d15de62d301",
+   "asm": "lea rdx, [rip + 0x1d362de]"
+  },
+  {
+   "rva": 3962735,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d158a62d301",
+   "asm": "lea rdx, [rip + 0x1d3628a]"
+  },
+  {
+   "rva": 3988013,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d15ccffd201",
+   "asm": "lea rdx, [rip + 0x1d2ffcc]"
+  },
+  {
+   "rva": 3988097,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d1578ffd201",
+   "asm": "lea rdx, [rip + 0x1d2ff78]"
+  },
+  {
+   "rva": 4032148,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d3d6553d201",
+   "asm": "lea r15, [rip + 0x1d25365]"
+  },
+  {
+   "rva": 4434787,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05962ecc01",
+   "asm": "lea rax, [rip + 0x1cc2e96]"
+  },
+  {
+   "rva": 4435532,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d1dad2bcc01",
+   "asm": "lea r11, [rip + 0x1cc2bad]"
+  },
+  {
+   "rva": 4461466,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d055fc6cb01",
+   "asm": "lea rax, [rip + 0x1cbc65f]"
+  },
+  {
+   "rva": 4496900,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05f53bcb01",
+   "asm": "lea rax, [rip + 0x1cb3bf5]"
+  },
+  {
+   "rva": 4508027,
+   "len": 8,
+   "disp_off": 4,
+   "orig": "40488d0d7d10cb01",
+   "asm": "lea rcx, [rip + 0x1cb107d]"
+  },
+  {
+   "rva": 4563046,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d059339ca01",
+   "asm": "lea rax, [rip + 0x1ca3993]"
+  },
+  {
+   "rva": 4568288,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d051925ca01",
+   "asm": "lea rax, [rip + 0x1ca2519]"
+  },
+  {
+   "rva": 4613433,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d2dc074c901",
+   "asm": "lea rbp, [rip + 0x1c974c0]"
+  },
+  {
+   "rva": 4618344,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d059161c901",
+   "asm": "lea rax, [rip + 0x1c96191]"
+  },
+  {
+   "rva": 4619310,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05cb5dc901",
+   "asm": "lea rax, [rip + 0x1c95dcb]"
+  },
+  {
+   "rva": 4620166,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05735ac901",
+   "asm": "lea rax, [rip + 0x1c95a73]"
+  },
+  {
+   "rva": 4621070,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05eb56c901",
+   "asm": "lea rax, [rip + 0x1c956eb]"
+  },
+  {
+   "rva": 4635237,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d35941fc901",
+   "asm": "lea rsi, [rip + 0x1c91f94]"
+  },
+  {
+   "rva": 4661898,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d056fb7c801",
+   "asm": "lea rax, [rip + 0x1c8b76f]"
+  },
+  {
+   "rva": 4676097,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05f87fc801",
+   "asm": "lea rax, [rip + 0x1c87ff8]"
+  },
+  {
+   "rva": 4712190,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05fbf2c701",
+   "asm": "lea rax, [rip + 0x1c7f2fb]"
+  },
+  {
+   "rva": 4714183,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0532ebc701",
+   "asm": "lea rax, [rip + 0x1c7eb32]"
+  },
+  {
+   "rva": 4743470,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05cb78c701",
+   "asm": "lea rax, [rip + 0x1c778cb]"
+  },
+  {
+   "rva": 4743763,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d35a677c701",
+   "asm": "lea rsi, [rip + 0x1c777a6]"
+  },
+  {
+   "rva": 4759848,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05d138c701",
+   "asm": "lea rax, [rip + 0x1c738d1]"
+  },
+  {
+   "rva": 4780339,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05c6e8c601",
+   "asm": "lea rax, [rip + 0x1c6e8c6]"
+  },
+  {
+   "rva": 6013951,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d35fa15b401",
+   "asm": "lea r14, [rip + 0x1b415fa]"
+  },
+  {
+   "rva": 6014338,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d057714b401",
+   "asm": "lea rax, [rip + 0x1b41477]"
+  },
+  {
+   "rva": 6045010,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05a79cb301",
+   "asm": "lea rax, [rip + 0x1b39ca7]"
+  },
+  {
+   "rva": 6045289,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05909bb301",
+   "asm": "lea rax, [rip + 0x1b39b90]"
+  },
+  {
+   "rva": 6100450,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0517c4b201",
+   "asm": "lea rax, [rip + 0x1b2c417]"
+  },
+  {
+   "rva": 6367958,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0523afae01",
+   "asm": "lea rax, [rip + 0x1aeaf23]"
+  },
+  {
+   "rva": 6435567,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d2d0aa7ad01",
+   "asm": "lea rbp, [rip + 0x1ada70a]"
+  },
+  {
+   "rva": 6537791,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d35ba17ac01",
+   "asm": "lea r14, [rip + 0x1ac17ba]"
+  },
+  {
+   "rva": 6542816,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d051904ac01",
+   "asm": "lea r8, [rip + 0x1ac0419]"
+  },
+  {
+   "rva": 6542909,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05bc03ac01",
+   "asm": "lea r8, [rip + 0x1ac03bc]"
+  },
+  {
+   "rva": 6547165,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d251cf3ab01",
+   "asm": "lea r12, [rip + 0x1abf31c]"
+  },
+  {
+   "rva": 6549950,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d153be8ab01",
+   "asm": "lea rdx, [rip + 0x1abe83b]"
+  },
+  {
+   "rva": 6550039,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d15e2e7ab01",
+   "asm": "lea rdx, [rip + 0x1abe7e2]"
+  },
+  {
+   "rva": 6563527,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d1d32b3ab01",
+   "asm": "lea rbx, [rip + 0x1abb332]"
+  },
+  {
+   "rva": 6688954,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d3fc9a901",
+   "asm": "lea rcx, [rip + 0x1a9c93f]"
+  },
+  {
+   "rva": 6738523,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d9e07a901",
+   "asm": "lea rcx, [rip + 0x1a9079e]"
+  },
+  {
+   "rva": 6749650,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0527dca801",
+   "asm": "lea rax, [rip + 0x1a8dc27]"
+  },
+  {
+   "rva": 6820989,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d057cc5a701",
+   "asm": "lea rax, [rip + 0x1a7c57c]"
+  },
+  {
+   "rva": 6858993,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d0831a701",
+   "asm": "lea rcx, [rip + 0x1a73108]"
+  },
+  {
+   "rva": 6931706,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d0dff14a601",
+   "asm": "lea r9, [rip + 0x1a614ff]"
+  },
+  {
+   "rva": 6960340,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0525a5a501",
+   "asm": "lea rax, [rip + 0x1a5a525]"
+  },
+  {
+   "rva": 7001437,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d059c04a501",
+   "asm": "lea rax, [rip + 0x1a5049c]"
+  },
+  {
+   "rva": 7090581,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0564a8a301",
+   "asm": "lea rax, [rip + 0x1a3a864]"
+  },
+  {
+   "rva": 7257125,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0dd41da101",
+   "asm": "lea rcx, [rip + 0x1a11dd4]"
+  },
+  {
+   "rva": 7270171,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d25deeaa001",
+   "asm": "lea r12, [rip + 0x1a0eade]"
+  },
+  {
+   "rva": 7282388,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d2525bba001",
+   "asm": "lea r12, [rip + 0x1a0bb25]"
+  },
+  {
+   "rva": 7352514,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d37a99f01",
+   "asm": "lea rcx, [rip + 0x19fa937]"
+  },
+  {
+   "rva": 7373350,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05d3579f01",
+   "asm": "lea rax, [rip + 0x19f57d3]"
+  },
+  {
+   "rva": 7493863,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0512819d01",
+   "asm": "lea rax, [rip + 0x19d8112]"
+  },
+  {
+   "rva": 7586819,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0df6159c01",
+   "asm": "lea rcx, [rip + 0x19c15f6]"
+  },
+  {
+   "rva": 7603584,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d79d49b01",
+   "asm": "lea rcx, [rip + 0x19bd479]"
+  },
+  {
+   "rva": 7683415,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05a29c9a01",
+   "asm": "lea r8, [rip + 0x19a9ca2]"
+  },
+  {
+   "rva": 7683536,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05299c9a01",
+   "asm": "lea r8, [rip + 0x19a9c29]"
+  },
+  {
+   "rva": 7779424,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d0d99259901",
+   "asm": "lea r9, [rip + 0x1992599]"
+  },
+  {
+   "rva": 7780440,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05a1219901",
+   "asm": "lea r8, [rip + 0x19921a1]"
+  },
+  {
+   "rva": 7781027,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05561f9901",
+   "asm": "lea r8, [rip + 0x1991f56]"
+  },
+  {
+   "rva": 7781317,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05341e9901",
+   "asm": "lea r8, [rip + 0x1991e34]"
+  },
+  {
+   "rva": 7781901,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05ec1b9901",
+   "asm": "lea r8, [rip + 0x1991bec]"
+  },
+  {
+   "rva": 7982173,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d159c0d9601",
+   "asm": "lea rdx, [rip + 0x1960d9c]"
+  },
+  {
+   "rva": 7991474,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0547e99501",
+   "asm": "lea rax, [rip + 0x195e947]"
+  },
+  {
+   "rva": 8196251,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d055ec99201",
+   "asm": "lea r8, [rip + 0x192c95e]"
+  },
+  {
+   "rva": 8196339,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d0506c99201",
+   "asm": "lea r8, [rip + 0x192c906]"
+  },
+  {
+   "rva": 8221583,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d356a669201",
+   "asm": "lea r14, [rip + 0x192666a]"
+  },
+  {
+   "rva": 8236109,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05ac2d9201",
+   "asm": "lea r8, [rip + 0x1922dac]"
+  },
+  {
+   "rva": 8236193,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d05582d9201",
+   "asm": "lea r8, [rip + 0x1922d58]"
+  },
+  {
+   "rva": 8328364,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d2d4dc59001",
+   "asm": "lea r13, [rip + 0x190c54d]"
+  },
+  {
+   "rva": 8418261,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d24668f01",
+   "asm": "lea rcx, [rip + 0x18f6624]"
+  },
+  {
+   "rva": 9310881,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d1d58c78101",
+   "asm": "lea rbx, [rip + 0x181c758]"
+  },
+  {
+   "rva": 9312228,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d15c28101",
+   "asm": "lea rcx, [rip + 0x181c215]"
+  },
+  {
+   "rva": 9314685,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d7cb88101",
+   "asm": "lea rcx, [rip + 0x181b87c]"
+  },
+  {
+   "rva": 9326556,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d051d8a8101",
+   "asm": "lea rax, [rip + 0x1818a1d]"
+  },
+  {
+   "rva": 9569685,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d2564d47d01",
+   "asm": "lea r12, [rip + 0x17dd464]"
+  },
+  {
+   "rva": 9607079,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d2552427d01",
+   "asm": "lea r12, [rip + 0x17d4252]"
+  },
+  {
+   "rva": 9976801,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05189e7701",
+   "asm": "lea rax, [rip + 0x1779e18]"
+  },
+  {
+   "rva": 9977339,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05fe9b7701",
+   "asm": "lea rax, [rip + 0x1779bfe]"
+  },
+  {
+   "rva": 9978114,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05f7987701",
+   "asm": "lea rax, [rip + 0x17798f7]"
+  },
+  {
+   "rva": 9979597,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d052c937701",
+   "asm": "lea rax, [rip + 0x177932c]"
+  },
+  {
+   "rva": 9979866,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "4c8d351f927701",
+   "asm": "lea r14, [rip + 0x177921f]"
+  },
+  {
+   "rva": 9981459,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d05e68b7701",
+   "asm": "lea rax, [rip + 0x1778be6]"
+  },
+  {
+   "rva": 9987550,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d1b747701",
+   "asm": "lea rcx, [rip + 0x177741b]"
+  },
+  {
+   "rva": 23908962,
+   "len": 7,
+   "disp_off": 3,
+   "orig": "488d0d9707a300",
+   "asm": "lea rcx, [rip + 0xa30797]"
+  }
+ ],
+ "patches": [
+  {
+   "rva": 76077,
+   "len": 6,
+   "orig": "41b800000001",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 16777216,
+   "new": 67108864,
+   "cat": "table_bytes",
+   "asm": "mov r8d, 0x1000000"
+  },
+  {
+   "rva": 76112,
+   "len": 6,
+   "orig": "41b800001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "mov r8d, 0x100000"
+  },
+  {
+   "rva": 1510790,
+   "len": 6,
+   "orig": "81e7ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edi, 0xfffff"
+  },
+  {
+   "rva": 1510796,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 1510820,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 1510826,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 1543496,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1543565,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1543623,
+   "len": 6,
+   "orig": "8d8800001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "lea ecx, [rax + 0x100000]"
+  },
+  {
+   "rva": 1543629,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 1543635,
+   "len": 5,
+   "orig": "25ffff0ffc",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 4228907007,
+   "new": 4030726143,
+   "cat": "clear_age",
+   "asm": "and eax, 0xfc0fffff"
+  },
+  {
+   "rva": 1543642,
+   "len": 4,
+   "orig": "0fbae91a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bts ecx, 0x1a"
+  },
+  {
+   "rva": 1543650,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 1543718,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 1543896,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1543965,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1544023,
+   "len": 6,
+   "orig": "8d8800001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "lea ecx, [rax + 0x100000]"
+  },
+  {
+   "rva": 1544029,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 1544035,
+   "len": 5,
+   "orig": "25ffff0ffc",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 4228907007,
+   "new": 4030726143,
+   "cat": "clear_age",
+   "asm": "and eax, 0xfc0fffff"
+  },
+  {
+   "rva": 1544042,
+   "len": 4,
+   "orig": "0fbae91a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bts ecx, 0x1a"
+  },
+  {
+   "rva": 1544050,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 1544118,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 1545305,
+   "len": 7,
+   "orig": "4181e4ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r12d, 0xfffff"
+  },
+  {
+   "rva": 1545312,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 1545405,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 1545411,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1545584,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 1545591,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 1545684,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 1545690,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1558833,
+   "len": 7,
+   "orig": "4181e3ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r11d, 0xfffff"
+  },
+  {
+   "rva": 1558852,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 1558860,
+   "len": 6,
+   "orig": "f7c10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test ecx, 0x3f00000"
+  },
+  {
+   "rva": 1559639,
+   "len": 7,
+   "orig": "4181e2ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r10d, 0xfffff"
+  },
+  {
+   "rva": 1559646,
+   "len": 7,
+   "orig": "4181e30000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r11d, 0x3f00000"
+  },
+  {
+   "rva": 1559672,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 1559678,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1559942,
+   "len": 7,
+   "orig": "4181e3ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r11d, 0xfffff"
+  },
+  {
+   "rva": 1559952,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 1559977,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 1559983,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1615897,
+   "len": 7,
+   "orig": "4181e4ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r12d, 0xfffff"
+  },
+  {
+   "rva": 1615904,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 1615997,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 1616003,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1645948,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 1645958,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 1646008,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 1646014,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1774016,
+   "len": 6,
+   "orig": "81e7ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edi, 0xfffff"
+  },
+  {
+   "rva": 1774022,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 1774039,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 1774051,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1774060,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 1774134,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 1774154,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 1774159,
+   "len": 6,
+   "orig": "81210000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rcx], 0xfff00000"
+  },
+  {
+   "rva": 1774167,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 1844067,
+   "len": 6,
+   "orig": "81e7ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edi, 0xfffff"
+  },
+  {
+   "rva": 1844073,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 1844097,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 1844109,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 1844118,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 1844196,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 1844216,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 1844221,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 1844229,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 2236816,
+   "len": 6,
+   "orig": "f70300000004",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 67108864,
+   "new": 268435456,
+   "cat": "inuse_bit",
+   "asm": "test dword ptr [rbx], 0x4000000"
+  },
+  {
+   "rva": 2236873,
+   "len": 6,
+   "orig": "8123fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rbx], 0xfbffffff"
+  },
+  {
+   "rva": 2236898,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 2236918,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 2236923,
+   "len": 6,
+   "orig": "81210000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rcx], 0xfff00000"
+  },
+  {
+   "rva": 2236931,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 2236951,
+   "len": 6,
+   "orig": "81ff00001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "cmp edi, 0x100000"
+  },
+  {
+   "rva": 2237066,
+   "len": 5,
+   "orig": "bf00001000",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "mov edi, 0x100000"
+  },
+  {
+   "rva": 2237073,
+   "len": 6,
+   "orig": "f70300000004",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 67108864,
+   "new": 268435456,
+   "cat": "inuse_bit",
+   "asm": "test dword ptr [rbx], 0x4000000"
+  },
+  {
+   "rva": 2265920,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 2265927,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 2266041,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 2266047,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2328256,
+   "len": 6,
+   "orig": "81e5ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and ebp, 0xfffff"
+  },
+  {
+   "rva": 2328262,
+   "len": 6,
+   "orig": "81e30000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebx, 0x3f00000"
+  },
+  {
+   "rva": 2328364,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 2328370,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2497696,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 2497703,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 2497796,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 2497802,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2652467,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 2652474,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 2652583,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 2652589,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2855193,
+   "len": 7,
+   "orig": "4181e1ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r9d, 0xfffff"
+  },
+  {
+   "rva": 2855200,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 2855253,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 2855263,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2860997,
+   "len": 7,
+   "orig": "4181e1ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r9d, 0xfffff"
+  },
+  {
+   "rva": 2861004,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 2861054,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 2861060,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2861381,
+   "len": 7,
+   "orig": "4181e1ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r9d, 0xfffff"
+  },
+  {
+   "rva": 2861388,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 2861438,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 2861444,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2973649,
+   "len": 6,
+   "orig": "81e6ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and esi, 0xfffff"
+  },
+  {
+   "rva": 2973655,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 2973679,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 2973691,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 2973700,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 2973778,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 2973798,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 2973803,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 2973811,
+   "len": 6,
+   "orig": "81270000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdi], 0xfff00000"
+  },
+  {
+   "rva": 3472631,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 3472638,
+   "len": 7,
+   "orig": "4181e60000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r14d, 0x3f00000"
+  },
+  {
+   "rva": 3472664,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 3472676,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 3472690,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 3472770,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3472790,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3472795,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 3472803,
+   "len": 6,
+   "orig": "81270000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdi], 0xfff00000"
+  },
+  {
+   "rva": 3525648,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 3525655,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 3525764,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 3525770,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 3734193,
+   "len": 6,
+   "orig": "81e6ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and esi, 0xfffff"
+  },
+  {
+   "rva": 3734199,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 3734223,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 3734235,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 3734244,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 3734319,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3734339,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3734344,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 3734352,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 3962631,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 3962638,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 3962663,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 3962673,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 3962742,
+   "len": 6,
+   "orig": "8126fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rsi], 0xfbffffff"
+  },
+  {
+   "rva": 3962769,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3962789,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3962794,
+   "len": 6,
+   "orig": "81210000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rcx], 0xfff00000"
+  },
+  {
+   "rva": 3962802,
+   "len": 6,
+   "orig": "81260000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rsi], 0xfff00000"
+  },
+  {
+   "rva": 3987993,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 3988000,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 3988025,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 3988035,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 3988104,
+   "len": 6,
+   "orig": "8126fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rsi], 0xfbffffff"
+  },
+  {
+   "rva": 3988131,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3988151,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 3988156,
+   "len": 6,
+   "orig": "81210000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rcx], 0xfff00000"
+  },
+  {
+   "rva": 3988164,
+   "len": 6,
+   "orig": "81260000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rsi], 0xfff00000"
+  },
+  {
+   "rva": 4032130,
+   "len": 6,
+   "orig": "81e7ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edi, 0xfffff"
+  },
+  {
+   "rva": 4032136,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 4032160,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4032170,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4032232,
+   "len": 6,
+   "orig": "8123fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rbx], 0xfbffffff"
+  },
+  {
+   "rva": 4032257,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 4032277,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 4032282,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 4032290,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 4434797,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 4434814,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4434823,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4435574,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 4435584,
+   "len": 7,
+   "orig": "4181e20000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r10d, 0x3f00000"
+  },
+  {
+   "rva": 4435601,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4435607,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4461479,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 4461496,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4461505,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4496910,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 4496927,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4496936,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4508038,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 4508057,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 4508065,
+   "len": 6,
+   "orig": "f7c10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test ecx, 0x3f00000"
+  },
+  {
+   "rva": 4563026,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 4563033,
+   "len": 6,
+   "orig": "81e30000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebx, 0x3f00000"
+  },
+  {
+   "rva": 4563132,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4563138,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4568269,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 4568275,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 4568300,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4568306,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4613414,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 4613421,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 4613444,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4613450,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4613566,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 4613573,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 4613589,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4613595,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4618324,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 4618331,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 4618444,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4618450,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4619329,
+   "len": 7,
+   "orig": "4181e3ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r11d, 0xfffff"
+  },
+  {
+   "rva": 4619349,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 4619359,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4620146,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 4620153,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 4620260,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4620266,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4621089,
+   "len": 7,
+   "orig": "4181e3ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r11d, 0xfffff"
+  },
+  {
+   "rva": 4621109,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 4621119,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4635260,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 4635274,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 4635283,
+   "len": 6,
+   "orig": "f7c10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test ecx, 0x3f00000"
+  },
+  {
+   "rva": 4635325,
+   "len": 6,
+   "orig": "81e1ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and ecx, 0xfffff"
+  },
+  {
+   "rva": 4635339,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4635348,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4661878,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 4661885,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 4661910,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4661916,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4676077,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 4676084,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 4676197,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4676203,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4712208,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 4712215,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 4712310,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4712316,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4714201,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 4714208,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 4714303,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4714309,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4743490,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 4743509,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4743518,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4743783,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 4743799,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4743808,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4743949,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 4743963,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4743972,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 4759828,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 4759835,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 4759944,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4759950,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 4780352,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 4780369,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 4780378,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 6013976,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6014045,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6014103,
+   "len": 6,
+   "orig": "8d8800001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "lea ecx, [rax + 0x100000]"
+  },
+  {
+   "rva": 6014109,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 6014115,
+   "len": 5,
+   "orig": "25ffff0ffc",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 4228907007,
+   "new": 4030726143,
+   "cat": "clear_age",
+   "asm": "and eax, 0xfc0fffff"
+  },
+  {
+   "rva": 6014122,
+   "len": 4,
+   "orig": "0fbae91a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bts ecx, 0x1a"
+  },
+  {
+   "rva": 6014130,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 6014198,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6014345,
+   "len": 7,
+   "orig": "4181e4ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r12d, 0xfffff"
+  },
+  {
+   "rva": 6014352,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 6014445,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6014451,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6045017,
+   "len": 7,
+   "orig": "4181e4ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r12d, 0xfffff"
+  },
+  {
+   "rva": 6045024,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 6045117,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6045123,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6045296,
+   "len": 7,
+   "orig": "4181e7ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r15d, 0xfffff"
+  },
+  {
+   "rva": 6045303,
+   "len": 6,
+   "orig": "81e60000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and esi, 0x3f00000"
+  },
+  {
+   "rva": 6045396,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6045402,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6100457,
+   "len": 7,
+   "orig": "4181e4ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r12d, 0xfffff"
+  },
+  {
+   "rva": 6100464,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 6100557,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6100563,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6367968,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6367985,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6367994,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 6435549,
+   "len": 6,
+   "orig": "81e7ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edi, 0xfffff"
+  },
+  {
+   "rva": 6435555,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 6435579,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 6435591,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6435600,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 6435678,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6435698,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6435703,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 6435711,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 6537816,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6537885,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6537943,
+   "len": 6,
+   "orig": "8d8800001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "lea ecx, [rax + 0x100000]"
+  },
+  {
+   "rva": 6537949,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 6537955,
+   "len": 5,
+   "orig": "25ffff0ffc",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 4228907007,
+   "new": 4030726143,
+   "cat": "clear_age",
+   "asm": "and eax, 0xfc0fffff"
+  },
+  {
+   "rva": 6537962,
+   "len": 4,
+   "orig": "0fbae91a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bts ecx, 0x1a"
+  },
+  {
+   "rva": 6537970,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 6538038,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6542798,
+   "len": 6,
+   "orig": "81e7ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edi, 0xfffff"
+  },
+  {
+   "rva": 6542804,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 6542828,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 6542840,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6542853,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 6542935,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6542955,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6542960,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 6542968,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 6547324,
+   "len": 6,
+   "orig": "81e6ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and esi, 0xfffff"
+  },
+  {
+   "rva": 6547330,
+   "len": 6,
+   "orig": "81e50000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ebp, 0x3f00000"
+  },
+  {
+   "rva": 6547347,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6547357,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6547423,
+   "len": 6,
+   "orig": "8127fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rdi], 0xfbffffff"
+  },
+  {
+   "rva": 6547448,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6547468,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6547473,
+   "len": 6,
+   "orig": "81210000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rcx], 0xfff00000"
+  },
+  {
+   "rva": 6547481,
+   "len": 6,
+   "orig": "81270000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdi], 0xfff00000"
+  },
+  {
+   "rva": 6549931,
+   "len": 6,
+   "orig": "81e5ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and ebp, 0xfffff"
+  },
+  {
+   "rva": 6549937,
+   "len": 7,
+   "orig": "4181e60000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r14d, 0x3f00000"
+  },
+  {
+   "rva": 6549962,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6549972,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6550046,
+   "len": 6,
+   "orig": "8126fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rsi], 0xfbffffff"
+  },
+  {
+   "rva": 6550071,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6550091,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6550096,
+   "len": 6,
+   "orig": "81210000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rcx], 0xfff00000"
+  },
+  {
+   "rva": 6550104,
+   "len": 6,
+   "orig": "81260000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rsi], 0xfff00000"
+  },
+  {
+   "rva": 6563521,
+   "len": 6,
+   "orig": "41b800000001",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 16777216,
+   "new": 67108864,
+   "cat": "table_bytes",
+   "asm": "mov r8d, 0x1000000"
+  },
+  {
+   "rva": 6563555,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 6563563,
+   "len": 6,
+   "orig": "81f900001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "cmp ecx, 0x100000"
+  },
+  {
+   "rva": 6563572,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 6563585,
+   "len": 6,
+   "orig": "81f900001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "cmp ecx, 0x100000"
+  },
+  {
+   "rva": 6563593,
+   "len": 10,
+   "orig": "c705ddb2ab01ffff0f00",
+   "field_off": 6,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "mov dword ptr [rip + 0x1abb2dd], 0xfffff"
+  },
+  {
+   "rva": 6688942,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6688966,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 6688975,
+   "len": 6,
+   "orig": "f7c10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test ecx, 0x3f00000"
+  },
+  {
+   "rva": 6738504,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6738510,
+   "len": 7,
+   "orig": "4181e00000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r8d, 0x3f00000"
+  },
+  {
+   "rva": 6738535,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 6738545,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 6749628,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6749637,
+   "len": 7,
+   "orig": "4181e00000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r8d, 0x3f00000"
+  },
+  {
+   "rva": 6749662,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6749668,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6820999,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6821016,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6821025,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 6858971,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6858980,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 6859005,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 6859011,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 6931687,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 6931694,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 6931717,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6931723,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6931758,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6931764,
+   "len": 7,
+   "orig": "4181e00000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r8d, 0x3f00000"
+  },
+  {
+   "rva": 6931780,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6931786,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 6960321,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 6960327,
+   "len": 7,
+   "orig": "4181e00000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r8d, 0x3f00000"
+  },
+  {
+   "rva": 6960352,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 6960358,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7001450,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 7001467,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7001476,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 7090557,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 7090567,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 7090593,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7090599,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7257105,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 7257112,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 7257137,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 7257143,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 7270231,
+   "len": 7,
+   "orig": "4181e2ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r10d, 0xfffff"
+  },
+  {
+   "rva": 7270238,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 7270255,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7270261,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7282370,
+   "len": 6,
+   "orig": "81e6ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and esi, 0xfffff"
+  },
+  {
+   "rva": 7282376,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 7282400,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7282410,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7282469,
+   "len": 6,
+   "orig": "8123fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rbx], 0xfbffffff"
+  },
+  {
+   "rva": 7282494,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 7282514,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 7282519,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 7282527,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 7352490,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 7352500,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 7352526,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 7352532,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 7373330,
+   "len": 7,
+   "orig": "4181e5ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r13d, 0xfffff"
+  },
+  {
+   "rva": 7373337,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 7373447,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7373457,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7493873,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 7493890,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7493899,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 7586829,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 7586848,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 7586856,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 7603565,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 7603571,
+   "len": 7,
+   "orig": "4181e00000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r8d, 0x3f00000"
+  },
+  {
+   "rva": 7603596,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 7603602,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 7683648,
+   "len": 6,
+   "orig": "81e5ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and ebp, 0xfffff"
+  },
+  {
+   "rva": 7683654,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 7683752,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7683758,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7779517,
+   "len": 6,
+   "orig": "81e5ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and ebp, 0xfffff"
+  },
+  {
+   "rva": 7779523,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 7779623,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7779633,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7780512,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 7780519,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 7780622,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7780632,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7781389,
+   "len": 7,
+   "orig": "4181e6ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r14d, 0xfffff"
+  },
+  {
+   "rva": 7781396,
+   "len": 6,
+   "orig": "81e70000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edi, 0x3f00000"
+  },
+  {
+   "rva": 7781499,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7781509,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 7982152,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 7982159,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 7982185,
+   "len": 4,
+   "orig": "0fbae21a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt edx, 0x1a"
+  },
+  {
+   "rva": 7982195,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 7991484,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 7991503,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 7991516,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 8196233,
+   "len": 6,
+   "orig": "81e6ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and esi, 0xfffff"
+  },
+  {
+   "rva": 8196239,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 8196263,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 8196273,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 8196346,
+   "len": 6,
+   "orig": "8127fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rdi], 0xfbffffff"
+  },
+  {
+   "rva": 8196371,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 8196391,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 8196396,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 8196404,
+   "len": 6,
+   "orig": "81270000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdi], 0xfff00000"
+  },
+  {
+   "rva": 8221608,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 8221677,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 8221735,
+   "len": 6,
+   "orig": "8d8800001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "lea ecx, [rax + 0x100000]"
+  },
+  {
+   "rva": 8221741,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 8221747,
+   "len": 5,
+   "orig": "25ffff0ffc",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 4228907007,
+   "new": 4030726143,
+   "cat": "clear_age",
+   "asm": "and eax, 0xfc0fffff"
+  },
+  {
+   "rva": 8221754,
+   "len": 4,
+   "orig": "0fbae91a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bts ecx, 0x1a"
+  },
+  {
+   "rva": 8221762,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 8221830,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 8236091,
+   "len": 6,
+   "orig": "81e5ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and ebp, 0xfffff"
+  },
+  {
+   "rva": 8236097,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 8236121,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 8236131,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 8236200,
+   "len": 6,
+   "orig": "8123fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rbx], 0xfbffffff"
+  },
+  {
+   "rva": 8236225,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 8236245,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 8236250,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 8236258,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 8328346,
+   "len": 6,
+   "orig": "81e5ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and ebp, 0xfffff"
+  },
+  {
+   "rva": 8328352,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 8328376,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 8328386,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 8328445,
+   "len": 6,
+   "orig": "8127fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rdi], 0xfbffffff"
+  },
+  {
+   "rva": 8328470,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 8328490,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 8328495,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 8328503,
+   "len": 6,
+   "orig": "81270000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdi], 0xfff00000"
+  },
+  {
+   "rva": 8418242,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 8418249,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 8418273,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 8418279,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 9310861,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9310868,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 9310893,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 9310899,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 9311459,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 9311465,
+   "len": 7,
+   "orig": "4181e00000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r8d, 0x3f00000"
+  },
+  {
+   "rva": 9311480,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 9311486,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 9312245,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9312264,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 9312277,
+   "len": 6,
+   "orig": "f7c10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test ecx, 0x3f00000"
+  },
+  {
+   "rva": 9314702,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 9314719,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 9314728,
+   "len": 6,
+   "orig": "f7c10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test ecx, 0x3f00000"
+  },
+  {
+   "rva": 9326535,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9326542,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 9326568,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 9326574,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 9569716,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9569733,
+   "len": 4,
+   "orig": "0fbae21a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt edx, 0x1a"
+  },
+  {
+   "rva": 9569741,
+   "len": 6,
+   "orig": "f7c20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test edx, 0x3f00000"
+  },
+  {
+   "rva": 9607061,
+   "len": 6,
+   "orig": "81e6ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and esi, 0xfffff"
+  },
+  {
+   "rva": 9607067,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 9607091,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 9607103,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 9607112,
+   "len": 4,
+   "orig": "0fbaf11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "btr ecx, 0x1a"
+  },
+  {
+   "rva": 9607185,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 9607205,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 9607210,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 9607218,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 9976810,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 9976827,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 9976835,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 9977320,
+   "len": 6,
+   "orig": "81e2ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edx, 0xfffff"
+  },
+  {
+   "rva": 9977326,
+   "len": 7,
+   "orig": "4181e00000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r8d, 0x3f00000"
+  },
+  {
+   "rva": 9977351,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 9977357,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 9978124,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9978143,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 9978151,
+   "len": 5,
+   "orig": "a90000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "test eax, 0x3f00000"
+  },
+  {
+   "rva": 9979577,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9979584,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 9979607,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 9979613,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 9979848,
+   "len": 6,
+   "orig": "81e7ffff0f00",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and edi, 0xfffff"
+  },
+  {
+   "rva": 9979854,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 9979878,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 9979888,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 9979950,
+   "len": 6,
+   "orig": "8123fffffffb",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4227858431,
+   "new": 4026531839,
+   "cat": "clear_inuse",
+   "asm": "and dword ptr [rbx], 0xfbffffff"
+  },
+  {
+   "rva": 9979975,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 9979995,
+   "len": 5,
+   "orig": "25ffff0f00",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and eax, 0xfffff"
+  },
+  {
+   "rva": 9980000,
+   "len": 6,
+   "orig": "81220000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rdx], 0xfff00000"
+  },
+  {
+   "rva": 9980008,
+   "len": 6,
+   "orig": "81230000f0ff",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 4293918720,
+   "new": 4290772992,
+   "cat": "clear_next",
+   "asm": "and dword ptr [rbx], 0xfff00000"
+  },
+  {
+   "rva": 9981435,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9981445,
+   "len": 7,
+   "orig": "4181e10000f003",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and r9d, 0x3f00000"
+  },
+  {
+   "rva": 9981471,
+   "len": 4,
+   "orig": "0fbae01a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt eax, 0x1a"
+  },
+  {
+   "rva": 9981481,
+   "len": 5,
+   "orig": "250000f003",
+   "field_off": 1,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and eax, 0x3f00000"
+  },
+  {
+   "rva": 9987530,
+   "len": 7,
+   "orig": "4181e0ffff0f00",
+   "field_off": 3,
+   "field_w": 4,
+   "old": 1048575,
+   "new": 4194303,
+   "cat": "index_mask",
+   "asm": "and r8d, 0xfffff"
+  },
+  {
+   "rva": 9987537,
+   "len": 6,
+   "orig": "81e20000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and edx, 0x3f00000"
+  },
+  {
+   "rva": 9987562,
+   "len": 4,
+   "orig": "0fbae11a",
+   "field_off": 3,
+   "field_w": 1,
+   "old": 26,
+   "new": 28,
+   "cat": "inuse_bitpos",
+   "asm": "bt ecx, 0x1a"
+  },
+  {
+   "rva": 9987568,
+   "len": 6,
+   "orig": "81e10000f003",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 66060288,
+   "new": 264241152,
+   "cat": "age_mask",
+   "asm": "and ecx, 0x3f00000"
+  },
+  {
+   "rva": 23908956,
+   "len": 6,
+   "orig": "41b800001000",
+   "field_off": 2,
+   "field_w": 4,
+   "old": 1048576,
+   "new": 4194304,
+   "cat": "age_inc_or_count",
+   "asm": "mov r8d, 0x100000"
+  }
+ ],
+ "excluded_literals": [],
+ "raw_patches": [
+  {
+   "rva": 1510840,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 1510840,
+   "shift_rva": 1510843,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 1543484,
+   "len": 3,
+   "orig": "c1e90b",
+   "new": "8b4a2c",
+   "cat": "sidecar_read",
+   "asm": "shr ecx, 0xb",
+   "source_rva": 1543461,
+   "shift_rva": 1543484,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1543553,
+   "len": 3,
+   "orig": "c1ea0b",
+   "new": "8b572c",
+   "cat": "sidecar_read",
+   "asm": "shr edx, 0xb",
+   "source_rva": 1543540,
+   "shift_rva": 1543553,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1543695,
+   "len": 7,
+   "orig": "c1e00b0fbae80a",
+   "new": "89472cf9c1d00b",
+   "cat": "sidecar_write",
+   "asm": "shl eax, 0xb; bts eax, 0xa",
+   "clear_rva": 1543688,
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1543884,
+   "len": 3,
+   "orig": "c1e90b",
+   "new": "8b4a2c",
+   "cat": "sidecar_read",
+   "asm": "shr ecx, 0xb",
+   "source_rva": 1543861,
+   "shift_rva": 1543884,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1543953,
+   "len": 3,
+   "orig": "c1ea0b",
+   "new": "8b572c",
+   "cat": "sidecar_read",
+   "asm": "shr edx, 0xb",
+   "source_rva": 1543940,
+   "shift_rva": 1543953,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1544095,
+   "len": 7,
+   "orig": "c1e00b0fbae80a",
+   "new": "89472cf9c1d00b",
+   "cat": "sidecar_write",
+   "asm": "shl eax, 0xb; bts eax, 0xa",
+   "clear_rva": 1544088,
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1545423,
+   "len": 6,
+   "orig": "8b4828c1e90b",
+   "new": "8b482c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 0x28]; shr ecx, 0xb",
+   "source_rva": 1545423,
+   "shift_rva": 1545426,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1545702,
+   "len": 6,
+   "orig": "8b4128c1e80b",
+   "new": "8b412c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rcx + 0x28]; shr eax, 0xb",
+   "source_rva": 1545702,
+   "shift_rva": 1545705,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1558872,
+   "len": 6,
+   "orig": "8b5108c1ea0b",
+   "new": "8b510c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rcx + 8]; shr edx, 0xb",
+   "source_rva": 1558872,
+   "shift_rva": 1558875,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 1559692,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 1559692,
+   "shift_rva": 1559695,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 1559996,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 1559996,
+   "shift_rva": 1559999,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 1616015,
+   "len": 6,
+   "orig": "8b4828c1e90b",
+   "new": "8b482c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 0x28]; shr ecx, 0xb",
+   "source_rva": 1616015,
+   "shift_rva": 1616018,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1646024,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 1646024,
+   "shift_rva": 1646027,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 1774066,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 1774070,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 1844124,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 1844128,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 2236824,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 2236828,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 2266056,
+   "len": 6,
+   "orig": "8b4728c1e80b",
+   "new": "8b472c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rdi + 0x28]; shr eax, 0xb",
+   "source_rva": 2266056,
+   "shift_rva": 2266059,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 2328379,
+   "len": 6,
+   "orig": "8b4728c1e80b",
+   "new": "8b472c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rdi + 0x28]; shr eax, 0xb",
+   "source_rva": 2328379,
+   "shift_rva": 2328382,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 2497814,
+   "len": 6,
+   "orig": "8b4128c1e80b",
+   "new": "8b412c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rcx + 0x28]; shr eax, 0xb",
+   "source_rva": 2497814,
+   "shift_rva": 2497817,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 2652598,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 2652598,
+   "shift_rva": 2652601,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 2855276,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 2855276,
+   "shift_rva": 2855279,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 2861069,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 2861069,
+   "shift_rva": 2861072,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 2861453,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 2861453,
+   "shift_rva": 2861456,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 2973706,
+   "len": 15,
+   "orig": "488b4708816008ff030000488b4f08",
+   "new": "488b470848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rdi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rdi + 8]",
+   "clear_rva": 2973710,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 3472696,
+   "len": 15,
+   "orig": "488b4708816008ff030000488b4f08",
+   "new": "488b470848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rdi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rdi + 8]",
+   "clear_rva": 3472700,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 3525779,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 3525779,
+   "shift_rva": 3525782,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 3734250,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 3734254,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 3962686,
+   "len": 15,
+   "orig": "488b4608816008ff030000488b4e08",
+   "new": "488b460848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rsi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rsi + 8]",
+   "clear_rva": 3962690,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 3988048,
+   "len": 15,
+   "orig": "488b4608816008ff030000488b4e08",
+   "new": "488b460848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rsi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rsi + 8]",
+   "clear_rva": 3988052,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4032179,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 4032183,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4434834,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4434834,
+   "shift_rva": 4434837,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4435622,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4435622,
+   "shift_rva": 4435625,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4461516,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4461516,
+   "shift_rva": 4461519,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4496947,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4496947,
+   "shift_rva": 4496950,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4508077,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4508077,
+   "shift_rva": 4508080,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4563147,
+   "len": 6,
+   "orig": "8b4128c1e80b",
+   "new": "8b412c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rcx + 0x28]; shr eax, 0xb",
+   "source_rva": 4563147,
+   "shift_rva": 4563150,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 4568320,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4568320,
+   "shift_rva": 4568323,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4613464,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4613464,
+   "shift_rva": 4613467,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4613609,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4613609,
+   "shift_rva": 4613612,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4618459,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 4618459,
+   "shift_rva": 4618462,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 4619370,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4619370,
+   "shift_rva": 4619373,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4620275,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 4620275,
+   "shift_rva": 4620278,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 4621130,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4621130,
+   "shift_rva": 4621133,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4635296,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4635296,
+   "shift_rva": 4635299,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4635360,
+   "len": 6,
+   "orig": "8b5008c1ea0b",
+   "new": "8b500c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rax + 8]; shr edx, 0xb",
+   "source_rva": 4635360,
+   "shift_rva": 4635363,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4661929,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4661929,
+   "shift_rva": 4661932,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4676212,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 4676212,
+   "shift_rva": 4676215,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 4712325,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 4712325,
+   "shift_rva": 4712328,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 4714318,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 4714318,
+   "shift_rva": 4714321,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 4743529,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4743529,
+   "shift_rva": 4743532,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4743820,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4743820,
+   "shift_rva": 4743823,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4743984,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4743984,
+   "shift_rva": 4743987,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 4759959,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 4759959,
+   "shift_rva": 4759962,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 4780389,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 4780389,
+   "shift_rva": 4780392,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6013964,
+   "len": 3,
+   "orig": "c1e90b",
+   "new": "8b4a2c",
+   "cat": "sidecar_read",
+   "asm": "shr ecx, 0xb",
+   "source_rva": 6013941,
+   "shift_rva": 6013964,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6014033,
+   "len": 3,
+   "orig": "c1ea0b",
+   "new": "8b572c",
+   "cat": "sidecar_read",
+   "asm": "shr edx, 0xb",
+   "source_rva": 6014020,
+   "shift_rva": 6014033,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6014175,
+   "len": 7,
+   "orig": "c1e00b0fbae80a",
+   "new": "89472cf9c1d00b",
+   "cat": "sidecar_write",
+   "asm": "shl eax, 0xb; bts eax, 0xa",
+   "clear_rva": 6014168,
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6014463,
+   "len": 6,
+   "orig": "8b4828c1e90b",
+   "new": "8b482c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 0x28]; shr ecx, 0xb",
+   "source_rva": 6014463,
+   "shift_rva": 6014466,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6045135,
+   "len": 6,
+   "orig": "8b4828c1e90b",
+   "new": "8b482c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 0x28]; shr ecx, 0xb",
+   "source_rva": 6045135,
+   "shift_rva": 6045138,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6045414,
+   "len": 6,
+   "orig": "8b4128c1e80b",
+   "new": "8b412c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rcx + 0x28]; shr eax, 0xb",
+   "source_rva": 6045414,
+   "shift_rva": 6045417,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6100575,
+   "len": 6,
+   "orig": "8b4828c1e90b",
+   "new": "8b482c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 0x28]; shr ecx, 0xb",
+   "source_rva": 6100575,
+   "shift_rva": 6100578,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6368005,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6368005,
+   "shift_rva": 6368008,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6435606,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 6435610,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6537804,
+   "len": 3,
+   "orig": "c1e90b",
+   "new": "8b4a2c",
+   "cat": "sidecar_read",
+   "asm": "shr ecx, 0xb",
+   "source_rva": 6537781,
+   "shift_rva": 6537804,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6537873,
+   "len": 3,
+   "orig": "c1ea0b",
+   "new": "8b572c",
+   "cat": "sidecar_read",
+   "asm": "shr edx, 0xb",
+   "source_rva": 6537860,
+   "shift_rva": 6537873,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6538015,
+   "len": 7,
+   "orig": "c1e00b0fbae80a",
+   "new": "89472cf9c1d00b",
+   "cat": "sidecar_write",
+   "asm": "shl eax, 0xb; bts eax, 0xa",
+   "clear_rva": 6538008,
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 6542859,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 6542863,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6547370,
+   "len": 15,
+   "orig": "488b4708816008ff030000488b4f08",
+   "new": "488b470848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rdi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rdi + 8]",
+   "clear_rva": 6547374,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6549986,
+   "len": 15,
+   "orig": "488b4608816008ff030000488b4e08",
+   "new": "488b460848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rsi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rsi + 8]",
+   "clear_rva": 6549990,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6688987,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6688987,
+   "shift_rva": 6688990,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6738564,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6738564,
+   "shift_rva": 6738567,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6749682,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6749682,
+   "shift_rva": 6749685,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6821036,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6821036,
+   "shift_rva": 6821039,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6859026,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6859026,
+   "shift_rva": 6859029,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6931737,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6931737,
+   "shift_rva": 6931740,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6931801,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6931801,
+   "shift_rva": 6931804,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 6960372,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 6960372,
+   "shift_rva": 6960375,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7001487,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 7001487,
+   "shift_rva": 7001490,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7090613,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 7090613,
+   "shift_rva": 7090616,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7257157,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 7257157,
+   "shift_rva": 7257160,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7270276,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 7270276,
+   "shift_rva": 7270279,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7282419,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 7282423,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7352547,
+   "len": 6,
+   "orig": "8b5108c1ea0b",
+   "new": "8b510c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rcx + 8]; shr edx, 0xb",
+   "source_rva": 7352547,
+   "shift_rva": 7352550,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7373470,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 7373470,
+   "shift_rva": 7373473,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 7493910,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 7493910,
+   "shift_rva": 7493913,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7586867,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 7586867,
+   "shift_rva": 7586870,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7603617,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 7603617,
+   "shift_rva": 7603620,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7683767,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 7683767,
+   "shift_rva": 7683770,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 7779646,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 7779646,
+   "shift_rva": 7779649,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 7780645,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 7780645,
+   "shift_rva": 7780648,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 7781522,
+   "len": 6,
+   "orig": "8b4328c1e80b",
+   "new": "8b432c909090",
+   "cat": "sidecar_read",
+   "asm": "mov eax, dword ptr [rbx + 0x28]; shr eax, 0xb",
+   "source_rva": 7781522,
+   "shift_rva": 7781525,
+   "mode": "redirect_load",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 7982214,
+   "len": 6,
+   "orig": "8b5008c1ea0b",
+   "new": "8b500c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rax + 8]; shr edx, 0xb",
+   "source_rva": 7982214,
+   "shift_rva": 7982217,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 7991531,
+   "len": 6,
+   "orig": "8b5008c1ea0b",
+   "new": "8b500c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rax + 8]; shr edx, 0xb",
+   "source_rva": 7991531,
+   "shift_rva": 7991534,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 8196286,
+   "len": 15,
+   "orig": "488b4708816008ff030000488b4f08",
+   "new": "488b470848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rdi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rdi + 8]",
+   "clear_rva": 8196290,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 8221596,
+   "len": 3,
+   "orig": "c1e90b",
+   "new": "8b4a2c",
+   "cat": "sidecar_read",
+   "asm": "shr ecx, 0xb",
+   "source_rva": 8221573,
+   "shift_rva": 8221596,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 8221665,
+   "len": 3,
+   "orig": "c1ea0b",
+   "new": "8b572c",
+   "cat": "sidecar_read",
+   "asm": "shr edx, 0xb",
+   "source_rva": 8221652,
+   "shift_rva": 8221665,
+   "mode": "replace_shift",
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 8221807,
+   "len": 7,
+   "orig": "c1e00b0fbae80a",
+   "new": "89472cf9c1d00b",
+   "cat": "sidecar_write",
+   "asm": "shl eax, 0xb; bts eax, 0xa",
+   "clear_rva": 8221800,
+   "sidecar_disp": 44
+  },
+  {
+   "rva": 8236144,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 8236148,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 8328395,
+   "len": 15,
+   "orig": "488b4708816008ff030000488b4f08",
+   "new": "488b470848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rdi + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rdi + 8]",
+   "clear_rva": 8328399,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 8418293,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 8418293,
+   "shift_rva": 8418296,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9310913,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9310913,
+   "shift_rva": 9310916,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9311502,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9311502,
+   "shift_rva": 9311505,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9312289,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9312289,
+   "shift_rva": 9312292,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9314740,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9314740,
+   "shift_rva": 9314743,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9326588,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9326588,
+   "shift_rva": 9326591,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9569754,
+   "len": 6,
+   "orig": "8b5108c1ea0b",
+   "new": "8b510c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rcx + 8]; shr edx, 0xb",
+   "source_rva": 9569754,
+   "shift_rva": 9569757,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9607118,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 9607122,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9976846,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9976846,
+   "shift_rva": 9976849,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9977371,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9977371,
+   "shift_rva": 9977374,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9978162,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9978162,
+   "shift_rva": 9978165,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9979629,
+   "len": 6,
+   "orig": "8b5108c1ea0b",
+   "new": "8b510c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rcx + 8]; shr edx, 0xb",
+   "source_rva": 9979629,
+   "shift_rva": 9979632,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9979897,
+   "len": 15,
+   "orig": "488b4308816008ff030000488b4b08",
+   "new": "488b430848816008ff030000488bc8",
+   "cat": "sidecar_release",
+   "asm": "mov rax, qword ptr [rbx + 8]; and dword ptr [rax + 8], 0x3ff; mov rcx, qword ptr [rbx + 8]",
+   "clear_rva": 9979901,
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9981499,
+   "len": 6,
+   "orig": "8b5008c1ea0b",
+   "new": "8b500c909090",
+   "cat": "sidecar_read",
+   "asm": "mov edx, dword ptr [rax + 8]; shr edx, 0xb",
+   "source_rva": 9981499,
+   "shift_rva": 9981502,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  },
+  {
+   "rva": 9987582,
+   "len": 6,
+   "orig": "8b4808c1e90b",
+   "new": "8b480c909090",
+   "cat": "sidecar_read",
+   "asm": "mov ecx, dword ptr [rax + 8]; shr ecx, 0xb",
+   "source_rva": 9987582,
+   "shift_rva": 9987585,
+   "mode": "redirect_load",
+   "sidecar_disp": 12
+  }
+ ],
+ "init_patches": [
+  {
+   "rva": 76083,
+   "len": 5,
+   "orig": "e870b25201",
+   "new": "9090909090",
+   "cat": "init_guard",
+   "asm": "disable CRT table memset"
+  },
+  {
+   "rva": 76125,
+   "len": 5,
+   "orig": "e8129a5201",
+   "new": "9090909090",
+   "cat": "init_guard",
+   "asm": "disable CRT table construction"
+  },
+  {
+   "rva": 6563512,
+   "len": 7,
+   "orig": "44893d2db3ab01",
+   "new": "e9560000009090",
+   "cat": "init_guard",
+   "asm": "skip late inline stock free-list build"
+  }
+ ],
+ "release_sites": [
+  {
+   "rva": 1774070,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 1774066,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 1844128,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 1844124,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 2236828,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 2236824,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 2973710,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 2973706,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 3472700,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 3472696,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 3734254,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 3734250,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 3962690,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 3962686,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 3988052,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 3988048,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 4032183,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 4032179,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 6435610,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 6435606,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 6542863,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 6542859,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 6547374,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 6547370,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 6549990,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 6549986,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 7282423,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 7282419,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 8196290,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 8196286,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 8236148,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 8236144,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 8328399,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 8328395,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 9607122,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 9607118,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  },
+  {
+   "rva": 9979901,
+   "len": 7,
+   "orig": "816008ff030000",
+   "asm": "and dword ptr [rax + 8], 0x3ff",
+   "raw_patch_rva": 9979897,
+   "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish"
+  }
+ ],
+ "assignment_hooks": {
+  "helper_rva": 1533424,
+  "helper_bytes": "40534883ec20488bd9488b09483bca74",
+  "sites": [
+   {
+    "call_rva": 1543677,
+    "call_bytes": "e8eed7ffff",
+    "call_target_rva": 1533424,
+    "setup_rva": 1543666,
+    "setup_bytes": "488d5720498d4e084903c8",
+    "function_rva": 1543408,
+    "function_bytes": "41564883ec3048c7442420feffffff48",
+    "writer_rva": 1543695,
+    "lock_call_rva": 1543532,
+    "unlock_call_rva": 1543765
+   },
+   {
+    "call_rva": 1544077,
+    "call_bytes": "e85ed6ffff",
+    "call_target_rva": 1533424,
+    "setup_rva": 1544066,
+    "setup_bytes": "488d5720498d4e084903c8",
+    "function_rva": 1543808,
+    "function_bytes": "41564883ec3048c7442420feffffff48",
+    "writer_rva": 1544095,
+    "lock_call_rva": 1543932,
+    "unlock_call_rva": 1544165
+   },
+   {
+    "call_rva": 6014157,
+    "call_bytes": "e81ea1bbff",
+    "call_target_rva": 1533424,
+    "setup_rva": 6014146,
+    "setup_bytes": "488d5720498d4e084903c8",
+    "function_rva": 6013888,
+    "function_bytes": "41564883ec3048c7442420feffffff48",
+    "writer_rva": 6014175,
+    "lock_call_rva": 6014012,
+    "unlock_call_rva": 6014245
+   },
+   {
+    "call_rva": 6537997,
+    "call_bytes": "e8dea2b3ff",
+    "call_target_rva": 1533424,
+    "setup_rva": 6537986,
+    "setup_bytes": "488d5720498d4e084903c8",
+    "function_rva": 6537728,
+    "function_bytes": "41564883ec3048c7442420feffffff48",
+    "writer_rva": 6538015,
+    "lock_call_rva": 6537852,
+    "unlock_call_rva": 6538085
+   },
+   {
+    "call_rva": 8221789,
+    "call_bytes": "e88ef199ff",
+    "call_target_rva": 1533424,
+    "setup_rva": 8221778,
+    "setup_bytes": "488d5720498d4e084903c8",
+    "function_rva": 8221520,
+    "function_bytes": "41564883ec3048c7442420feffffff48",
+    "writer_rva": 8221807,
+    "lock_call_rva": 8221644,
+    "unlock_call_rva": 8221877
+   }
+  ]
+ },
+ "excluded_shift11": [
+  {
+   "rva": 4613686,
+   "source_rva": 4613683,
+   "source_disp": 16,
+   "why": "not a BSHandleRefObject refcount displacement"
+  },
+  {
+   "rva": 6931973,
+   "source_rva": 6931969,
+   "source_disp": 16,
+   "why": "not a BSHandleRefObject refcount displacement"
+  },
+  {
+   "rva": 7351777,
+   "source_rva": 7351765,
+   "source_disp": 16,
+   "why": "not a BSHandleRefObject refcount displacement"
+  },
+  {
+   "rva": 7779724,
+   "source_rva": 7779679,
+   "source_disp": 16,
+   "why": "not a BSHandleRefObject refcount displacement"
+  }
+ ],
+ "fingerprint_outside": []
+}
