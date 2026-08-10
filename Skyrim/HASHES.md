@@ -28,4 +28,4 @@ byte gates still verify the live decrypted code before writing.
 
 Generated header:
 
-- `src/PatchTable.g.h`: `574dbe02577c7d2655093b5ecbb7619125199bc3767c2dcacd8b8875ee8835a1`
+- `src/PatchTable.g.h`: `4a32b4958018ba2d85b2347adc0557e74e2202cc3a859f9861612d6f7ce1f50e`

@@ -26,8 +26,9 @@ Run from this directory.
 | `fingerprint_scan.py` | Byte-level hunt for the age-mask fingerprint anywhere in `.text`. |
 | `gen_patchtable.py` | **The generator.** Produces `artifacts/patch_{SE,AE,GOG,VR}.json`. |
 | `gen_cpp.py` | Emits `src/PatchTable.g.h` from those JSON files. |
+| `gen_patch_docs.py` | Deterministically renders `docs/patch-sites/` from the same four JSON files, with stock and replacement bytes/disassembly side by side. |
 | `test_patch.py` | Applies the table to an in-memory copy and re-verifies the result. |
-| `verify_deliverable.py` | End-to-end consistency check. In this source-only snapshot, use `--offline` to verify exact-runtime hashes, generated JSON/header consistency, and unchanged refcount/valid ABI constants without requiring build/package outputs. |
+| `verify_deliverable.py` | End-to-end consistency check: exact-runtime hashes, JSON vs. generated header and patch-site documentation, compiled generated arrays, staged DLL/INI hashes, and unchanged refcount/valid ABI constants. |
 | `inventory_runtime_refs.py` | Dependency-free placed-reference inventory; pass both `--plugins` and `--ccc` to model AE's explicit and automatic load lists. |
 
 Full regeneration:
@@ -38,15 +39,17 @@ python gen_patchtable.py --runtime AE --table 20fc600 --head 20fc5ec --tail 20fc
 python gen_patchtable.py --runtime GOG --table 20fda00 --head 20fd9ec --tail 20fd9f0 --lock 20fd9f8 --out ../artifacts/patch_GOG.json
 python gen_patchtable.py --runtime VR --table 1f89660 --head 1f8964c --tail 1f89650 --lock 1f89658 --out ../artifacts/patch_VR.json
 python gen_cpp.py --se ../artifacts/patch_SE.json --ae ../artifacts/patch_AE.json --gog ../artifacts/patch_GOG.json --vr ../artifacts/patch_VR.json --out ../src/PatchTable.g.h
+python gen_patch_docs.py --se ../artifacts/patch_SE.json --ae ../artifacts/patch_AE.json --gog ../artifacts/patch_GOG.json --vr ../artifacts/patch_VR.json --out-dir ../docs/patch-sites
 python test_patch.py --runtime SE --patch ../artifacts/patch_SE.json
 python test_patch.py --runtime AE --patch ../artifacts/patch_AE.json
 python test_patch.py --runtime GOG --patch ../artifacts/patch_GOG.json
 python test_patch.py --runtime VR --patch ../artifacts/patch_VR.json
 ```
 
-`test_patch.py` must print `PASS` for all four, then
-`python verify_deliverable.py --offline` must print `ALL CONSISTENT`, before the
-generated profiles and header are trustworthy.
+`test_patch.py` must print `PASS` for all four, then `verify_deliverable.py` must
+print `ALL CONSISTENT`, before the generated header, generated audit documents,
+and DLL are trustworthy. The audit landing page is
+[`docs/patch-sites/README.md`](../docs/patch-sites/README.md).
 
 ## Literal classification guard
 

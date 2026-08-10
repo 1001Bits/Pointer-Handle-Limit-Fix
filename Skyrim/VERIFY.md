@@ -39,6 +39,18 @@ Each run must end with `PASS`. The simulator applies every generated field,
 sidecar, table-reference, initializer, publisher, and release change to an
 in-memory copy, re-disassembles it, and verifies the coherent 22-bit encoding.
 
+## Regenerate the readable patch audit
+
+From `Skyrim/probes`, after regenerating or reviewing the four JSON profiles:
+
+```powershell
+python gen_patch_docs.py --se ../artifacts/patch_SE.json --ae ../artifacts/patch_AE.json --gog ../artifacts/patch_GOG.json --vr ../artifacts/patch_VR.json --out-dir ../docs/patch-sites
+```
+
+The generated pages show original and replacement bytes/disassembly for every
+fixed write. Runtime-derived table displacements and generation-relay calls
+are shown as invariant byte templates, symbolic targets, and exact formulas.
+
 ## Verify the generated deliverables
 
 Still from `Skyrim/probes`:
@@ -47,9 +59,13 @@ Still from `Skyrim/probes`:
 python verify_deliverable.py --offline
 ```
 
-The command must end with `ALL CONSISTENT`. The `--offline` mode is required for
+The command must end with `ALL CONSISTENT`. It independently checks the JSON
+schemas and record IDs, requires every mutation/evidence record exactly once in
+the generated Markdown, byte-compares the committed pages to a fresh render,
+and verifies the generated C++ arrays. The `--offline` mode is required for
 this source-only snapshot because build outputs, packages, DLLs, INIs, and CMake
 files are intentionally not published here.
 
 Full deterministic regeneration commands for `patch_*.json` and
-`src/PatchTable.g.h` are in `probes/README.md`.
+`src/PatchTable.g.h`, plus the maintained search criteria, are in
+`probes/README.md`.

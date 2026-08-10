@@ -23,6 +23,7 @@ import sys
 import zipfile
 
 from gen_cpp import CATS, render as render_header
+from gen_patch_docs import render_all as render_patch_docs
 
 # (runtime, table references, field rewrites, .pdata functions referencing
 #  the table, sidecar readers, sidecar writers, audited releases, excluded
@@ -132,6 +133,204 @@ EXACT_NEW_RUNTIME_INPUTS = {
 OBJECT_SIDE = (0x3FF, 0x400, 0xFFFFF800)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+# Keep this mapping independent of gen_patch_docs.py. If either the JSON
+# schema or the renderer's collection coverage changes, this verifier must be
+# reviewed explicitly rather than inheriting the same omission.
+PATCH_DOC_PROFILE_SCALARS = {
+    "runtime": str,
+    "exe_size": int,
+    "exe_sha256": str,
+    "image_base": int,
+    "table_rva": int,
+    "head_rva": int,
+    "tail_rva": int,
+    "lock_rva": int,
+    "lock_write_rva": int,
+    "unlock_write_rva": int,
+    "stock_entries": int,
+    "raised_entries": int,
+    "entry_size": int,
+}
+
+PATCH_DOC_RUNTIME_SPECS = (
+    ("SE", "Skyrim SE", "1.5.97.0", "SE-1.5.97.md"),
+    ("AE", "Skyrim AE", "1.6.1170.0", "AE-1.6.1170.md"),
+    ("GOG", "Skyrim GOG", "1.6.1179.0", "GOG-1.6.1179.md"),
+    ("VR", "Skyrim VR", "1.4.15.0", "VR-1.4.15.md"),
+)
+
+PATCH_DOC_MUTATION_COLLECTIONS = (
+    (("patches",), "field", "rva"),
+    (("raw_patches",), "byte", "rva"),
+    (("table_refs",), "table-ref", "rva"),
+    (("init_patches",), "init", "rva"),
+    (("assignment_hooks", "sites"), "assignment-hook", "call_rva"),
+)
+
+PATCH_DOC_EVIDENCE_COLLECTIONS = (
+    (("release_sites",), "release-alias", "rva"),
+    (("excluded_literals",), "excluded-literal", "rva"),
+    (("excluded_shift11",), "excluded-shift", "rva"),
+)
+
+PATCH_DOC_AUXILIARY_COLLECTIONS = {"regions", "lea_disp_rvas"}
+PATCH_DOC_FINGERPRINT_COLLECTION = "fingerprint_outside"
+PATCH_DOC_SITE_ID_RE = re.compile(r'<a id="([a-z0-9-]+)"></a>')
+
+PATCH_DOC_RECORD_SCHEMAS = {
+    "patches": {
+        "rva": int, "len": int, "orig": str, "field_off": int,
+        "field_w": int, "old": int, "new": int, "cat": str, "asm": str,
+    },
+    "table_refs": {
+        "rva": int, "len": int, "disp_off": int, "orig": str, "asm": str,
+    },
+    "init_patches": {
+        "rva": int, "len": int, "orig": str, "new": str,
+        "cat": str, "asm": str,
+    },
+    "assignment_hook_sites": {
+        "call_rva": int, "call_bytes": str, "call_target_rva": int,
+        "setup_rva": int, "setup_bytes": str, "function_rva": int,
+        "function_bytes": str, "writer_rva": int, "lock_call_rva": int,
+        "unlock_call_rva": int,
+    },
+    "release_sites": {
+        "rva": int, "len": int, "orig": str, "asm": str,
+        "raw_patch_rva": int, "policy": str,
+    },
+    "excluded_literals": {
+        "rva": int, "value": int, "cat": str, "asm": str, "why": str,
+    },
+    "excluded_shift11": {
+        "rva": int, "source_rva": int, "source_disp": int, "why": str,
+    },
+}
+
+PATCH_DOC_RAW_SCHEMAS = {
+    "sidecar_read": {
+        "rva": int, "len": int, "orig": str, "new": str, "cat": str,
+        "asm": str, "source_rva": int, "shift_rva": int, "mode": str,
+        "sidecar_disp": int,
+    },
+    "sidecar_write": {
+        "rva": int, "len": int, "orig": str, "new": str, "cat": str,
+        "asm": str, "clear_rva": int, "sidecar_disp": int,
+    },
+    "sidecar_release": {
+        "rva": int, "len": int, "orig": str, "new": str, "cat": str,
+        "asm": str, "clear_rva": int, "sidecar_disp": int,
+    },
+}
+
+
+def _require_exact_mapping(value, schema: dict[str, type], context: str) -> None:
+    if type(value) is not dict:
+        raise ValueError(f"{context} is {type(value).__name__}, expected object")
+    actual_keys = set(value)
+    expected_keys = set(schema)
+    if actual_keys != expected_keys:
+        raise ValueError(
+            f"{context} keys differ: got {sorted(actual_keys)}, "
+            f"expected {sorted(expected_keys)}")
+    for key, expected_type in schema.items():
+        if type(value[key]) is not expected_type:
+            raise ValueError(
+                f"{context}.{key} is {type(value[key]).__name__}, "
+                f"expected {expected_type.__name__}")
+
+
+def _patch_doc_collection(profile: dict, path: tuple[str, ...], context: str) -> list:
+    value = profile
+    for part in path:
+        if type(value) is not dict or part not in value:
+            raise ValueError(f"{context} has no {'.'.join(path)} collection")
+        value = value[part]
+    if type(value) is not list:
+        raise ValueError(f"{context}.{'.'.join(path)} is not an array")
+    return value
+
+
+def _independent_patch_doc_ids(profile: dict, tag: str) -> tuple[list[str], list[str]]:
+    """Validate the exact JSON schema and independently derive documented IDs."""
+    collection_roots = {
+        path[0]
+        for path, _prefix, _key in (
+            *PATCH_DOC_MUTATION_COLLECTIONS, *PATCH_DOC_EVIDENCE_COLLECTIONS)
+    } | PATCH_DOC_AUXILIARY_COLLECTIONS | {PATCH_DOC_FINGERPRINT_COLLECTION}
+    expected_top_level = set(PATCH_DOC_PROFILE_SCALARS) | collection_roots
+    actual_top_level = set(profile) if type(profile) is dict else set()
+    if actual_top_level != expected_top_level:
+        raise ValueError(
+            f"{tag} profile keys differ: got {sorted(actual_top_level)}, "
+            f"expected {sorted(expected_top_level)}")
+    for key, expected_type in PATCH_DOC_PROFILE_SCALARS.items():
+        if type(profile[key]) is not expected_type:
+            raise ValueError(
+                f"{tag}.{key} is {type(profile[key]).__name__}, "
+                f"expected {expected_type.__name__}")
+
+    regions = _patch_doc_collection(profile, ("regions",), tag)
+    if not all(type(region) is list and len(region) == 2 and
+               all(type(value) is int for value in region) for region in regions):
+        raise ValueError(f"{tag}.regions is not an array of two-integer ranges")
+    lea_displacements = _patch_doc_collection(profile, ("lea_disp_rvas",), tag)
+    if not all(type(value) is int for value in lea_displacements):
+        raise ValueError(f"{tag}.lea_disp_rvas contains a non-integer RVA")
+    fingerprints = _patch_doc_collection(
+        profile, (PATCH_DOC_FINGERPRINT_COLLECTION,), tag)
+    if not all(type(value) is int for value in fingerprints):
+        raise ValueError(f"{tag}.fingerprint_outside contains a non-integer RVA")
+
+    _require_exact_mapping(
+        profile["assignment_hooks"],
+        {"helper_rva": int, "helper_bytes": str, "sites": list},
+        f"{tag}.assignment_hooks")
+
+    for collection_name in (
+            "patches", "table_refs", "init_patches", "release_sites",
+            "excluded_literals", "excluded_shift11"):
+        records = _patch_doc_collection(profile, (collection_name,), tag)
+        schema = PATCH_DOC_RECORD_SCHEMAS[collection_name]
+        for index, record in enumerate(records):
+            _require_exact_mapping(record, schema, f"{tag}.{collection_name}[{index}]")
+    raw_patches = _patch_doc_collection(profile, ("raw_patches",), tag)
+    for index, record in enumerate(raw_patches):
+        if type(record) is not dict or type(record.get("cat")) is not str or \
+                record["cat"] not in PATCH_DOC_RAW_SCHEMAS:
+            raise ValueError(f"{tag}.raw_patches[{index}] has an unknown category/schema")
+        _require_exact_mapping(
+            record, PATCH_DOC_RAW_SCHEMAS[record["cat"]],
+            f"{tag}.raw_patches[{index}]")
+    for index, record in enumerate(profile["assignment_hooks"]["sites"]):
+        _require_exact_mapping(
+            record, PATCH_DOC_RECORD_SCHEMAS["assignment_hook_sites"],
+            f"{tag}.assignment_hooks.sites[{index}]")
+    expected_disp_rvas = sorted(
+        record["rva"] + record["disp_off"] for record in profile["table_refs"])
+    if lea_displacements != expected_disp_rvas:
+        raise ValueError(
+            f"{tag}.lea_disp_rvas is not the exact displacement-field projection "
+            "of table_refs")
+
+    def ids_for(mappings) -> list[str]:
+        out: list[str] = []
+        for path, prefix, key in mappings:
+            records = _patch_doc_collection(profile, path, tag)
+            out.extend(
+                f"{prefix}-{record[key]:08x}"
+                for record in sorted(records, key=lambda item: item[key]))
+        return out
+
+    mutation_ids = ids_for(PATCH_DOC_MUTATION_COLLECTIONS)
+    evidence_ids = ids_for(PATCH_DOC_EVIDENCE_COLLECTIONS)
+    evidence_ids.extend(
+        f"fingerprint-outside-{rva:08x}" for rva in sorted(fingerprints))
+    all_ids = [*mutation_ids, *evidence_ids]
+    if len(all_ids) != len(set(all_ids)):
+        raise ValueError(f"{tag} profile produces duplicate patch-document record IDs")
+    return mutation_ids, evidence_ids
 
 
 def _bytes15(value: str) -> bytes:
@@ -351,7 +550,7 @@ def main() -> int:
             },
         }[tag]
         chk({p["rva"]: p["new"] for p in patch["init_patches"]} == expected_init,
-            "three exact initializer guards cover CRT and late free-list construction")
+            "three exact guards cover C++ static and subsequent pool initialization")
         chk((patch["lock_write_rva"], patch["unlock_write_rva"]) == LOCKS[tag],
             "write-lock helper metadata matches the reviewed runtime RVAs")
         chk(patch["raised_entries"] == 0x400000 and patch["entry_size"] == 0x10,
@@ -371,12 +570,64 @@ def main() -> int:
     print("== generated header")
     chk(hdr == render_header(profiles),
         "PatchTable.g.h is the exact deterministic rendering of all four JSON profiles")
-    main_source = (ROOT / "src" / "main.cpp").read_text(encoding="utf-8")
-    chk(main_source.count("ReadProductVersion(exe, version)") == 1 and
-        main_source.count("ReadFixedFileVersion(versionPath, fileVersion)") == 1 and
-        main_source.count("LogEngineFixesCompatibility();") == 1 and
-        "VerifyEngineFixes" not in main_source,
-        "Skyrim uses ProductVersion and Engine Fixes metadata is informational only")
+
+    print("== generated patch documentation")
+    independent_document_ids: dict[str, tuple[list[str], list[str]]] = {}
+    for tag, _label, _version, _filename in PATCH_DOC_RUNTIME_SPECS:
+        try:
+            independent_document_ids[tag] = _independent_patch_doc_ids(profiles[tag], tag)
+        except ValueError as exc:
+            chk(False, f"{tag} patch-document JSON schema is exact: {exc}")
+            independent_document_ids[tag] = ([], [])
+        else:
+            chk(True,
+                f"{tag} profile has the exact independently mapped patch-document schema")
+    expected_documents = render_patch_docs(profiles)
+    expected_document_names = {
+        "README.md", *(filename for _tag, _label, _version, filename
+                       in PATCH_DOC_RUNTIME_SPECS)
+    }
+    chk(set(expected_documents) == expected_document_names,
+        "patch-document renderer emits the exact independent runtime file set")
+    patch_doc_root = ROOT / "docs" / "patch-sites"
+    actual_names = {
+        path.name for path in patch_doc_root.glob("*.md")
+        if path.is_file()
+    } if patch_doc_root.is_dir() else set()
+    chk(actual_names == expected_document_names,
+        "patch-site directory contains exactly the five generated Markdown files")
+    actual_documents: dict[str, str] = {}
+    for relative, expected_text in expected_documents.items():
+        path = patch_doc_root / relative
+        actual_text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        actual_documents[relative] = actual_text
+        chk(actual_text == expected_text,
+            f"{relative} is the exact deterministic rendering of the JSON profiles")
+    for tag, _label, _version, filename in PATCH_DOC_RUNTIME_SPECS:
+        expected_mutations, expected_evidence = independent_document_ids[tag]
+        expected_ids = [*expected_mutations, *expected_evidence]
+        actual_ids = PATCH_DOC_SITE_ID_RE.findall(actual_documents.get(filename, ""))
+        actual_mutations = actual_ids[:len(expected_mutations)]
+        chk(actual_ids == expected_ids and len(actual_ids) == len(set(actual_ids)),
+            f"{tag} document renders every mutation, release alias, and exclusion exactly once")
+        chk(actual_mutations == expected_mutations,
+            f"{tag} document has exact one-to-one coverage of all "
+            f"{len(expected_mutations)} executable mutation records")
+
+    source_dir = ROOT / "src"
+    maintained_source_paths = sorted(
+        [*source_dir.glob("*.cpp"), *source_dir.glob("*.h")],
+        key=lambda path: path.name.casefold())
+    maintained_source = "\n".join(
+        path.read_text(encoding="utf-8") for path in maintained_source_paths)
+    main_source = (source_dir / "main.cpp").read_text(encoding="utf-8")
+    runtime_source = (source_dir / "RuntimeDetection.cpp").read_text(encoding="utf-8")
+    chk(runtime_source.count("ReadProductVersion(executable, version)") == 1 and
+        runtime_source.count("ReadFixedFileVersion(versionPath, fileVersion)") == 1 and
+        maintained_source.count("LogEngineFixesCompatibility();") == 1 and
+        "ReadProductVersion" not in main_source and
+        "VerifyEngineFixes" not in maintained_source,
+        "RuntimeDetection owns ProductVersion and informational Engine Fixes handling")
     stock_source = (ROOT / "src" / "StockProbe.cpp").read_text(encoding="utf-8")
     stress_source = (ROOT / "src" / "StressTest.cpp").read_text(encoding="utf-8")
     chk("RUNTIME_VERSION(1, 6, 1179, 1)" in main_source and
@@ -439,19 +690,10 @@ def main() -> int:
         chk(archive_payloads.get(expected_archive_names[0], b"") == pkg_data and
             archive_payloads.get(expected_archive_names[1], b"") == pkg_ini.read_bytes(),
             "release ZIP DLL/INI payloads exactly match the staged package files")
-        build_inputs = [
-            hdr_path,
-            ROOT / "src" / "EngineFixesConfig.cpp",
-            ROOT / "src" / "EngineFixesConfig.h",
-            ROOT / "src" / "GenerationTracker.h",
-            ROOT / "src" / "main.cpp",
-            ROOT / "src" / "StressTest.cpp",
-            ROOT / "src" / "StressTest.h",
-            ROOT / "CMakeLists.txt",
-        ]
+        build_inputs = [*maintained_source_paths, ROOT / "CMakeLists.txt"]
         newest_input = max(path.stat().st_mtime for path in build_inputs)
         chk(dll.exists() and dll.stat().st_mtime >= newest_input,
-            "DLL is newer than every C++/generated/CMake build input")
+            "DLL is newer than every maintained src/*.cpp, src/*.h, and CMake input")
         for tag, *_ in EXPECTED:
             for label, blob in compiled_array_blobs(profiles[tag]).items():
                 chk(bool(blob) and dll_data.count(blob) == 1,

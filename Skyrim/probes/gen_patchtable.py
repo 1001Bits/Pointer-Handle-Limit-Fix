@@ -69,11 +69,16 @@ PROFILE_METADATA = {
         "table_bytes_rvas": (0x000125DD, 0x005BCCCE),
         "excluded_literals": (),
         "init_patches": (
-            # CRT construction of the stock image table.
-            (0x000125E3, "e8e6973301", "9090909090", "disable CRT table memset"),
-            (0x0001260D, "e8c2883301", "9090909090", "disable CRT table construction"),
-            # The later one-shot manager initializer rebuilds the 1M free list.
-            (0x005AE243, "e868ea0000", "9090909090", "disable late stock free-list build"),
+            # C++ static initializer: zero the stock image table, then
+            # construct its 1,048,576 entries.
+            (0x000125E3, "e8e6973301", "9090909090",
+             "disable C++ static initializer: zero 16 MiB handle table"),
+            (0x0001260D, "e8c2883301", "9090909090",
+             "disable C++ static initializer: construct 1,048,576 table entries"),
+            # A subsequent one-shot handle-table/free-list initializer builds
+            # the stock pool.
+            (0x005AE243, "e868ea0000", "9090909090",
+             "disable subsequent one-shot handle-table/free-list initialization"),
         ),
         "lock_write_rva": 0x00C07350,
         "unlock_write_rva": 0x00C075A0,
@@ -82,13 +87,16 @@ PROFILE_METADATA = {
         "table_bytes_rvas": (0x0001292D, 0x00640461),
         "excluded_literals": (),
         "init_patches": (
-            # CRT construction of the stock image table.
-            (0x00012933, "e810a65201", "9090909090", "disable CRT table memset"),
-            (0x0001295D, "e8b28d5201", "9090909090", "disable CRT table construction"),
-            # AE inlines the later stock free-list build. Jump from its first
-            # store to the first instruction after its tail publication.
+            # C++ static initializer: zero the stock image table, then
+            # construct its 1,048,576 entries.
+            (0x00012933, "e810a65201", "9090909090",
+             "disable C++ static initializer: zero 16 MiB handle table"),
+            (0x0001295D, "e8b28d5201", "9090909090",
+             "disable C++ static initializer: construct 1,048,576 table entries"),
+            # AE inlines the subsequent handle-table/free-list initializer.
+            # Jump from its first store to the instruction after tail publication.
             (0x00640458, "44893d8dc1ab01", "e9560000009090",
-             "skip late inline stock free-list build"),
+             "skip subsequent inlined handle-table/free-list initialization"),
         ),
         "lock_write_rva": 0x00CC9140,
         "unlock_write_rva": 0x00CC9390,
@@ -97,11 +105,16 @@ PROFILE_METADATA = {
         "table_bytes_rvas": (0x0001292D, 0x006426C1),
         "excluded_literals": (),
         "init_patches": (
-            # GOG 1.6.1179 has the AE initializer layout but different calls.
-            (0x00012933, "e870b25201", "9090909090", "disable CRT table memset"),
-            (0x0001295D, "e8129a5201", "9090909090", "disable CRT table construction"),
+            # GOG 1.6.1179 has AE's C++ static-initializer layout but different
+            # call targets.
+            (0x00012933, "e870b25201", "9090909090",
+             "disable C++ static initializer: zero 16 MiB handle table"),
+            (0x0001295D, "e8129a5201", "9090909090",
+             "disable C++ static initializer: construct 1,048,576 table entries"),
+            # Its subsequent handle-table/free-list initializer is inlined
+            # like AE's.
             (0x006426B8, "44893d2db3ab01", "e9560000009090",
-             "skip late inline stock free-list build"),
+             "skip subsequent inlined handle-table/free-list initialization"),
         ),
         "lock_write_rva": 0x00CCAC00,
         "unlock_write_rva": 0x00CCAE50,
@@ -118,13 +131,15 @@ PROFILE_METADATA = {
              "unrelated PlayerCharacter+0x9B9 packed-state initialization"),
         ),
         "init_patches": (
-            # Skyrim VR 1.4.15 CRT construction of the stock image table.
-            (0x000126F3, "e8e0933701", "9090909090", "disable CRT table memset"),
-            (0x0001271D, "e8c2843701", "9090909090", "disable CRT table construction"),
-            # The later one-shot manager initializer calls the same free-list
-            # builder shape as SE 1.5.97 (VR target RVA 0x005C5110).
+            # Skyrim VR 1.4.15 C++ static initializer for the stock image table.
+            (0x000126F3, "e8e0933701", "9090909090",
+             "disable C++ static initializer: zero 16 MiB handle table"),
+            (0x0001271D, "e8c2843701", "9090909090",
+             "disable C++ static initializer: construct 1,048,576 table entries"),
+            # The subsequent one-shot handle-table/free-list initializer calls
+            # the same builder shape as SE 1.5.97 (VR target RVA 0x005C5110).
             (0x005B5AC5, "e846f60000", "9090909090",
-             "disable late stock free-list build"),
+             "disable subsequent one-shot handle-table/free-list initialization"),
         ),
         "lock_write_rva": 0x00C421D0,
         "unlock_write_rva": 0x00C42420,

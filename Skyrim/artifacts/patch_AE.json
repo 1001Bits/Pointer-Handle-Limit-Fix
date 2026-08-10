@@ -8487,7 +8487,7 @@
    "orig": "e810a65201",
    "new": "9090909090",
    "cat": "init_guard",
-   "asm": "disable CRT table memset"
+   "asm": "disable C++ static initializer: zero 16 MiB handle table"
   },
   {
    "rva": 76125,
@@ -8495,7 +8495,7 @@
    "orig": "e8b28d5201",
    "new": "9090909090",
    "cat": "init_guard",
-   "asm": "disable CRT table construction"
+   "asm": "disable C++ static initializer: construct 1,048,576 table entries"
   },
   {
    "rva": 6554712,
@@ -8503,7 +8503,7 @@
    "orig": "44893d8dc1ab01",
    "new": "e9560000009090",
    "cat": "init_guard",
-   "asm": "skip late inline stock free-list build"
+   "asm": "skip subsequent inlined handle-table/free-list initialization"
   }
  ],
  "release_sites": [
