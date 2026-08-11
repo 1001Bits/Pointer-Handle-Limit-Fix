@@ -1,6 +1,6 @@
 # Skyrim Handle Cap Raise
 
-An experimental SKSE/SKSEVR plugin that raises Skyrim's process-local
+A SKSE/SKSEVR plugin that raises Skyrim's process-local
 reference-handle table from 1,048,576 to 4,194,304 entries on four exact
 runtime profiles.
 
@@ -10,12 +10,6 @@ the 10-bit intrusive reference count and bit-10 handle-valid flag by storing
 the complete cached index in existing `NiRefObject::_pad0C` storage. See the
 [design document](DESIGN.md#three-distinct-representations) for the three
 representations and their exact layouts.
-
-> **Experimental status:** SE 1.5.97 and AE 1.6.1170 have live high-handle
-> evidence. GOG 1.6.1179 has a live startup/resize result but no live above-cap
-> result. VR 1.4.15 remains offline-only. A missed private decoder can alias an
-> object without crashing, so exact offline verification does not replace
-> representative in-game and native-plugin testing.
 
 ## Start here
 
