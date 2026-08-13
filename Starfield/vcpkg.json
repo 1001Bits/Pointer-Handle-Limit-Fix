@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "pointer-handle-limit-fix-starfield",
+  "version-string": "1.0.1",
+  "description": "Pointer Handle Limit Fix for Starfield",
+  "dependencies": [
+    "fmt",
+    "spdlog"
+  ],
+  "builtin-baseline": "36118ef68885436fd2a999188216337365856ad4"
+}

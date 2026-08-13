@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "starfield-handle-live-stress",
+  "version-string": "1.0.0",
+  "dependencies": [
+    "fmt",
+    "spdlog"
+  ],
+  "builtin-baseline": "36118ef68885436fd2a999188216337365856ad4"
+}

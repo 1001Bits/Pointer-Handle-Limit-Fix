@@ -1,0 +1,26 @@
+Starfield 23-bit handle-pool exact-model stress
+Date: 2026-08-13 (Asia/Bangkok)
+Compiler: MSVC 19.40, x64 Release
+Source SHA-256: 054239689133F919B260E312E8475F9DADAE0E8C1275A51C6A3CA12863D8B266
+Executable SHA-256: 37D3D0D44D4DD9B12591DB61645B277C08AAB85C9A3FBC393E231953B35C5001
+
+Target: 7,900,000 live / 8,388,607 usable (94.175%), 512 generations
+Committed test arena: 560 MiB
+Observed peak working set: 564.5 MiB
+Observed elapsed time: 1.362 seconds
+
+RESULT: PASS
+
+- Created 7,900,000 unique simultaneous handles and immediately resolved each to the exact object.
+- Repeated a full 7,900,000-handle identity lookup pass.
+- Verbose clean scan: total=5,802,849, unreadable=0, consistent=5,802,849, samples=16.
+- Injected-fault scan: total=5,802,849, unreadable=2, consistent=5,802,846, samples=64.
+- Released 4,096 slots, rejected stale handles, consumed the virgin tail, and reacquired the exact released slots in FIFO order with generation 1.
+- Filled all 8,388,607 usable slots; an exhausted allocation returned handle 0 without changing manager state.
+- Lookup-checked and released every slot, then verified the complete free-list chain, counters, object clears, and generation bits.
+- Reproduced the 512-generation stale-handle alias boundary; detector reported exactly one wrap at reuse 512.
+- Injected a generation mismatch and verified the detector surfaced loss of exact tracking.
+
+Scope: deterministic model of the audited Starfield allocator, release, lookup, generation detector,
+and verbose scanner. This is not an in-game/SFSE test and does not exercise the live manager lock,
+global manager swap, TESObjectREFR ownership, saves, or other plugins.

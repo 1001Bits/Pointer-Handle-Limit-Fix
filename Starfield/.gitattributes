@@ -1,0 +1,9 @@
+* text=auto eol=lf
+
+*.7z binary
+*.bin binary
+*.dll binary
+*.exe binary
+*.pdb binary
+*.png binary
+*.zip binary
