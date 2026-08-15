@@ -28,4 +28,17 @@ byte gates still verify the live decrypted code before writing.
 
 Generated header:
 
-- `src/PatchTable.g.h`: `4a32b4958018ba2d85b2347adc0557e74e2202cc3a859f9861612d6f7ce1f50e`
+- `src/PatchTable.g.h` (2M/21+5): `bbbbfc29953ce4da537d2781637d42f316e5ed7eded7f7348ebde8cc2fccab0f`
+
+Generated profiles:
+
+| Profile | SHA-256 |
+|---|---|
+| SE | `8caa63a0d5c30d59879425bd35b24a08d84a9087b9ec41566451b189cc382aec` |
+| AE | `df6d1f4da56890273b251b67565dfd0b7ce35aeff639a48e68faa965c4834978` |
+| GOG | `adc72b15e9c2a36e27749e2f511ba507196d93a060a92a3098321c802458c39c` |
+| VR | `766cd35f1044018ecab7265cd98e50089db36f09f9873dc39eb08cb0e9f4a794` |
+
+These are architecture-generation inputs, not final release-package pins. The
+candidate DLL and ZIP are recorded only after two clean reproducible builds and
+the fresh live gates authenticate the same bytes.

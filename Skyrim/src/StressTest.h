@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GenerationTracker.h"
+
 #include <cstddef>
 #include <cstdint>
 
@@ -103,10 +105,21 @@ namespace shcr::stress
         bool liveDiagnosticsEnabled = false;
         std::uint32_t diagnosticsDetailedSampleLimit = 16;
 
-        // The cap raiser uses 22 index bits.  Set this to 20 only for a stock-cap
-        // control run; decoding a stock handle with 22 bits mistakes age bits
-        // 20-21 for index bits.
-        std::uint32_t indexBits = 22;
+        // Prerelease-only lifecycle proof layered on the read-only diagnostic
+        // listener.  This setting is honored only when VerboseLogging enables
+        // liveDiagnosticsEnabled.  At kDataLoaded, kPreLoadGame, kNewGame, and
+        // each paired successful kPostLoadGame notification it takes one
+        // manager-locked snapshot, validates the reserved player value, and
+        // walks the exact ordinary FIFO chain to prove slot 0x100000 is absent.
+        // Startup and unsuccessful load notifications are not lifecycle
+        // evidence.  The complete 2M-entry scan can cause a short load-screen
+        // hitch, so keep it off for ordinary play.
+        bool lifecycleVerificationEnabled = false;
+
+        // The cap raiser uses 21 index bits.  Set this to 20 only for a stock-cap
+        // control run; decoding a stock handle with 21 bits mistakes age bit 20
+        // for the raised index bit.
+        std::uint32_t indexBits = generation::kIndexBits;
 
         // Optional test-only filler.  If nonzero, minimally shaped synthetic
         // BSHandleRefObject blocks consume handles until the last filler index is
@@ -122,7 +135,7 @@ namespace shcr::stress
         // first table index scanned after a save/new game loads.  Synthetic
         // filler objects never enter the name resolver.
         std::uint32_t detailedLogFromIndex = 0x100000;
-        std::uint32_t maxDetailedLogs = 0x400000;
+        std::uint32_t maxDetailedLogs = generation::kEntryCount;
 
         // A task stops at whichever bound is reached first.  Engine calls remain
         // main-thread-only; a coordinator waits between tasks because SKSE drains
@@ -133,41 +146,53 @@ namespace shcr::stress
 
         // Re-resolve every successfully acquired handle after the allocation pass
         // to catch stale/wrapped/wrong-object decoding, not merely immediate lookup.
+        // A synthetic filler run completes this bounded exact-object pass before
+        // any configured release or reuse probe can begin.
         bool verifySecondPass = true;
 
         // Targeted canonical-release proof that does not require exhausting the
-        // 4M table. After the synthetic filler reaches its target, release this
-        // many harness-owned handles whose indices are at least 0x200000. Each
-        // release must restore owner count 1, clear the full-index sidecar, leave
+        // 2M table. After the synthetic filler reaches its target, release this
+        // many harness-owned handles above reserved index 0x100000. Each release
+        // must restore owner count 1 through Skyrim's stock dword invalidation,
+        // clear the complete _refCount index cache, leave +0x2C untouched, keep
         // the table entry free with its prior age, and make the stale handle fail
         // lookup. Released records are removed before live sampling. A nonzero
-        // value requires 22-bit sample mode, a fill target above 0x200000, and no
+        // value requires 21-bit sample mode, a fill target above 0x100001, and no
         // churn or stock-control mode. Safe default: disabled.
         std::uint32_t releaseProbeCount = 0;
 
         // Non-exhausting exact-slot reuse proof. After the targeted releases,
-        // the harness canonically releases a separate live >=2M synthetic target
+        // the harness canonically releases a separate live >1M synthetic target
         // and rotates Skyrim's FIFO free list with one pristine scratch object.
         // Every non-target allocation is immediately verified and released, so
         // the test never consumes the pre-existing free-slot cushion. When the
         // scratch object reaches the target slot, it must carry the exact next
-        // generation and sidecar while the old handle rejects and an adjacent
-        // synthetic neighbor remains unchanged. Currently exactly one cycle is
-        // supported. A nonzero value requires ReleaseProbeCount>0, a fill target
-        // above 2M and below 4M, and no churn/stock-control mode.
+        // generation and _refCount cache while the old handle rejects and an adjacent
+        // synthetic neighbor remains unchanged. Exact values 0, 1, and 32 are
+        // supported. The 32-attempt mode additionally requires the mandatory,
+        // exact pre-publication generation guard. Attempts 1-31 prove assignment
+        // counts 2-32, the first-issued age-zero value, stale-handle rejection,
+        // zero repeated-generation/ABA publications, and the hottest-slot maximum
+        // of 31 reuses. Attempt 32 must terminate Skyrim
+        // before assignment 33 can publish a pointer, object cache, or repeated
+        // raw handle. A nonzero
+        // value requires ReleaseProbeCount>0, a fill target above 1M and below
+        // 2M, and no churn/stock-control mode.
         std::uint32_t reuseProbeCycles = 0;
 
         // Deterministic high-slot release/reuse test.  A nonzero value requires
-        // indexBits=22 and SyntheticFillToIndex=0x400000.  The harness first
-        // proves exhaustion, then moves slot 0x3FFFFF to a distinct synthetic
-        // object through Skyrim's canonical release function each cycle.  It checks
-        // the qword sidecar clear, stale rejection, exact object identity, and age
-        // increment.  64 cycles additionally demonstrates the documented six-bit
-        // generation wrap/ABA boundary.  Safe default: disabled.
+        // indexBits=21 and SyntheticFillToIndex=0x200000.  The harness first
+        // proves exhaustion, then moves slot 0x1FFFFF to a distinct synthetic
+        // object through Skyrim's canonical release function each cycle. It checks
+        // stock dword cache invalidation, untouched +0x2C padding, stale rejection,
+        // exact object identity, and age increment. ChurnCycles is limited to
+        // the 31 safely publishable reuses; the mandatory generation guard
+        // terminates before any later attempt can become resolvable.
+        // Safe default: disabled.
         std::uint32_t churnCycles = 0;
 
         // Default verification mode aborts on the first error. Set false only
-        // to continue gathering deliberate 4M-table exhaustion data; lookup,
+        // to continue gathering deliberate 2M-table exhaustion data; lookup,
         // identity, and pin errors still make final completion fail.
         bool stopOnVerificationFailure = true;
 

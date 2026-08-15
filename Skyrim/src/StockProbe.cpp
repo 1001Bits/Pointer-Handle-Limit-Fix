@@ -1,6 +1,6 @@
 // Throwaway-only stock Skyrim reference-handle exhaustion control.
 //
-// This DLL deliberately does not apply the 4M cap patch.  It verifies the full
+// This DLL deliberately does not apply the 2M cap patch.  It verifies the full
 // audited handle-manager instruction set is stock at plugin load and again at
 // kDataLoaded, fills the remaining vanilla 1M table with probe-owned synthetic
 // BSHandleRefObjects, proves above-cap allocation failure, and canonically
@@ -170,15 +170,6 @@ namespace shcr::stockprobe
                     RecordMismatch("field instruction", patch.rva, patch.orig, actual, mismatches);
                 }
             }
-            for (std::uint32_t i = 0; i < profile.bytePatchCount; ++i) {
-                const BytePatch& patch = profile.bytePatches[i];
-                const auto* actual = reinterpret_cast<const std::uint8_t*>(
-                    a_context.imageBase + patch.rva);
-                if (patch.len == 0 || patch.len > sizeof(patch.orig) ||
-                    std::memcmp(actual, patch.orig, patch.len) != 0) {
-                    RecordMismatch("sidecar instruction", patch.rva, patch.orig, actual, mismatches);
-                }
-            }
             for (std::uint32_t i = 0; i < profile.tableRefCount; ++i) {
                 const TableRef& reference = profile.tableRefs[i];
                 const auto* actual = reinterpret_cast<const std::uint8_t*>(
@@ -214,29 +205,17 @@ namespace shcr::stockprobe
                     RecordMismatch("initialiser guard", patch.rva, patch.orig, actual, mismatches);
                 }
             }
-            for (std::uint32_t i = 0; i < profile.releaseSiteCount; ++i) {
-                const ExactSite& site = profile.releaseSites[i];
-                const auto* actual = reinterpret_cast<const std::uint8_t*>(
-                    a_context.imageBase + site.rva);
-                if (site.len == 0 || site.len > sizeof(site.orig) ||
-                    std::memcmp(actual, site.orig, site.len) != 0) {
-                    RecordMismatch("release site", site.rva, site.orig, actual, mismatches);
-                }
-            }
-
             if (mismatches != 0) {
                 Log("stock-control: ABORT: %zu audited handle-manager sites are non-stock; "
                     "the no-cap-patch control is invalid",
                     mismatches);
                 return false;
             }
-            Log("stock-control: verified stock handle-manager code: %u fields, %u sidecar "
-                "sites, %u table references, %u initialiser guards, %u release sites",
+            Log("stock-control: verified stock handle-manager code: %u fields, "
+                "%u table references, %u initialiser guards",
                 profile.fieldCount,
-                profile.bytePatchCount,
                 profile.tableRefCount,
-                profile.initPatchCount,
-                profile.releaseSiteCount);
+                profile.initPatchCount);
             return true;
         }
 

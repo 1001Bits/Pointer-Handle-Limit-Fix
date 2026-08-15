@@ -1,7 +1,9 @@
 # probes — reverse-engineering and patch-table generation
 
-All read-only. These read your own installed Skyrim executables and your own
-Address Library `.bin` files; nothing Bethesda ships is redistributed here.
+The installed Skyrim executables and Address Library `.bin` inputs are opened
+read-only. The maintained generator commands intentionally rewrite this
+workspace's JSON artifacts, generated C++ header, and patch-site documentation;
+nothing Bethesda ships is redistributed here.
 
 Requires Python 3.12 and the pinned packages in `requirements.txt`:
 
@@ -27,8 +29,8 @@ Run from this directory.
 | `gen_patchtable.py` | **The generator.** Produces `artifacts/patch_{SE,AE,GOG,VR}.json`. |
 | `gen_cpp.py` | Emits `src/PatchTable.g.h` from those JSON files. |
 | `gen_patch_docs.py` | Deterministically renders `docs/patch-sites/` from the same four JSON files, with stock and replacement bytes/disassembly side by side. |
-| `test_patch.py` | Applies the table to an in-memory copy and re-verifies the result. |
-| `verify_deliverable.py` | End-to-end consistency check: exact-runtime hashes, JSON vs. generated header and patch-site documentation, compiled generated arrays, staged DLL/INI hashes, and unchanged refcount/valid ABI constants. |
+| `test_patch.py` | Applies the cap/player transaction and all five mandatory assignment-guard redirects to an in-memory copy, exercises exact rollback/retry state, and re-verifies the result. |
+| `verify_deliverable.py` | End-to-end consistency check: exact-runtime hashes, mandatory mutation census, no-wrap source/install/rollback contract, JSON vs. generated header and patch-site documentation, compiled generated arrays, staged DLL/INI hashes, and unchanged refcount/valid ABI constants. |
 | `inventory_runtime_refs.py` | Dependency-free placed-reference inventory; pass both `--plugins` and `--ccc` to model AE's explicit and automatic load lists. |
 
 Full regeneration:
@@ -50,6 +52,29 @@ python test_patch.py --runtime VR --patch ../artifacts/patch_VR.json
 print `ALL CONSISTENT`, before the generated header, generated audit documents,
 and DLL are trustworthy. The audit landing page is
 [`docs/patch-sites/README.md`](../docs/patch-sites/README.md).
+
+The maintained generator emits only the fixed 2M/21+5 architecture. Its JSON
+has field, table-reference, initializer, assignment-hook, and player-reservation
+evidence; the retired 4M `raw_patches`, `release_sites`, and
+`excluded_shift11` collections are forbidden. The production verifier also
+requires stock bit 26, the complete `_refCount[31:11]` cache, and the absence of
+any `+0x2C` sidecar mutation path.
+
+The five assignment redirects in every profile are mandatory guard sites, not
+optional diagnostics. The retained core cap/player counts are SE 399, AE 519,
+GOG 519, and VR 419; including five guard redirects per profile gives total
+mutation counts SE 404, AE 524, GOG 524, and VR 424 (1,876 aggregate).
+`GenerationWrapDetection=0` must refuse the 2M cap, and a guard preparation,
+authentication, install, or exact rollback failure must likewise leave no cap
+committed.
+
+`publishedWraps=0` means zero repeated-generation/ABA publications; it does not
+claim the five-bit numeric age never rolls over. From a pristine pool, ages 1
+through 31 are issued first. Assignment 32 (reuse 31) safely advances age 31 to
+previously unissued age 0. Assignment 33 (reuse 32) would repeat age 1, so the
+guard records the prevented attempt and fail-stops before the stock pointer
+publisher can make it resolvable. The hottest successfully published reuse can
+therefore reach 31, while the prevented boundary is reported separately as 32.
 
 ## Literal classification guard
 

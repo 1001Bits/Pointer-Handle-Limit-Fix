@@ -1,5 +1,6 @@
 #include "Configuration.h"
 
+#include "GenerationTracker.h"
 #include "PluginPaths.h"
 
 #include <windows.h>
@@ -20,6 +21,9 @@ namespace shcr
                 L"General", L"GenerationWrapDetection", 1, ini) != 0;
         settings.stress.liveDiagnosticsEnabled =
             GetPrivateProfileIntW(L"General", L"VerboseLogging", 0, ini) != 0;
+        settings.stress.lifecycleVerificationEnabled =
+            GetPrivateProfileIntW(
+                L"General", L"LifecycleVerification", 0, ini) != 0;
         const int configuredSampleSize = static_cast<int>(
             GetPrivateProfileIntW(L"General", L"SampleSize", 16, ini));
         settings.stress.diagnosticsDetailedSampleLimit =
@@ -27,7 +31,7 @@ namespace shcr
                 configuredSampleSize, 0, 4096));
         settings.stress.enabled =
             GetPrivateProfileIntW(L"StressTest", L"Enabled", 0, ini) != 0;
-        settings.stress.indexBits = 22;
+        settings.stress.indexBits = generation::kIndexBits;
         settings.stress.syntheticFillToIndex = static_cast<std::uint32_t>(
             GetPrivateProfileIntW(
                 L"StressTest", L"SyntheticFillToIndex", 0, ini));
@@ -36,7 +40,8 @@ namespace shcr
                 L"StressTest", L"DetailedLogFromIndex", 0x100000, ini));
         settings.stress.maxDetailedLogs = static_cast<std::uint32_t>(
             GetPrivateProfileIntW(
-                L"StressTest", L"MaxDetailedLogs", 0x400000, ini));
+                L"StressTest", L"MaxDetailedLogs",
+                generation::kEntryCount, ini));
         settings.stress.maxReferencesPerTask = static_cast<std::uint32_t>(
             GetPrivateProfileIntW(
                 L"StressTest", L"ReferencesPerTask", 4096, ini));

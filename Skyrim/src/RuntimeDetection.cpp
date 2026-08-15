@@ -279,10 +279,11 @@ namespace shcr
         Log("  WARNING: Engine Fixes pointer-handle logging may read Skyrim's");
         Log("  abandoned vanilla 1,048,576-entry table after this plugin relocates");
         Log("  the live table. Its displayed handle count may therefore be stale.");
-        Log("  Every Engine Fixes version, DLL-name variant, configuration format,");
-        Log("  missing configuration, and bRefHandleLimit value is allowed here.");
-        Log("  Continuing with the normal Skyrim profile and exact-byte safety checks.");
-        Log("  Use SkyrimHandleCapRaise.log for the live 4,194,304-entry usage count.");
+        Log("  Configuration format, missing configuration, and bRefHandleLimit");
+        Log("  never gate this plugin. Continuing with exact-code safety checks.");
+        Log("  Same-code detours require a separate authenticated allowlist;");
+        Log("  unknown Engine Fixes versions, forks, and hook chains fail closed.");
+        Log("  Use SkyrimHandleCapRaise.log for the live 2,097,152-entry usage count.");
         Log("");
     }
 }

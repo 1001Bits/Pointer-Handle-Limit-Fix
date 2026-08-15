@@ -35,32 +35,39 @@ from capstone.x86 import (
     X86_OP_IMM,
     X86_OP_MEM,
     X86_OP_REG,
+    X86_REG_EAX,
+    X86_REG_RBX,
     X86_REG_RCX,
     X86_REG_RDX,
+    X86_REG_RDI,
     X86_REG_RIP,
+    X86_REG_RSI,
 )
 
 from image import open_runtime
 from logical_funcs import build_chunk_to_root, logical_ranges
 
-# Same-length imm32 rewrites: old -> (new, category).  Four million entries
-# consume 22 index bits in the table word.  The object-side word retains its
-# public 10-bit-refcount/valid/21-bit-index layout; the full index is mirrored
-# into NiRefObject's padding dword by the raw patches generated below.
+# Same-length imm32 rewrites: old -> (new, category).  Two million entries
+# consume the 21 index bits that already exist in BSHandleRefObject's public
+# object-side cache.  The generation field consequently shrinks to five bits
+# and moves from bits 20-25 to bits 21-25.  Bit 26 remains the in-use bit.
 IMM32 = {
-    0x000FFFFF: (0x003FFFFF, "index_mask"),
-    0x03F00000: (0x0FC00000, "age_mask"),
-    0x00100000: (0x00400000, "age_inc_or_count"),
-    0x01000000: (0x04000000, "table_bytes"),
-    0xFC0FFFFF: (0xF03FFFFF, "clear_age"),
-    0xFFF00000: (0xFFC00000, "clear_next"),
-    0xFBFFFFFF: (0xEFFFFFFF, "clear_inuse"),
-    0x04000000: (0x10000000, "inuse_bit"),
+    0x000FFFFF: (0x001FFFFF, "index_mask"),
+    0x03F00000: (0x03E00000, "age_mask"),
+    0x00100000: (0x00200000, "age_inc_or_count"),
+    0x01000000: (0x02000000, "table_bytes"),
+    0xFC0FFFFF: (0xFC1FFFFF, "clear_age"),
+    0xFFF00000: (0xFFE00000, "clear_next"),
 }
-BITPOS = {0x1A: (0x1C, "inuse_bitpos")}
 
 # Object-side fields whose widths the raise does not change; never rewritten.
-UNTOUCHED = {0x3FF: "refcount mask", 0x400: "handle-valid bit", 0x0B: "index shift"}
+UNTOUCHED = {
+    0x3FF: "refcount mask",
+    0x400: "handle-valid bit",
+    0x0B: "index shift",
+    0x04000000: "in-use bit",
+    0xFBFFFFFF: "clear in-use mask",
+}
 
 AGE_MASK_BYTES = (0x03F00000).to_bytes(4, "little")
 
@@ -82,6 +89,33 @@ PROFILE_METADATA = {
         ),
         "lock_write_rva": 0x00C07350,
         "unlock_write_rva": 0x00C075A0,
+        "player_reservation": {
+            "singleton_rva": 0x02F26EF8,
+            "handle_rva": 0x02F26EF4,
+            "selector_rvas": (
+                0x00132012, 0x001321A2, 0x0054A8D2,
+                0x005A8FA2, 0x0073D2C2,
+            ),
+            "object_register": "rbx",
+            "release_function_rva": 0x001774E0,
+            "release_hook_rva": 0x0017758F,
+            "release_resume_rva": 0x00177595,
+            "release_reserved_exit_rva": 0x001775D3,
+            "lifecycle": {
+                "creation_function_rva": 0x005B6BC0,
+                "creation_constructor_call_rva": 0x005B6C3A,
+                "creation_constructor_function_rva": 0x00699040,
+                "creation_singleton_store_rva": 0x005B6C62,
+                "creation_allocator_call_rva": 0x005B6CA8,
+                "creation_handle_store_rva": 0x005B6CAF,
+                "creation_formid_call_rva": 0x005B6CC7,
+                "teardown_function_rva": 0x0016EA00,
+                "teardown_handle_load_rva": 0x0016ED5B,
+                "teardown_release_call_rva": 0x0016ED68,
+                "teardown_singleton_clear_rva": 0x0016ED79,
+                "teardown_zero_rvas": (0x0016ED15, 0x0016ED20),
+            },
+        },
     },
     "AE": {
         "table_bytes_rvas": (0x0001292D, 0x00640461),
@@ -100,6 +134,33 @@ PROFILE_METADATA = {
         ),
         "lock_write_rva": 0x00CC9140,
         "unlock_write_rva": 0x00CC9390,
+        "player_reservation": {
+            "singleton_rva": 0x031874F8,
+            "handle_rva": 0x031874F4,
+            "selector_rvas": (
+                0x00178F72, 0x00179102, 0x005B9FF2,
+                0x0063A052, 0x007D51D2,
+            ),
+            "object_register": "rdi",
+            "release_function_rva": 0x001C24F0,
+            "release_hook_rva": 0x001C25A1,
+            "release_resume_rva": 0x001C25A7,
+            "release_reserved_exit_rva": 0x001C25E3,
+            "lifecycle": {
+                "creation_function_rva": 0x0064A860,
+                "creation_constructor_call_rva": 0x0064A8E1,
+                "creation_constructor_function_rva": 0x0072CB40,
+                "creation_singleton_store_rva": 0x0064A90B,
+                "creation_allocator_call_rva": 0x0064A954,
+                "creation_handle_store_rva": 0x0064A95B,
+                "creation_formid_call_rva": 0x0064A973,
+                "teardown_function_rva": 0x001B9AB0,
+                "teardown_handle_load_rva": 0x001B9DEA,
+                "teardown_release_call_rva": 0x001B9DF7,
+                "teardown_singleton_clear_rva": 0x001B9E08,
+                "teardown_zero_rvas": (0x001B9D92,),
+            },
+        },
     },
     "GOG": {
         "table_bytes_rvas": (0x0001292D, 0x006426C1),
@@ -118,6 +179,33 @@ PROFILE_METADATA = {
         ),
         "lock_write_rva": 0x00CCAC00,
         "unlock_write_rva": 0x00CCAE50,
+        "player_reservation": {
+            "singleton_rva": 0x03188918,
+            "handle_rva": 0x03188914,
+            "selector_rvas": (
+                0x00178DA2, 0x00178F32, 0x005BC472,
+                0x0063C2B2, 0x007D7402,
+            ),
+            "object_register": "rdi",
+            "release_function_rva": 0x001C2320,
+            "release_hook_rva": 0x001C23D1,
+            "release_resume_rva": 0x001C23D7,
+            "release_reserved_exit_rva": 0x001C2413,
+            "lifecycle": {
+                "creation_function_rva": 0x0064CAC0,
+                "creation_constructor_call_rva": 0x0064CB41,
+                "creation_constructor_function_rva": 0x0072ED70,
+                "creation_singleton_store_rva": 0x0064CB6B,
+                "creation_allocator_call_rva": 0x0064CBB4,
+                "creation_handle_store_rva": 0x0064CBBB,
+                "creation_formid_call_rva": 0x0064CBD3,
+                "teardown_function_rva": 0x001B98E0,
+                "teardown_handle_load_rva": 0x001B9C1A,
+                "teardown_release_call_rva": 0x001B9C27,
+                "teardown_singleton_clear_rva": 0x001B9C38,
+                "teardown_zero_rvas": (0x001B9BC2,),
+            },
+        },
     },
     "VR": {
         "table_bytes_rvas": (0x000126ED, 0x005C512E),
@@ -143,6 +231,33 @@ PROFILE_METADATA = {
         ),
         "lock_write_rva": 0x00C421D0,
         "unlock_write_rva": 0x00C42420,
+        "player_reservation": {
+            "singleton_rva": 0x02FEB9F0,
+            "handle_rva": 0x02FEB9EC,
+            "selector_rvas": (
+                0x001427C2, 0x00142952, 0x0054EAE2,
+                0x005B0662, 0x00767E62,
+            ),
+            "object_register": "rbx",
+            "release_function_rva": 0x001873F0,
+            "release_hook_rva": 0x0018749F,
+            "release_resume_rva": 0x001874A5,
+            "release_reserved_exit_rva": 0x001874E3,
+            "lifecycle": {
+                "creation_function_rva": 0x005BEC40,
+                "creation_constructor_call_rva": 0x005BECBA,
+                "creation_constructor_function_rva": 0x006A26A0,
+                "creation_singleton_store_rva": 0x005BECE2,
+                "creation_allocator_call_rva": 0x005BED28,
+                "creation_handle_store_rva": 0x005BED2F,
+                "creation_formid_call_rva": 0x005BED47,
+                "teardown_function_rva": 0x0017F350,
+                "teardown_handle_load_rva": 0x0017F69B,
+                "teardown_release_call_rva": 0x0017F6A8,
+                "teardown_singleton_clear_rva": 0x0017F6B9,
+                "teardown_zero_rvas": (0x0017F655, 0x0017F660),
+            },
+        },
     },
 }
 
@@ -245,7 +360,7 @@ def synth_region(img, rva: int, back: int = 0x400, fwd: int = 0x400) -> tuple[in
 
 
 # --------------------------------------------------------------------------- #
-# Object-side 22-bit-index sidecar synthesis
+# Object-side cache publisher authentication
 
 
 def reg_number(md, reg: int) -> int | None:
@@ -268,137 +383,18 @@ def reg_root(md, reg: int) -> int | None:
     return reg_number(md, reg)
 
 
-def encode_mov_r32_mem(md, dst: int, base: int, disp: int) -> bytes:
-    """Encode ``mov r32, dword ptr [base + disp8]``."""
-    d, b = reg_number(md, dst), reg_number(md, base)
-    if d is None or b is None or not (-0x80 <= disp <= 0x7F):
-        raise ValueError("sidecar load is outside the supported GPR/disp8 form")
-    out = bytearray()
-    rex = 0x40 | (0x04 if d >= 8 else 0) | (0x01 if b >= 8 else 0)
-    if rex != 0x40:
-        out.append(rex)
-    out.append(0x8B)
-    out.append(0x40 | ((d & 7) << 3) | (b & 7))
-    if (b & 7) == 4:  # rsp/r12 requires a no-index SIB byte
-        out.append(0x24)
-    out.append(disp & 0xFF)
-    return bytes(out)
+def allocation_publishers(img, regions: list[tuple[int, int]]) -> list[dict]:
+    """Find and authenticate the five stock object-index publishers.
 
-
-def encode_mov_mem_r32(md, base: int, disp: int, src: int) -> bytes:
-    """Encode ``mov dword ptr [base + disp8], r32``."""
-    s, b = reg_number(md, src), reg_number(md, base)
-    if s is None or b is None or not (-0x80 <= disp <= 0x7F):
-        raise ValueError("sidecar store is outside the supported GPR/disp8 form")
-    out = bytearray()
-    rex = 0x40 | (0x04 if s >= 8 else 0) | (0x01 if b >= 8 else 0)
-    if rex != 0x40:
-        out.append(rex)
-    out.append(0x89)
-    out.append(0x40 | ((s & 7) << 3) | (b & 7))
-    if (b & 7) == 4:
-        out.append(0x24)
-    out.append(disp & 0xFF)
-    return bytes(out)
-
-
-def encode_rcl_r32_imm(md, reg: int, count: int) -> bytes:
-    n = reg_number(md, reg)
-    if n is None:
-        raise ValueError("sidecar writer does not use a GPR")
-    out = bytearray()
-    if n >= 8:
-        out.append(0x41)
-    out.extend((0xC1, 0xD0 | (n & 7), count & 0xFF))  # C1 /2 ib
-    return bytes(out)
-
-
-def encode_and_mem64_imm32(md, base: int, disp: int, imm: int) -> bytes:
-    """Encode ``and qword ptr [base + disp8], sign_extended_imm32``."""
-    b = reg_number(md, base)
-    if b is None or not (-0x80 <= disp <= 0x7F):
-        raise ValueError("sidecar release is outside the supported GPR/disp8 form")
-    out = bytearray((0x48 | (0x01 if b >= 8 else 0), 0x81))
-    out.append(0x40 | (4 << 3) | (b & 7))  # mod=disp8, /4 AND
-    if (b & 7) == 4:
-        out.append(0x24)
-    out.append(disp & 0xFF)
-    out.extend(struct.pack("<I", imm & 0xFFFFFFFF))
-    return bytes(out)
-
-
-def encode_mov_r64_r64(md, dst: int, src: int) -> bytes:
-    d, s = reg_number(md, dst), reg_number(md, src)
-    if d is None or s is None:
-        raise ValueError("sidecar release register move does not use GPRs")
-    rex = 0x48 | (0x04 if d >= 8 else 0) | (0x01 if s >= 8 else 0)
-    return bytes((rex, 0x8B, 0xC0 | ((d & 7) << 3) | (s & 7)))
-
-
-def previous_reg_definition(img, insns, pos: int, reg: int, limit: int = 32):
-    """Find the straight-line definition feeding one shift operand.
-
-    The object-index readers in both supported runtimes are compiler inlines:
-    a dword load followed by a shift, occasionally with a valid-bit check in
-    between.  Refuse anything more complicated rather than guessing through
-    calls, branches, arithmetic, or a register merge.
+    A 21-bit physical index fits the existing object-side cache exactly, so
+    these instructions remain byte-for-byte stock.  They are still the
+    independent anchors used to derive the mandatory pre-publication
+    assignment-guard hooks.
     """
-    wanted = reg_root(img.md, reg)
-    for j in range(pos - 1, max(-1, pos - limit - 1), -1):
-        ins = insns[j]
-        if ins.mnemonic in ("call", "ret", "jmp"):
-            return None
-        ops = ins.operands
-        if not ops or ops[0].type != X86_OP_REG or reg_root(img.md, ops[0].reg) != wanted:
-            continue
-        if ins.mnemonic != "mov" or len(ops) != 2:
-            return None
-        if ops[1].type == X86_OP_MEM:
-            return j, ins, ops[1]
-        if ops[1].type == X86_OP_REG:
-            wanted = reg_root(img.md, ops[1].reg)
-            continue
-        return None
-    return None
-
-
-def raw_patch(img, insns, begin: int, end: int, replacement: bytes, cat: str, **extra) -> dict:
-    orig = b"".join(bytes(x.bytes) for x in insns[begin:end])
-    if len(orig) != len(replacement) or not orig or len(orig) > 15:
-        raise ValueError(f"raw patch {cat} must be a non-empty same-length <=15-byte rewrite")
-    out = {
-        "rva": insns[begin].address - img.base,
-        "len": len(orig),
-        "orig": orig.hex(),
-        "new": replacement.hex(),
-        "cat": cat,
-        "asm": "; ".join(f"{x.mnemonic} {x.op_str}" for x in insns[begin:end]),
-    }
-    out.update(extra)
-    return out
-
-
-def sidecar_sites(img, regions: list[tuple[int, int]]) -> tuple[list[dict], list[dict], list[dict]]:
-    """Generate proven same-length sidecar readers/writers and audit releases."""
-    raw: list[dict] = []
-    releases: list[dict] = []
-    excluded_shifts: list[dict] = []
-    writer_preclears: set[int] = set()
-
-    decoded: list[list] = []
+    publishers: list[dict] = []
     for begin, end in sorted(regions):
-        insns = [x for x in img.disasm(begin, end - begin) if x.address - img.base < end]
-        decoded.append(insns)
-
-        # Allocation writer, stock:
-        #   and [object+word], 0x3ff
-        #   shl index, 11
-        #   bts index, 10
-        #   or  [object+word], index
-        # Replacement stores the full index first, then uses the carry bit as
-        # the public valid bit while rotating only low 21 index bits into the
-        # legacy object word.  STC; RCL in a 33-bit CF:r32 ring is exactly
-        # (low21(index)<<11)|0x400 for a 22-bit input.
+        insns = [x for x in img.disasm(begin, end - begin)
+                 if x.address - img.base < end]
         for i, shl in enumerate(insns):
             ops = shl.operands
             if not (shl.mnemonic == "shl" and len(ops) == 2 and
@@ -406,166 +402,68 @@ def sidecar_sites(img, regions: list[tuple[int, int]]) -> tuple[list[dict], list
                     ops[1].type == X86_OP_IMM and ops[1].imm == 0x0B):
                 continue
             if i + 1 >= len(insns):
-                raise ValueError(f"unterminated object-index writer at {shl.address:#x}")
+                raise ValueError(
+                    f"unterminated object-index publisher at {shl.address:#x}")
             bts = insns[i + 1]
             bo = bts.operands
             if not (bts.mnemonic == "bts" and len(bo) == 2 and
-                    bo[0].type == X86_OP_REG and reg_root(img.md, bo[0].reg) == reg_root(img.md, ops[0].reg) and
+                    bo[0].type == X86_OP_REG and
+                    reg_root(img.md, bo[0].reg) ==
+                        reg_root(img.md, ops[0].reg) and
                     bo[1].type == X86_OP_IMM and bo[1].imm == 0x0A):
-                raise ValueError(f"unrecognised object-index writer at {shl.address:#x}")
+                raise ValueError(
+                    f"unrecognised object-index publisher at {shl.address:#x}")
 
             pre = None
             for j in range(i - 1, max(-1, i - 7), -1):
-                x = insns[j]
-                xo = x.operands
-                if (x.mnemonic == "and" and len(xo) == 2 and xo[0].type == X86_OP_MEM and
-                        xo[0].size == 4 and xo[0].mem.base not in (0, X86_REG_RIP) and
-                        xo[0].mem.index == 0 and xo[0].mem.disp in (0x08, 0x28) and
-                        xo[1].type == X86_OP_IMM and (xo[1].imm & 0xFFFFFFFF) == 0x3FF):
-                    pre = j, x, xo[0]
+                candidate = insns[j]
+                candidate_ops = candidate.operands
+                if (candidate.mnemonic == "and" and
+                        len(candidate_ops) == 2 and
+                        candidate_ops[0].type == X86_OP_MEM and
+                        candidate_ops[0].size == 4 and
+                        candidate_ops[0].mem.base not in (0, X86_REG_RIP) and
+                        candidate_ops[0].mem.index == 0 and
+                        candidate_ops[0].mem.disp in (0x08, 0x28) and
+                        candidate_ops[1].type == X86_OP_IMM and
+                        (candidate_ops[1].imm & 0xFFFFFFFF) == 0x3FF):
+                    pre = candidate
                     break
             if pre is None:
-                raise ValueError(f"object-index writer lacks its defensive clear at {shl.address:#x}")
-            j, clear, mem = pre
+                raise ValueError(
+                    f"object-index publisher lacks its defensive clear at "
+                    f"{shl.address:#x}")
 
+            target = pre.operands[0]
             post = None
             for k in range(i + 2, min(len(insns), i + 5)):
-                x = insns[k]
-                xo = x.operands
-                if (x.mnemonic == "or" and len(xo) == 2 and xo[0].type == X86_OP_MEM and
-                        xo[1].type == X86_OP_REG and reg_root(img.md, xo[1].reg) == reg_root(img.md, ops[0].reg)):
-                    post = xo[0]
+                candidate = insns[k]
+                candidate_ops = candidate.operands
+                if (candidate.mnemonic == "or" and
+                        len(candidate_ops) == 2 and
+                        candidate_ops[0].type == X86_OP_MEM and
+                        candidate_ops[1].type == X86_OP_REG and
+                        reg_root(img.md, candidate_ops[1].reg) ==
+                            reg_root(img.md, ops[0].reg)):
+                    post = candidate_ops[0]
                     break
-            if post is None or post.mem.base != mem.mem.base or post.mem.disp != mem.mem.disp:
-                raise ValueError(f"object-index writer lacks its publish OR at {shl.address:#x}")
-
-            store = encode_mov_mem_r32(img.md, mem.mem.base, mem.mem.disp + 4, ops[0].reg)
-            replacement = store + b"\xF9" + encode_rcl_r32_imm(img.md, ops[0].reg, 0x0B)
-            p = raw_patch(img, insns, i, i + 2, replacement, "sidecar_write",
-                          clear_rva=clear.address - img.base,
-                          sidecar_disp=mem.mem.disp + 4)
-            p["rva"] = shl.address - img.base
-            raw.append(p)
-            writer_preclears.add(clear.address - img.base)
-
-    direct_jump_targets = {
-        x.operands[0].imm - img.base
-        for block in decoded for x in block
-        if x.mnemonic.startswith("j") and x.operands and x.operands[0].type == X86_OP_IMM
-    }
-
-    for insns in decoded:
-        for i, shr in enumerate(insns):
-            ops = shr.operands
-            if not (shr.mnemonic == "shr" and len(ops) == 2 and
-                    ops[0].type == X86_OP_REG and ops[0].size == 4 and
-                    ops[1].type == X86_OP_IMM and ops[1].imm == 0x0B):
-                continue
-            src = previous_reg_definition(img, insns, i, ops[0].reg)
-            if src is None:
-                excluded_shifts.append({"rva": shr.address - img.base, "why": "no straight-line memory definition"})
-                continue
-            _, source, mem = src
-            if not (mem.mem.base not in (0, X86_REG_RIP) and mem.mem.index == 0 and
-                    mem.size == 4 and mem.mem.disp in (0x08, 0x28)):
-                excluded_shifts.append({
-                    "rva": shr.address - img.base,
-                    "source_rva": source.address - img.base,
-                    "source_disp": mem.mem.disp,
-                    "why": "not a BSHandleRefObject refcount displacement",
-                })
-                continue
-            # The common validator shape is ``mov word; shr 11``.  Redirect
-            # that existing load and NOP the shift so validation pays no extra
-            # memory operation.  GetCurrentHandle also consumes the stock word
-            # for its valid-bit test; those less frequent shapes keep the stock
-            # load and replace only SHR with a sidecar load.
-            src_i = src[0]
-            if src_i == i - 1 and reg_root(img.md, source.operands[0].reg) == reg_root(img.md, ops[0].reg):
-                new_load = encode_mov_r32_mem(img.md, ops[0].reg, mem.mem.base, mem.mem.disp + 4)
-                replacement = new_load + (b"\x90" * shr.size)
-                p = raw_patch(img, insns, src_i, i + 1, replacement, "sidecar_read",
-                              source_rva=source.address - img.base,
-                              shift_rva=shr.address - img.base,
-                              mode="redirect_load",
-                              sidecar_disp=mem.mem.disp + 4)
-            else:
-                replacement = encode_mov_r32_mem(img.md, ops[0].reg, mem.mem.base, mem.mem.disp + 4)
-                p = raw_patch(img, insns, i, i + 1, replacement, "sidecar_read",
-                              source_rva=source.address - img.base,
-                              shift_rva=shr.address - img.base,
-                              mode="replace_shift",
-                              sidecar_disp=mem.mem.disp + 4)
-            raw.append(p)
-
-        # Release clears the public word before unpublishing the entry.  Clear
-        # the adjacent sidecar in the same operation so a lock-free validator
-        # cannot accept a stale full index during that short stock ordering
-        # window.  Every reviewed site has a redundant entry-pointer reload:
-        #
-        #   mov rax, [entry+8]       mov rax, [entry+8]
-        #   and dword [rax+8],3ff -> and qword [rax+8],3ff
-        #   mov rcx, [entry+8]       mov rcx, rax
-        #
-        # The promoted AND costs one byte; the register move saves one, giving
-        # a full-instruction, same-length 15-byte rewrite.
-        for i, ins in enumerate(insns):
-            ops = ins.operands
-            if not (ins.mnemonic == "and" and len(ops) == 2 and
-                    ops[0].type == X86_OP_MEM and ops[0].size == 4 and
-                    ops[0].mem.base not in (0, X86_REG_RIP) and ops[0].mem.index == 0 and
-                    ops[0].mem.disp in (0x08, 0x28) and ops[1].type == X86_OP_IMM and
-                    (ops[1].imm & 0xFFFFFFFF) == 0x3FF):
-                continue
-            rva = ins.address - img.base
-            if rva in writer_preclears:
-                continue
-            if i == 0 or i + 1 >= len(insns):
-                raise ValueError(f"release clear at {ins.address:#x} lacks its pointer-load window")
-            prev, nxt = insns[i - 1], insns[i + 1]
-            po, no = prev.operands, nxt.operands
-            if not (prev.mnemonic == "mov" and len(po) == 2 and
-                    po[0].type == X86_OP_REG and po[0].size == 8 and po[1].type == X86_OP_MEM and
-                    nxt.mnemonic == "mov" and len(no) == 2 and
-                    no[0].type == X86_OP_REG and no[0].size == 8 and no[1].type == X86_OP_MEM and
-                    po[1].mem.base == no[1].mem.base and po[1].mem.index == no[1].mem.index and
-                    po[1].mem.scale == no[1].mem.scale and po[1].mem.disp == no[1].mem.disp and
-                    reg_root(img.md, po[0].reg) == reg_root(img.md, ops[0].mem.base)):
-                raise ValueError(f"unrecognised sidecar release window at {ins.address:#x}")
-            if nxt.address - img.base in direct_jump_targets:
-                raise ValueError(f"release reload at {nxt.address:#x} is a direct branch target; "
-                                 "the one-byte boundary shift is unsafe")
-            qword_clear = encode_and_mem64_imm32(img.md, ops[0].mem.base, ops[0].mem.disp, 0x3FF)
-            reg_move = encode_mov_r64_r64(img.md, no[0].reg, po[0].reg)
-            replacement = bytes(prev.bytes) + qword_clear + reg_move
-            window_len = prev.size + ins.size + nxt.size
-            if len(replacement) > window_len:
-                raise ValueError(f"sidecar release replacement grew at {ins.address:#x}")
-            replacement += b"\x90" * (window_len - len(replacement))
-            rp = raw_patch(img, insns, i - 1, i + 2, replacement, "sidecar_release",
-                           clear_rva=rva, sidecar_disp=ops[0].mem.disp + 4)
-            raw.append(rp)
-            releases.append({
-                "rva": rva,
-                "len": ins.size,
-                "orig": bytes(ins.bytes).hex(),
-                "asm": f"{ins.mnemonic} {ins.op_str}",
-                "raw_patch_rva": rp["rva"],
-                "policy": "64-bit mask clears the legacy word and sidecar before entry unpublish",
+            if post is None or post.mem.base != target.mem.base or \
+                    post.mem.disp != target.mem.disp:
+                raise ValueError(
+                    f"object-index publisher lacks its publish OR at "
+                    f"{shl.address:#x}")
+            publishers.append({
+                "rva": shl.address - img.base,
+                "clear_rva": pre.address - img.base,
             })
 
-    # Any other shift-by-11 in the selected regions is reported explicitly.
-    # The known exclusions are TESForm flag tests at +0x10, not object-index
-    # readers; a new compiler shape must fail review rather than be patched by
-    # resemblance.
-    unexpected = [x for x in excluded_shifts if x.get("source_disp") != 0x10]
-    if unexpected:
-        detail = ", ".join(f"{img.base + x['rva']:#x}: {x['why']}" for x in unexpected)
-        raise ValueError(f"unclassified shift-by-11 sites: {detail}")
-
-    raw.sort(key=lambda p: p["rva"])
-    releases.sort(key=lambda p: p["rva"])
-    return raw, releases, excluded_shifts
+    publishers.sort(key=lambda item: item["rva"])
+    if len(publishers) != 5 or \
+            len({item["rva"] for item in publishers}) != 5:
+        raise ValueError(
+            f"expected five distinct stock object-index publishers, found "
+            f"{len(publishers)}")
+    return publishers
 
 
 def exact_table_refs(img, disp_sites: list[int], table: int) -> list[dict]:
@@ -628,7 +526,7 @@ def direct_call_target(img, ins) -> int | None:
 
 def assignment_hook_metadata(
         img,
-        raw_patches: list[dict],
+        publishers: list[dict],
         lock_rva: int,
         lock_write_rva: int,
         unlock_write_rva: int,
@@ -643,15 +541,15 @@ def assignment_hook_metadata(
     calls covers successful assignments only and avoids detouring the shared
     NiPointer helper for unrelated engine traffic.
 
-    This routine deliberately derives the sites from the independently found
-    object-side writers and then proves their ABI and lock coverage from the
-    instruction stream.  A compiler-layout change therefore fails generation
-    rather than quietly emitting a guessed hook.
+    This routine deliberately derives the sites from the independently
+    authenticated stock object-side publishers and then proves their ABI and
+    lock coverage from the instruction stream.  A compiler-layout change
+    therefore fails generation rather than quietly emitting a guessed hook.
     """
-    writers = [p for p in raw_patches if p["cat"] == "sidecar_write"]
-    if len(writers) != 5:
+    if len(publishers) != 5:
         raise ValueError(
-            f"assignment-hook derivation expected five publishers, found {len(writers)}")
+            f"assignment-hook derivation expected five publishers, found "
+            f"{len(publishers)}")
 
     rcx_root = reg_root(img.md, X86_REG_RCX)
     rdx_root = reg_root(img.md, X86_REG_RDX)
@@ -671,7 +569,7 @@ def assignment_hook_metadata(
             return None
         return None
 
-    for writer in sorted(writers, key=lambda p: p["rva"]):
+    for writer in sorted(publishers, key=lambda p: p["rva"]):
         writer_rva = writer["rva"]
         fn = img.func_containing(writer_rva)
         if fn is None:
@@ -846,6 +744,788 @@ def assignment_hook_metadata(
     }
 
 
+def player_lifecycle_metadata(
+        img,
+        runtime: str,
+        singleton_rva: int,
+        handle_rva: int,
+        selector_owner_rva: int,
+        release_function_rva: int,
+        root_map: dict[int, int],
+        logical: dict[int, list[tuple[int, int]]]) -> dict:
+    """Prove the singleton/handle publication and teardown ordering.
+
+    FormID 0x14 is not available when the allocator runs.  The player object
+    is instead published through the singleton first, loaded into RDX for the
+    allocator, and registered as FormID 0x14 only after the handle is stored.
+    Teardown releases the saved raw handle before clearing that singleton.
+    """
+    cfg = PROFILE_METADATA[runtime]["player_reservation"]["lifecycle"]
+
+    def owner_insns(site_rva: int):
+        fn = img.func_containing(site_rva)
+        if fn is None:
+            raise ValueError(f"player lifecycle site {img.base + site_rva:#x} has no owner")
+        root = root_map.get(fn.begin, fn.begin)
+        out = []
+        for begin, end in logical.get(root, [(fn.begin, fn.end)]):
+            out.extend(x for x in img.disasm(begin, end - begin)
+                       if x.address - img.base < end)
+        out.sort(key=lambda x: x.address)
+        return root, out, {x.address - img.base: x for x in out}
+
+    creation_sites = (
+        cfg["creation_constructor_call_rva"],
+        cfg["creation_singleton_store_rva"],
+        cfg["creation_allocator_call_rva"],
+        cfg["creation_handle_store_rva"],
+        cfg["creation_formid_call_rva"],
+    )
+    creation_root, creation, creation_by_rva = owner_insns(creation_sites[0])
+    if creation_root != cfg["creation_function_rva"]:
+        raise ValueError("player creation owner fingerprint RVA changed")
+    if any(root_map.get(img.func_containing(rva).begin,
+                        img.func_containing(rva).begin) != creation_root
+           for rva in creation_sites):
+        raise ValueError("player creation lifecycle sites do not share one logical owner")
+    try:
+        constructor_call = creation_by_rva[creation_sites[0]]
+        singleton_store = creation_by_rva[creation_sites[1]]
+        allocator_call = creation_by_rva[creation_sites[2]]
+        handle_store = creation_by_rva[creation_sites[3]]
+        formid_call = creation_by_rva[creation_sites[4]]
+    except KeyError as exc:
+        raise ValueError("player creation lifecycle site stopped decoding") from exc
+    positions = {x.address - img.base: i for i, x in enumerate(creation)}
+    ordered = [positions[rva] for rva in creation_sites]
+    if ordered != sorted(ordered):
+        raise ValueError("player creation lifecycle ordering changed")
+
+    constructor_call_pos = positions[creation_sites[0]]
+    constructor_setup = creation[constructor_call_pos - 1] \
+        if constructor_call_pos else None
+    constructor_target = cfg["creation_constructor_function_rva"]
+    if constructor_setup is None or \
+            (constructor_setup.mnemonic, constructor_setup.op_str) != \
+                ("mov", "rcx, rax") or \
+            constructor_call.size != 5 or \
+            direct_call_target(img, constructor_call) != constructor_target:
+        raise ValueError(
+            "player creation no longer invokes its direct constructor with RCX=RAX")
+    constructor_pre_hook_len = creation_sites[0] - creation_root
+    constructor_pre_hook_insns = [
+        ins for ins in creation
+        if creation_root <= ins.address - img.base < creation_sites[0]
+    ]
+    if not (0 < constructor_pre_hook_len <= 256) or \
+            not constructor_pre_hook_insns or \
+            constructor_pre_hook_insns[0].address - img.base != creation_root or \
+            constructor_pre_hook_insns[-1].address - img.base + \
+                constructor_pre_hook_insns[-1].size != creation_sites[0] or \
+            sum(ins.size for ins in constructor_pre_hook_insns) != \
+                constructor_pre_hook_len:
+        raise ValueError(
+            "player constructor pre-hook owner/stack ABI window is not contiguous")
+    constructor_fn = img.func_containing(constructor_target)
+    if img.section_of(constructor_target) != ".text" or \
+            constructor_fn is None or constructor_fn.begin != constructor_target:
+        raise ValueError(
+            "player constructor target is no longer an exact .text function entry")
+    constructor = img.disasm(
+        constructor_target, constructor_fn.end - constructor_target)
+    if not constructor or constructor[-1].address - img.base + \
+            constructor[-1].size != constructor_fn.end:
+        raise ValueError("player constructor function stopped decoding contiguously")
+    constructor_rets = [i for i, ins in enumerate(constructor)
+                        if ins.mnemonic.startswith("ret")]
+    captures = [i for i, ins in enumerate(constructor)
+                if (ins.mnemonic, ins.op_str) == ("mov", "rsi, rcx")]
+    returns = [i for i, ins in enumerate(constructor)
+               if (ins.mnemonic, ins.op_str) == ("mov", "rax, rsi")]
+    if len(constructor_rets) != 1 or len(captures) != 1 or len(returns) != 1 or \
+            not (captures[0] < returns[0] < constructor_rets[0]):
+        raise ValueError("player constructor no longer returns its RCX object in RAX")
+    rsi_number = reg_root(img.md, X86_REG_RSI)
+    rax_number = reg_root(img.md, X86_REG_EAX)
+    for ins in constructor[captures[0] + 1:returns[0]]:
+        _, writes = ins.regs_access()
+        if any(reg_root(img.md, reg) == rsi_number for reg in writes):
+            raise ValueError(
+                f"player constructor overwrites its saved this pointer at {ins.address:#x}")
+    for ins in constructor[returns[0] + 1:constructor_rets[0]]:
+        _, writes = ins.regs_access()
+        if any(reg_root(img.md, reg) == rax_number for reg in writes):
+            raise ValueError(
+                f"player constructor overwrites its RAX return at {ins.address:#x}")
+
+    # The successful construction edge jumps over the null fallback and feeds
+    # the returned object through the existing RAX-based publication flow.
+    constructor_success = creation[constructor_call_pos + 1] \
+        if constructor_call_pos + 1 < len(creation) else None
+    if constructor_success is None or constructor_success.mnemonic != "jmp" or \
+            len(constructor_success.operands) != 1 or \
+            constructor_success.operands[0].type != X86_OP_IMM:
+        raise ValueError("player constructor return no longer enters the creation flow")
+    success_rva = constructor_success.operands[0].imm - img.base
+    success_pos = positions.get(success_rva)
+    singleton_pos = positions[creation_sites[1]]
+    if success_pos is None or not (constructor_call_pos < success_pos < singleton_pos):
+        raise ValueError("player constructor success edge no longer precedes publication")
+
+    # Authenticate every instruction the wrapper returns through before the
+    # PlayerCharacter singleton is published.  Ordinary forward branches may
+    # remain inside this gap.  The one edge that skips the store is safe only
+    # because it is the exact `singleton == constructor-result` edge into the
+    # already-published join used by the stock post-store path.
+    constructor_post_call_rva = creation_sites[0] + constructor_call.size
+    constructor_post_call_len = creation_sites[1] - constructor_post_call_rva
+    constructor_post_call_insns = [
+        ins for ins in creation
+        if constructor_post_call_rva <= ins.address - img.base < creation_sites[1]
+    ]
+    if not (0 < constructor_post_call_len <= 64) or \
+            not constructor_post_call_insns or \
+            constructor_post_call_insns[0].address - img.base != \
+                constructor_post_call_rva or \
+            constructor_post_call_insns[-1].address - img.base + \
+                constructor_post_call_insns[-1].size != creation_sites[1] or \
+            sum(ins.size for ins in constructor_post_call_insns) != \
+                constructor_post_call_len:
+        raise ValueError(
+            "player constructor post-call publication window is not contiguous")
+
+    rcx_number = reg_root(img.md, X86_REG_RCX)
+    equality_edges = []
+    for index in range(len(constructor_post_call_insns) - 2):
+        singleton_load, compare, branch = \
+            constructor_post_call_insns[index:index + 3]
+        if singleton_load.mnemonic != "mov" or \
+                len(singleton_load.operands) != 2 or \
+                singleton_load.operands[0].type != X86_OP_REG or \
+                reg_root(img.md, singleton_load.operands[0].reg) != rcx_number or \
+                singleton_load.operands[1].type != X86_OP_MEM or \
+                img.rip_targets(singleton_load) != [singleton_rva] or \
+                compare.mnemonic != "cmp" or len(compare.operands) != 2 or \
+                compare.operands[0].type != X86_OP_REG or \
+                compare.operands[1].type != X86_OP_REG or \
+                reg_root(img.md, compare.operands[0].reg) != rcx_number or \
+                reg_root(img.md, compare.operands[1].reg) != rax_number or \
+                branch.mnemonic not in ("je", "jz") or \
+                len(branch.operands) != 1 or \
+                branch.operands[0].type != X86_OP_IMM:
+            continue
+        equality_edges.append(branch)
+    if len(equality_edges) != 1:
+        raise ValueError(
+            "player constructor publication gap lost its unique singleton==RAX edge")
+    equality_edge = equality_edges[0]
+    published_join_rva = equality_edge.operands[0].imm - img.base
+    singleton_end_rva = creation_sites[1] + singleton_store.size
+    if published_join_rva not in positions or \
+            not (singleton_end_rva < published_join_rva < creation_sites[2]):
+        raise ValueError(
+            "player constructor singleton-equality edge no longer joins post-publication")
+    post_store_join_edges = []
+    for ins in creation[singleton_pos + 1:positions[creation_sites[2]]]:
+        if ins.mnemonic in ("jmp", "ljmp") or \
+                not ins.mnemonic.startswith("j") or \
+                len(ins.operands) != 1 or ins.operands[0].type != X86_OP_IMM:
+            continue
+        if ins.operands[0].imm - img.base == published_join_rva:
+            post_store_join_edges.append(ins)
+    if not post_store_join_edges:
+        raise ValueError(
+            "player constructor equality edge lost the stock post-store join")
+
+    exceptional_control = {
+        "loop", "loope", "loopne", "jecxz", "jrcxz",
+        "syscall", "sysenter", "sysret", "sysexit",
+        "int", "int1", "int3", "into", "iret", "iretd", "iretq",
+    }
+    for ins in constructor_post_call_insns:
+        rva = ins.address - img.base
+        if ins.mnemonic.startswith("call") or ins.mnemonic.startswith("ret") or \
+                ins.mnemonic in exceptional_control:
+            raise ValueError(
+                f"player constructor publication gap transfers control at {ins.address:#x}")
+        if not ins.mnemonic.startswith("j"):
+            continue
+        if len(ins.operands) != 1 or ins.operands[0].type != X86_OP_IMM:
+            raise ValueError(
+                f"player constructor publication gap has indirect branch at {ins.address:#x}")
+        target_rva = ins.operands[0].imm - img.base
+        if target_rva <= rva:
+            raise ValueError(
+                f"player constructor publication gap has a backward edge at {ins.address:#x}")
+        if constructor_post_call_rva <= target_rva <= creation_sites[1]:
+            continue
+        if ins.address == equality_edge.address and \
+                target_rva == published_join_rva:
+            continue
+        raise ValueError(
+            f"player constructor publication gap escapes before publication at "
+            f"{ins.address:#x}")
+
+    for ins in creation[success_pos:singleton_pos]:
+        _, writes = ins.regs_access()
+        if any(reg_root(img.md, reg) == rax_number for reg in writes):
+            raise ValueError(
+                f"player creation overwrites the constructor result at {ins.address:#x}")
+    if singleton_store.mnemonic != "mov" or len(singleton_store.operands) != 2 or \
+            singleton_store.operands[0].type != X86_OP_MEM or \
+            singleton_store.operands[1].type != X86_OP_REG or \
+            reg_root(img.md, singleton_store.operands[1].reg) != rax_number or \
+            img.rip_targets(singleton_store) != [singleton_rva]:
+        raise ValueError("player singleton is no longer published before allocation")
+    if allocator_call.size != 5 or direct_call_target(img, allocator_call) != \
+            selector_owner_rva:
+        raise ValueError("player creation no longer calls the verified allocator clone")
+    call_pos = positions[creation_sites[2]]
+    candidate_loads = [x for x in creation[max(0, call_pos - 4):call_pos]
+                       if x.mnemonic == "mov" and len(x.operands) == 2 and
+                       x.operands[0].type == X86_OP_REG and
+                       reg_root(img.md, x.operands[0].reg) ==
+                           reg_root(img.md, X86_REG_RDX) and
+                       x.operands[1].type == X86_OP_MEM and
+                       img.rip_targets(x) == [singleton_rva]]
+    if len(candidate_loads) != 1 or \
+            creation.index(candidate_loads[0]) != call_pos - 2:
+        raise ValueError("player allocator candidate is no longer loaded from the singleton")
+    candidate_load = candidate_loads[0]
+    if handle_store.mnemonic != "mov" or len(handle_store.operands) != 2 or \
+            handle_store.operands[0].type != X86_OP_MEM or \
+            img.rip_targets(handle_store) != [handle_rva]:
+        raise ValueError("player raw handle is no longer stored after allocation")
+    formid_pos = positions[creation_sites[4]]
+    formid_setup = creation[formid_pos - 1] if formid_pos else None
+    if formid_setup is None or \
+            (formid_setup.mnemonic, formid_setup.op_str) != ("mov", "edx, 0x14") or \
+            formid_call.mnemonic != "call" or len(formid_call.operands) != 1 or \
+            formid_call.operands[0].type != X86_OP_MEM or \
+            formid_call.operands[0].mem.disp != 0x1C0:
+        raise ValueError("player FormID 0x14 registration is no longer after handle publication")
+
+    teardown_sites = (
+        cfg["teardown_handle_load_rva"],
+        cfg["teardown_release_call_rva"],
+        cfg["teardown_singleton_clear_rva"],
+    )
+    teardown_root, teardown, teardown_by_rva = owner_insns(teardown_sites[0])
+    if teardown_root != cfg["teardown_function_rva"]:
+        raise ValueError("player teardown owner fingerprint RVA changed")
+    if any(root_map.get(img.func_containing(rva).begin,
+                        img.func_containing(rva).begin) != teardown_root
+           for rva in teardown_sites):
+        raise ValueError("player teardown lifecycle sites do not share one logical owner")
+    try:
+        handle_load = teardown_by_rva[teardown_sites[0]]
+        release_call = teardown_by_rva[teardown_sites[1]]
+        singleton_clear = teardown_by_rva[teardown_sites[2]]
+    except KeyError as exc:
+        raise ValueError("player teardown lifecycle site stopped decoding") from exc
+    teardown_positions = {x.address - img.base: i for i, x in enumerate(teardown)}
+    teardown_order = [teardown_positions[rva] for rva in teardown_sites]
+    if teardown_order != sorted(teardown_order):
+        raise ValueError("player teardown no longer releases before singleton clear")
+    if handle_load.mnemonic != "mov" or len(handle_load.operands) != 2 or \
+            handle_load.operands[0].type != X86_OP_REG or \
+            reg_root(img.md, handle_load.operands[0].reg) != \
+                reg_root(img.md, X86_REG_EAX) or \
+            handle_load.operands[1].type != X86_OP_MEM or \
+            img.rip_targets(handle_load) != [handle_rva]:
+        raise ValueError("player teardown no longer loads the saved raw handle")
+    if release_call.size != 5 or direct_call_target(img, release_call) != \
+            release_function_rva:
+        raise ValueError("player teardown no longer calls canonical handle release")
+    if singleton_clear.mnemonic != "mov" or len(singleton_clear.operands) != 2 or \
+            singleton_clear.operands[0].type != X86_OP_MEM or \
+            singleton_clear.operands[1].type != X86_OP_REG or \
+            img.rip_targets(singleton_clear) != [singleton_rva]:
+        raise ValueError("player teardown no longer clears the singleton")
+    clear_register = reg_root(img.md, singleton_clear.operands[1].reg)
+    zero_insns = []
+    for rva in cfg["teardown_zero_rvas"]:
+        zero = teardown_by_rva.get(rva)
+        if zero is None or zero.mnemonic != "xor" or len(zero.operands) != 2 or \
+                zero.operands[0].type != X86_OP_REG or \
+                zero.operands[1].type != X86_OP_REG or \
+                reg_root(img.md, zero.operands[0].reg) != clear_register or \
+                reg_root(img.md, zero.operands[1].reg) != clear_register:
+            raise ValueError("player singleton clear source is no longer proven zero")
+        zero_insns.append(zero)
+    first_zero = min(teardown_positions[x.address - img.base] for x in zero_insns)
+    clear_pos = teardown_positions[teardown_sites[2]]
+    for x in teardown[first_zero:clear_pos]:
+        if x in zero_insns or not x.operands or x.operands[0].type != X86_OP_REG:
+            continue
+        if reg_root(img.md, x.operands[0].reg) == clear_register:
+            raise ValueError(
+                f"player singleton zero register is overwritten at {x.address:#x}")
+
+    def record(ins) -> dict:
+        return {
+            "rva": ins.address - img.base,
+            "bytes": bytes(ins.bytes).hex(),
+        }
+
+    return {
+        "creation": {
+            "function_rva": creation_root,
+            "function_bytes": img.read(creation_root, 16).hex(),
+            "constructor_function_rva": constructor_target,
+            "constructor_function_bytes": img.read(constructor_target, 16).hex(),
+            "constructor_call": record(constructor_call),
+            "constructor_pre_hook_rva": creation_root,
+            "constructor_pre_hook_bytes": img.read(
+                creation_root, constructor_pre_hook_len).hex(),
+            "constructor_post_call_rva": constructor_post_call_rva,
+            "constructor_post_call_bytes": img.read(
+                constructor_post_call_rva, constructor_post_call_len).hex(),
+            "singleton_store": record(singleton_store),
+            "candidate_load": record(candidate_load),
+            "allocator_call": record(allocator_call),
+            "handle_store": record(handle_store),
+            "formid_setup": record(formid_setup),
+            "formid_call": record(formid_call),
+        },
+        "teardown": {
+            "function_rva": teardown_root,
+            "function_bytes": img.read(teardown_root, 16).hex(),
+            "handle_load": record(handle_load),
+            "release_call": record(release_call),
+            "zero_sources": [record(x) for x in zero_insns],
+            "singleton_clear": record(singleton_clear),
+        },
+    }
+
+
+def player_reservation_metadata(
+        img,
+        runtime: str,
+        table_rva: int,
+        head_rva: int,
+        tail_rva: int,
+        lock_rva: int,
+        root_map: dict[int, int],
+        logical: dict[int, list[tuple[int, int]]]) -> dict:
+    """Verify and emit the player-slot selector and release quarantine ABI.
+
+    The stock allocator exists as five compiler clones.  Their first free-head
+    load is the earliest point after the manager lock and the existing-handle
+    recheck where a reserved node can safely be selected.  The canonical
+    release routine is intercepted only after it has invalidated the entry and
+    released the pointed object, but before it appends the index to the FIFO.
+
+    Every executable assumption used by the relays is proved here and emitted
+    with byte fingerprints.  A runtime layout change must therefore fail
+    generation/preflight instead of installing a guessed hook.
+    """
+    cfg = PROFILE_METADATA[runtime]["player_reservation"]
+    singleton_rva = cfg["singleton_rva"]
+    handle_rva = cfg["handle_rva"]
+    if handle_rva + 4 != singleton_rva:
+        raise ValueError("player handle and singleton globals are no longer adjacent")
+    if img.section_of(handle_rva) is None or img.section_of(singleton_rva) is None:
+        raise ValueError("player handle/singleton metadata is outside the image")
+
+    object_name = cfg["object_register"]
+    object_reg = {"rbx": X86_REG_RBX, "rdi": X86_REG_RDI}.get(object_name)
+    if object_reg is None:
+        raise ValueError(f"unsupported player selector object register {object_name!r}")
+    object_number = reg_root(img.md, object_reg)
+    eax_number = reg_root(img.md, X86_REG_EAX)
+    rdx_number = reg_root(img.md, X86_REG_RDX)
+
+    selectors: list[dict] = []
+    owners: set[int] = set()
+    for hook_rva in cfg["selector_rvas"]:
+        decoded = img.disasm(hook_rva, 6)
+        if len(decoded) != 1 or decoded[0].size != 6:
+            raise ValueError(
+                f"player selector {img.base + hook_rva:#x} is not one six-byte instruction")
+        hook = decoded[0]
+        ops = hook.operands
+        if hook.mnemonic != "mov" or len(ops) != 2 or \
+                ops[0].type != X86_OP_REG or \
+                reg_root(img.md, ops[0].reg) != eax_number or \
+                ops[1].type != X86_OP_MEM or ops[1].mem.base != X86_REG_RIP or \
+                img.rip_targets(hook) != [head_rva]:
+            raise ValueError(
+                f"player selector {hook.address:#x} is no longer MOV EAX,[free-head]")
+
+        fn = img.func_containing(hook_rva)
+        if fn is None:
+            raise ValueError(f"player selector {hook.address:#x} has no pdata owner")
+        owner = root_map.get(fn.begin, fn.begin)
+        owner_fn = img.func_containing(owner)
+        if owner_fn is None or owner_fn.begin != owner:
+            raise ValueError(f"player selector owner {img.base + owner:#x} is invalid")
+        if hook_rva - owner != 0xB2:
+            raise ValueError(
+                f"player selector {hook.address:#x} moved within owner {img.base + owner:#x}")
+        owners.add(owner)
+
+        insns = []
+        for begin, end in logical.get(owner, [(fn.begin, fn.end)]):
+            insns.extend(x for x in img.disasm(begin, end - begin)
+                         if x.address - img.base < end)
+        insns.sort(key=lambda x: x.address)
+        hook_pos = next((i for i, x in enumerate(insns)
+                         if x.address - img.base == hook_rva), None)
+        if hook_pos is None:
+            raise ValueError(f"player selector {hook.address:#x} stopped decoding in owner")
+
+        object_setup = None
+        for x in insns[:hook_pos]:
+            xops = x.operands
+            if x.mnemonic == "mov" and x.size == 3 and len(xops) == 2 and \
+                    xops[0].type == X86_OP_REG and xops[1].type == X86_OP_REG and \
+                    reg_root(img.md, xops[0].reg) == object_number and \
+                    reg_root(img.md, xops[1].reg) == rdx_number:
+                object_setup = x
+                break
+        if object_setup is None or object_setup.address - img.base != owner + 0x1E:
+            raise ValueError(
+                f"player selector owner {img.base + owner:#x} no longer preserves "
+                f"candidate in {object_name.upper()}")
+
+        lock_calls = [(i, x) for i, x in enumerate(insns)
+                      if direct_call_target(img, x) ==
+                      PROFILE_METADATA[runtime]["lock_write_rva"]]
+        unlock_calls = [(i, x) for i, x in enumerate(insns)
+                        if direct_call_target(img, x) ==
+                        PROFILE_METADATA[runtime]["unlock_write_rva"]]
+        if len(lock_calls) != 1 or len(unlock_calls) != 1 or \
+                not (lock_calls[0][0] < hook_pos < unlock_calls[0][0]):
+            raise ValueError(
+                f"player selector {hook.address:#x} is not inside one manager lock bracket")
+        lock_call, unlock_call = lock_calls[0][1], unlock_calls[0][1]
+        if lock_call.size != 5 or unlock_call.size != 5:
+            raise ValueError("player selector lock bracket is not rel32-call based")
+
+        # The hook becomes CALL relay.  A non-player relay is a leaf; an exact
+        # singleton match tail-jumps to a normal C++ helper, which returns
+        # through the hook CALL's return address and uses the stock owner's
+        # outgoing shadow space.  Prove that space from the exact prologue and
+        # prove every helper-clobbered volatile/flag is dead on every
+        # continuation path before emitting the fingerprint used at runtime.
+        owner_prefix = img.read(owner, 16)
+        reviewed_prologue = bytes.fromhex("41564883ec3048c7442420feffffff")
+        if owner_prefix[:len(reviewed_prologue)] != reviewed_prologue:
+            raise ValueError(
+                f"player selector owner {img.base + owner:#x} no longer has "
+                "the reviewed nonvolatile save and outgoing shadow-space frame")
+        stack_allocation = owner_prefix[5]
+        for prologue_ins in insns[:hook_pos]:
+            if prologue_ins.mnemonic == "call":
+                continue
+            _, prologue_writes = prologue_ins.regs_access()
+            written_names = {
+                img.md.reg_name(reg).lower() for reg in prologue_writes
+            }
+            if prologue_ins.address - img.base > owner + 5 and \
+                    ("rsp" in written_names or
+                     prologue_ins.mnemonic in ("push", "pop", "enter", "leave")):
+                raise ValueError(
+                    f"player selector owner changes RSP again before hook at "
+                    f"{prologue_ins.address:#x}")
+        continuation_rva = hook_rva + hook.size
+        continuation = next((x for x in insns
+                             if x.address - img.base == continuation_rva), None)
+        if continuation is None or \
+                (continuation.mnemonic, continuation.op_str) != ("cmp", "eax, -1"):
+            raise ValueError(
+                f"player selector {hook.address:#x} no longer kills relay flags "
+                "with CMP EAX,-1 at its continuation")
+
+        aliases = {
+            "rcx": {"rcx", "ecx", "cx", "ch", "cl"},
+            "rdx": {"rdx", "edx", "dx", "dh", "dl"},
+            "r8": {"r8", "r8d", "r8w", "r8b"},
+            "r9": {"r9", "r9d", "r9w", "r9b"},
+            "r10": {"r10", "r10d", "r10w", "r10b"},
+            "r11": {"r11", "r11d", "r11w", "r11b"},
+            "flags": {"eflags", "rflags"},
+        }
+        for xmm in range(6):
+            aliases[f"xmm{xmm}"] = {
+                f"xmm{xmm}", f"ymm{xmm}", f"zmm{xmm}"
+            }
+        full_writes = {
+            "rcx": {"rcx", "ecx"}, "rdx": {"rdx", "edx"},
+            "r8": {"r8", "r8d"}, "r9": {"r9", "r9d"},
+            "r10": {"r10", "r10d"}, "r11": {"r11", "r11d"},
+            "flags": {"eflags", "rflags"},
+        }
+        for xmm in range(6):
+            full_writes[f"xmm{xmm}"] = {
+                f"xmm{xmm}", f"ymm{xmm}", f"zmm{xmm}"
+            }
+
+        def roots_for(regs, table):
+            names = {img.md.reg_name(reg).lower() for reg in regs}
+            return {root for root, choices in table.items()
+                    if names & choices}
+
+        by_address = {x.address: x for x in insns}
+        assignment_argument_roots = {"rcx", "rdx"}
+        if runtime in ("AE", "GOG"):
+            assignment_argument_roots.add("r8")
+        initial_dirty = frozenset(aliases)
+        pending = [(img.base + continuation_rva, initial_dirty)]
+        seen = set()
+        while pending:
+            address, frozen_dirty = pending.pop()
+            state = (address, frozen_dirty)
+            if state in seen:
+                continue
+            seen.add(state)
+            dirty = set(frozen_dirty)
+            ins = by_address.get(address)
+            if ins is None:
+                raise ValueError(
+                    f"player selector continuation escapes decoded owner at {address:#x}")
+            reads, writes = ins.regs_access()
+            read_roots = roots_for(reads, aliases)
+            write_roots = roots_for(writes, full_writes)
+            # Capstone reports XOR reg,reg as a read; architecturally it is a
+            # self-contained full definition and does not consume the old value.
+            if ins.mnemonic in ("xor", "pxor", "xorps", "xorpd") and \
+                    len(ins.operands) >= 2 and \
+                    ins.operands[0].type == X86_OP_REG and \
+                    ins.operands[1].type == X86_OP_REG and \
+                    ins.operands[0].reg == ins.operands[1].reg:
+                read_roots -= write_roots
+            if read_roots & dirty:
+                raise ValueError(
+                    f"player selector continuation reads helper-clobbered "
+                    f"{sorted(read_roots & dirty)} at {ins.address:#x}")
+            dirty -= write_roots
+
+            target = direct_call_target(img, ins)
+            if ins.mnemonic == "call":
+                required_clean = {"rcx"} if target == \
+                    PROFILE_METADATA[runtime]["unlock_write_rva"] else \
+                    assignment_argument_roots
+                if dirty & required_clean:
+                    raise ValueError(
+                        f"player selector continuation call at {ins.address:#x} "
+                        f"would consume helper-clobbered "
+                        f"{sorted(dirty & required_clean)}")
+                # Any remaining dirty values are neither arguments nor read
+                # by this path; the call itself may freely clobber them.
+                continue
+            if ins.mnemonic.startswith("ret"):
+                continue
+
+            successors = []
+            if ins.mnemonic == "jmp":
+                if not ins.operands or ins.operands[0].type != X86_OP_IMM:
+                    raise ValueError("indirect jump in player selector continuation")
+                successors.append(ins.operands[0].imm)
+            elif ins.mnemonic.startswith("j"):
+                if not ins.operands or ins.operands[0].type != X86_OP_IMM:
+                    raise ValueError("indirect branch in player selector continuation")
+                successors.extend((ins.operands[0].imm, ins.address + ins.size))
+            else:
+                successors.append(ins.address + ins.size)
+            pending.extend((successor, frozenset(dirty))
+                           for successor in successors)
+
+        continuation_len = owner_fn.end - continuation_rva
+        if not (0 < continuation_len <= 256):
+            raise ValueError("player selector continuation fingerprint is too wide")
+
+        selectors.append({
+            "hook_rva": hook_rva,
+            "hook_bytes": bytes(hook.bytes).hex(),
+            "function_rva": owner,
+            "function_bytes": img.read(owner, 16).hex(),
+            "object_register": object_name,
+            "object_setup_rva": object_setup.address - img.base,
+            "object_setup_bytes": bytes(object_setup.bytes).hex(),
+            "lock_call_rva": lock_call.address - img.base,
+            "lock_call_bytes": bytes(lock_call.bytes).hex(),
+            "unlock_call_rva": unlock_call.address - img.base,
+            "unlock_call_bytes": bytes(unlock_call.bytes).hex(),
+            "stack_allocation": stack_allocation,
+            "pre_hook_rva": owner,
+            "pre_hook_bytes": img.read(owner, hook_rva - owner).hex(),
+            "continuation_rva": continuation_rva,
+            "continuation_bytes": img.read(
+                continuation_rva, continuation_len).hex(),
+        })
+
+    if len(selectors) != 5 or len(owners) != 5:
+        raise ValueError(
+            f"player reservation expected five selector owners, got {len(owners)}")
+
+    release_function_rva = cfg["release_function_rva"]
+    release_hook_rva = cfg["release_hook_rva"]
+    release_resume_rva = cfg["release_resume_rva"]
+    release_exit_rva = cfg["release_reserved_exit_rva"]
+    release_fn = img.func_containing(release_hook_rva)
+    if release_fn is None or release_fn.begin != release_function_rva:
+        raise ValueError("canonical player release hook lost its declared pdata owner")
+    release_insns = img.disasm(
+        release_function_rva, release_fn.end - release_function_rva)
+    release_by_rva = {x.address - img.base: x for x in release_insns}
+    release_hook = release_by_rva.get(release_hook_rva)
+    if release_hook is None or release_hook.size != 6 or \
+            release_hook.mnemonic != "mov" or \
+            len(release_hook.operands) != 2 or \
+            release_hook.operands[0].type != X86_OP_REG or \
+            reg_root(img.md, release_hook.operands[0].reg) != eax_number or \
+            release_hook.operands[1].type != X86_OP_MEM or \
+            release_hook.operands[1].mem.base != X86_REG_RIP or \
+            img.rip_targets(release_hook) != [tail_rva]:
+        raise ValueError("canonical release hook is no longer MOV EAX,[free-tail]")
+    resume = release_by_rva.get(release_resume_rva)
+    if release_resume_rva != release_hook_rva + 6 or resume is None or \
+            resume.mnemonic != "cmp" or resume.op_str != "eax, -1":
+        raise ValueError("canonical release ordinary continuation is no longer CMP EAX,-1")
+    exit_mov = release_by_rva.get(release_exit_rva)
+    exit_pos = next((i for i, x in enumerate(release_insns)
+                     if x.address - img.base == release_exit_rva), None)
+    if exit_pos is None or exit_mov is None or \
+            (exit_mov.mnemonic, exit_mov.op_str) != ("mov", "rcx, rsi") or \
+            exit_pos + 1 >= len(release_insns):
+        raise ValueError("canonical release reserved exit no longer prepares the manager unlock")
+    release_unlock = release_insns[exit_pos + 1]
+    if release_unlock.size != 5 or direct_call_target(img, release_unlock) != \
+            PROFILE_METADATA[runtime]["unlock_write_rva"]:
+        raise ValueError("canonical release reserved exit no longer calls manager unlock")
+
+    # Prove the register ABI consumed by the tiny no-call release relay.
+    release_text = [(x.mnemonic, x.op_str) for x in release_insns]
+    required = [
+        ("mov", "edi, edx"),
+        ("mov", "ebx, edi"),
+        ("shl", "rbx, 4"),
+        ("add", "rbx, rbp"),
+    ]
+    positions = []
+    for item in required:
+        try:
+            positions.append(release_text.index(item))
+        except ValueError as exc:
+            raise ValueError(
+                f"canonical release ABI changed: missing {item}") from exc
+    if positions != sorted(positions) or positions[-1] >= release_insns.index(release_hook):
+        raise ValueError("canonical release index/entry setup no longer precedes the hook")
+    table_loads = [x for x in release_insns[:positions[-1] + 1]
+                   if x.mnemonic == "lea" and x.op_str.startswith("rbp, ") and
+                   img.rip_targets(x) == [table_rva]]
+    lock_loads = [x for x in release_insns[:positions[0]]
+                  if x.mnemonic == "lea" and x.op_str.startswith("rsi, ") and
+                  img.rip_targets(x) == [lock_rva]]
+    if len(table_loads) != 1 or len(lock_loads) != 1:
+        raise ValueError("canonical release no longer establishes RBP=table and RSI=lock")
+
+    # The release hook becomes CALL relay.  For the reserved index the relay
+    # quarantines the original RBX entry, substitutes EDI=oldTail, and points
+    # RBX either at that old-tail entry or at permanent writable scratch.  The
+    # following stock FIFO block must therefore be the reviewed self-link
+    # no-op and the owner must restore RBX/RDI before returning.
+    resume_pos = release_insns.index(resume)
+    tail_code = release_insns[resume_pos:]
+    epilogue = [
+        "rbx, qword ptr [rsp + 0x48]",
+        "rbp, qword ptr [rsp + 0x50]",
+        "rsi, qword ptr [rsp + 0x58]",
+        "rsp, 0x30", "rdi", "",
+    ]
+    if runtime in ("SE", "VR"):
+        wanted_core = [
+            "cmp", "jne", "mov", "jmp", "mov", "shl", "add", "and",
+            "mov", "and", "or", "and", "mov", "and", "or", "mov",
+            "mov", "call", "nop", "mov", "mov", "mov", "add", "pop", "ret",
+        ]
+        good_tail = [x.mnemonic for x in tail_code] == wanted_core and \
+            tail_code[0].op_str == "eax, -1" and \
+            tail_code[2].op_str.split(", ")[-1] == "edi" and \
+            img.rip_targets(tail_code[2]) == [head_rva] and \
+            tail_code[4].op_str.split(", ")[0] == "edx" and \
+            img.rip_targets(tail_code[4]) == [tail_rva] and \
+            tail_code[5].op_str == "rdx, 4" and \
+            tail_code[6].op_str == "rdx, rbp" and \
+            tail_code[7].op_str == "dword ptr [rdx], 0xfff00000" and \
+            tail_code[8].op_str == "eax, edi" and \
+            tail_code[9].op_str == "eax, 0xfffff" and \
+            tail_code[10].op_str == "dword ptr [rdx], eax" and \
+            tail_code[11].op_str == "dword ptr [rbx], 0xfff00000" and \
+            tail_code[12].op_str == "eax, edi" and \
+            tail_code[13].op_str == "eax, 0xfffff" and \
+            tail_code[14].op_str == "dword ptr [rbx], eax" and \
+            tail_code[15].op_str.split(", ")[-1] == "edi" and \
+            img.rip_targets(tail_code[15]) == [tail_rva] and \
+            tail_code[16] is exit_mov and tail_code[17] is release_unlock and \
+            [x.op_str for x in tail_code[19:]] == epilogue and \
+            tail_code[1].operands[0].imm == tail_code[4].address and \
+            tail_code[3].operands[0].imm == tail_code[11].address
+    else:
+        wanted_core = [
+            "cmp", "mov", "jne", "mov", "and", "jmp", "mov", "shl",
+            "add", "and", "and", "or", "and", "or", "mov", "mov",
+            "call", "nop", "mov", "mov", "mov", "add", "pop", "ret",
+        ]
+        good_tail = [x.mnemonic for x in tail_code] == wanted_core and \
+            tail_code[0].op_str == "eax, -1" and \
+            tail_code[1].op_str == "eax, edi" and \
+            tail_code[3].op_str.split(", ")[-1] == "edi" and \
+            img.rip_targets(tail_code[3]) == [head_rva] and \
+            tail_code[4].op_str == "eax, 0xfffff" and \
+            tail_code[6].op_str.split(", ")[0] == "edx" and \
+            img.rip_targets(tail_code[6]) == [tail_rva] and \
+            tail_code[7].op_str == "rdx, 4" and \
+            tail_code[8].op_str == "rdx, rbp" and \
+            tail_code[9].op_str == "eax, 0xfffff" and \
+            tail_code[10].op_str == "dword ptr [rdx], 0xfff00000" and \
+            tail_code[11].op_str == "dword ptr [rdx], eax" and \
+            tail_code[12].op_str == "dword ptr [rbx], 0xfff00000" and \
+            tail_code[13].op_str == "dword ptr [rbx], eax" and \
+            tail_code[14].op_str.split(", ")[-1] == "edi" and \
+            img.rip_targets(tail_code[14]) == [tail_rva] and \
+            tail_code[15] is exit_mov and tail_code[16] is release_unlock and \
+            [x.op_str for x in tail_code[18:]] == epilogue and \
+            tail_code[2].operands[0].imm == tail_code[6].address and \
+            tail_code[5].operands[0].imm == tail_code[12].address
+    if not good_tail:
+        raise ValueError("canonical release CALL-relay no-op assumptions changed")
+    release_continuation_len = release_fn.end - release_resume_rva
+    if not (0 < release_continuation_len <= 128):
+        raise ValueError("canonical release continuation fingerprint is too wide")
+
+    lifecycle = player_lifecycle_metadata(
+        img, runtime, singleton_rva, handle_rva,
+        selectors[0]["function_rva"], release_function_rva,
+        root_map, logical)
+
+    return {
+        "singleton_rva": singleton_rva,
+        "handle_rva": handle_rva,
+        "selectors": selectors,
+        "release": {
+            "function_rva": release_function_rva,
+            "function_bytes": img.read(release_function_rva, 16).hex(),
+            "hook_rva": release_hook_rva,
+            "hook_bytes": bytes(release_hook.bytes).hex(),
+            "pre_hook_rva": release_function_rva,
+            "pre_hook_bytes": img.read(
+                release_function_rva,
+                release_hook_rva - release_function_rva).hex(),
+            "resume_rva": release_resume_rva,
+            "reserved_exit_rva": release_exit_rva,
+            "unlock_call_rva": release_unlock.address - img.base,
+            "unlock_call_bytes": bytes(release_unlock.bytes).hex(),
+            "continuation_rva": release_resume_rva,
+            "continuation_bytes": img.read(
+                release_resume_rva, release_continuation_len).hex(),
+        },
+        "lifecycle": lifecycle,
+    }
+
+
 # --------------------------------------------------------------------------- #
 
 
@@ -918,9 +1598,7 @@ def main() -> None:
                     v = op.mem.disp & 0xFFFFFFFF
                 else:
                     continue
-                if ins.mnemonic in ("bt", "bts", "btr", "btc") and op.type == X86_OP_IMM and v in BITPOS:
-                    new, cat, w = BITPOS[v][0], BITPOS[v][1], 1
-                elif v in IMM32:
+                if v in IMM32:
                     new, cat, w = IMM32[v][0], IMM32[v][1], 4
                 else:
                     if v in UNTOUCHED:
@@ -982,25 +1660,27 @@ def main() -> None:
         print(f"  EXCLUDED {img.base + item['rva']:#x}: {item['asm']} -- {item['why']}")
 
     # Full-instruction records make table relocation byte-exact, rather than
-    # trusting a bare list of disp32 RVAs.  Sidecar rewrites are likewise full
-    # same-length byte substitutions.
+    # trusting a bare list of disp32 RVAs.  The 21-bit layout needs no
+    # object-side byte substitutions.
     table_refs = exact_table_refs(img, disp_sites, table)
-    raw_patches, release_sites, excluded_shifts = sidecar_sites(img, sorted(regions))
+    publishers = allocation_publishers(img, sorted(regions))
     init_patches = init_guard_patches(img, a.runtime)
     assignment_hooks = assignment_hook_metadata(
         img,
-        raw_patches,
+        publishers,
         lock,
         PROFILE_METADATA[a.runtime]["lock_write_rva"],
         PROFILE_METADATA[a.runtime]["unlock_write_rva"],
         root_map,
         lranges)
+    player_reservation = player_reservation_metadata(
+        img, a.runtime, table, head, tail, lock, root_map, lranges)
     cap_write_bytes: set[int] = set()
     for p in patches:
         cap_write_bytes.update(range(
             p["rva"] + p["field_off"],
             p["rva"] + p["field_off"] + p["field_w"]))
-    for p in raw_patches + init_patches:
+    for p in init_patches:
         cap_write_bytes.update(range(p["rva"], p["rva"] + p["len"]))
     for p in table_refs:
         cap_write_bytes.update(range(
@@ -1015,17 +1695,61 @@ def main() -> None:
         raise ValueError(
             f"assignment verification window overlaps cap rewrites at "
             f"{', '.join(hex(img.base + x) for x in overlap[:8])}")
-    raw_counts = defaultdict(int)
-    for p in raw_patches:
-        raw_counts[p["cat"]] += 1
+    reservation_guard_bytes: set[int] = set()
+    for p in player_reservation["selectors"]:
+        reservation_guard_bytes.update(range(p["hook_rva"], p["hook_rva"] + 6))
+        reservation_guard_bytes.update(range(
+            p["function_rva"], p["function_rva"] + 16))
+        reservation_guard_bytes.update(range(
+            p["object_setup_rva"], p["object_setup_rva"] + 3))
+        reservation_guard_bytes.update(range(
+            p["lock_call_rva"], p["lock_call_rva"] + 5))
+        reservation_guard_bytes.update(range(
+            p["unlock_call_rva"], p["unlock_call_rva"] + 5))
+    release_hook = player_reservation["release"]
+    reservation_guard_bytes.update(range(
+        release_hook["hook_rva"], release_hook["hook_rva"] + 6))
+    reservation_guard_bytes.update(range(
+        release_hook["function_rva"], release_hook["function_rva"] + 16))
+    reservation_guard_bytes.update(range(
+        release_hook["unlock_call_rva"], release_hook["unlock_call_rva"] + 5))
+    creation_lifecycle = player_reservation["lifecycle"]["creation"]
+    constructor_call = creation_lifecycle["constructor_call"]
+    reservation_guard_bytes.update(range(
+        constructor_call["rva"],
+        constructor_call["rva"] + len(bytes.fromhex(constructor_call["bytes"]))))
+    reservation_guard_bytes.update(range(
+        creation_lifecycle["constructor_function_rva"],
+        creation_lifecycle["constructor_function_rva"] + 16))
+    constructor_pre_hook = bytes.fromhex(
+        creation_lifecycle["constructor_pre_hook_bytes"])
+    reservation_guard_bytes.update(range(
+        creation_lifecycle["constructor_pre_hook_rva"],
+        creation_lifecycle["constructor_pre_hook_rva"] +
+        len(constructor_pre_hook)))
+    constructor_post_call = bytes.fromhex(
+        creation_lifecycle["constructor_post_call_bytes"])
+    reservation_guard_bytes.update(range(
+        creation_lifecycle["constructor_post_call_rva"],
+        creation_lifecycle["constructor_post_call_rva"] +
+        len(constructor_post_call)))
+    overlap = sorted(cap_write_bytes & reservation_guard_bytes)
+    if overlap:
+        raise ValueError(
+            f"player-reservation verification window overlaps cap rewrites at "
+            f"{', '.join(hex(img.base + x) for x in overlap[:8])}")
     print("\nbyte-exact non-field rewrites:")
-    for cat, n in sorted(raw_counts.items()):
-        print(f"  {cat:<18} {n}")
     print(f"  {'initializer guards':<18} {len(init_patches)}")
-    print(f"  {'release audits':<18} {len(release_sites)} (covered by qword-clear patches)")
-    print(f"  {'excluded shr 11':<18} {len(excluded_shifts)} (non-refcount +0x10 flag tests)")
+    print(f"  {'stock publishers':<18} {len(publishers)} "
+          "(object-side cache retained byte-for-byte)")
     print(f"  {'assignment hooks':<18} {len(assignment_hooks['sites'])} "
           f"(shared helper {img.base + assignment_hooks['helper_rva']:#x})")
+    print(f"  {'player selectors':<18} {len(player_reservation['selectors'])} "
+          f"(singleton RVA {player_reservation['singleton_rva']:#x})")
+    print(f"  {'player release':<18} canonical hook "
+          f"{img.base + player_reservation['release']['hook_rva']:#x}")
+    print(f"  {'player constructor':<18} mandatory call hook "
+          f"{img.base + player_reservation['lifecycle']['creation']['constructor_call']['rva']:#x}")
 
     # ---- 4. completeness cross-checks ------------------------------------ #
     # Coverage is a byte-range question: a literal's bytes sit *inside* an
@@ -1059,7 +1783,7 @@ def main() -> None:
         "lock_write_rva": PROFILE_METADATA[a.runtime]["lock_write_rva"],
         "unlock_write_rva": PROFILE_METADATA[a.runtime]["unlock_write_rva"],
         "stock_entries": 0x100000,
-        "raised_entries": 0x400000,
+        "raised_entries": 0x200000,
         "entry_size": 0x10,
         "regions": sorted(regions),
         # Kept for human diffs and older research scripts.  Runtime code uses
@@ -1068,11 +1792,9 @@ def main() -> None:
         "table_refs": table_refs,
         "patches": sorted(patches, key=lambda p: p["rva"]),
         "excluded_literals": sorted(excluded_literal_sites, key=lambda p: p["rva"]),
-        "raw_patches": raw_patches,
         "init_patches": init_patches,
-        "release_sites": release_sites,
         "assignment_hooks": assignment_hooks,
-        "excluded_shift11": excluded_shifts,
+        "player_reservation": player_reservation,
         "fingerprint_outside": outside,
     }
     with open(a.out, "w") as fh:

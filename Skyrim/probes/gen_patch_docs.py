@@ -5,11 +5,11 @@ constructs the exact static replacement bytes using the same field/whole-byte
 rules as the DLL, disassembles both sides, and emits one Markdown page per
 runtime plus a small index.
 
-Two signed 32-bit displacement families are necessarily runtime-dependent:
+Two signed 32-bit displacement families are necessarily launch-dependent:
 RIP-relative ``disp32`` references to the newly allocated handle table and
-``rel32`` generation-diagnostic relay calls. Their invariant bytes are emitted
-exactly, their four-byte displacements are shown as ``??``, and the document
-gives the exact expression used at runtime.
+``rel32`` mandatory player/assignment-guard relay calls. Their invariant
+bytes are emitted exactly, their four-byte displacements are shown as ``??``,
+and the document gives the exact expression used at runtime.
 """
 
 from __future__ import annotations
@@ -38,33 +38,31 @@ _GENERATED_NOTICE = (
 _SITE_ID_RE = re.compile(r'<a id="([a-z0-9-]+)"></a>')
 
 _CATEGORY_DESCRIPTIONS = (
-    ("index_mask", "Widen the table-entry/raw-handle index mask from 20 to 22 bits."),
-    ("age_mask", "Move the unchanged six-bit generation field from bits 20–25 to 22–27."),
-    ("age_inc_or_count", "Move the generation increment or entry-count constant by two bits."),
-    ("table_bytes", "Increase the table byte extent from 16 MiB to 64 MiB."),
-    ("clear_age", "Clear the relocated generation field while retaining the widened index."),
+    ("index_mask", "Widen the table-entry/raw-handle index mask from 20 to 21 bits."),
+    ("age_mask", "Replace the six-bit generation field in bits 20–25 with five bits in 21–25."),
+    ("age_inc_or_count", "Move the generation increment or entry-count constant by one bit."),
+    ("table_bytes", "Increase the table byte extent from 16 MiB to 32 MiB."),
+    ("clear_age", "Clear the five-bit generation field while retaining the widened index."),
     ("clear_next", "Clear the widened next-index field."),
-    ("clear_inuse", "Clear the relocated in-use bit."),
-    ("inuse_bit", "Move an immediate in-use mask from bit 26 to bit 28."),
-    ("inuse_bitpos", "Move a BT/BTS/BTR bit position from 26 to 28."),
-    ("sidecar_read", "Read the complete 22-bit object index from the adjacent padding dword."),
-    ("sidecar_write", "Publish the full sidecar index while preserving the legacy object word."),
-    ("sidecar_release", "Clear the legacy object word and sidecar together."),
     ("table_relocation", "Retarget one RIP-relative table-address displacement."),
     ("init_guard", "Conditionally prevent stock initialization from overwriting the raised pool."),
-    ("diagnostic_hook", "Optionally redirect a successful assignment CALL through the reuse relay."),
+    ("assignment_guard_hook", "Redirect every assignment CALL through the mandatory pre-publication generation guard."),
+    ("player_selector_hook", "Select the detached vanilla player slot through a mandatory relay."),
+    ("player_release_hook", "Quarantine the released player slot instead of appending it to the FIFO."),
+    ("player_constructor_hook", "Arm the exact PlayerCharacter object before its authenticated constructor call."),
 )
 
 
-def _as_bytes(value: str, *, context: str) -> bytes:
+def _as_bytes(value: str, *, context: str, max_len: int = 15) -> bytes:
     try:
         raw = bytes.fromhex(value)
     except (TypeError, ValueError) as exc:
         raise ValueError(f"{context}: invalid hexadecimal byte string") from exc
     if not raw:
         raise ValueError(f"{context}: empty instruction window")
-    if len(raw) > 15:
-        raise ValueError(f"{context}: x64 instruction window exceeds 15 bytes")
+    if len(raw) > max_len:
+        raise ValueError(
+            f"{context}: instruction window exceeds {max_len} bytes")
     return raw
 
 
@@ -163,13 +161,14 @@ def expected_record_ids(profile: Mapping) -> list[str]:
     """Return every explicit row id the runtime document must contain, in order."""
     groups = (
         ("field", profile["patches"], "rva"),
-        ("byte", profile["raw_patches"], "rva"),
         ("table-ref", profile["table_refs"], "rva"),
         ("init", profile["init_patches"], "rva"),
+        ("player-selector", profile["player_reservation"]["selectors"], "hook_rva"),
+        ("player-release", [profile["player_reservation"]["release"]], "hook_rva"),
+        ("player-constructor", [profile["player_reservation"]["lifecycle"]
+                                ["creation"]["constructor_call"]], "rva"),
         ("assignment-hook", profile["assignment_hooks"]["sites"], "call_rva"),
-        ("release-alias", profile["release_sites"], "rva"),
         ("excluded-literal", profile.get("excluded_literals", []), "rva"),
-        ("excluded-shift", profile.get("excluded_shift11", []), "rva"),
     )
     out = [
         f"{prefix}-{int(record[key]):08x}"
@@ -180,8 +179,69 @@ def expected_record_ids(profile: Mapping) -> list[str]:
         f"fingerprint-outside-{int(rva):08x}"
         for rva in sorted(profile.get("fingerprint_outside", []))
     )
+    for phase, role, record in _lifecycle_records(profile):
+        out.append(
+            f"player-lifecycle-{phase}-{role.replace('_', '-')}-"
+            f"{int(record['rva']):08x}")
+    for owner, role, key, record in _relay_abi_records(profile):
+        out.append(f"player-abi-{owner}-{role}-{int(record[key]):08x}")
     if len(out) != len(set(out)):
         raise ValueError("runtime profile produces duplicate documentation record ids")
+    return out
+
+
+def _lifecycle_records(profile: Mapping) -> list[tuple[str, str, dict]]:
+    lifecycle = profile["player_reservation"]["lifecycle"]
+    out: list[tuple[str, str, dict]] = []
+    for phase in ("creation", "teardown"):
+        section = lifecycle[phase]
+        out.append((phase, "owner", {
+            "rva": int(section["function_rva"]),
+            "bytes": section["function_bytes"],
+        }))
+        if phase == "creation":
+            out.append((phase, "constructor_owner", {
+                "rva": int(section["constructor_function_rva"]),
+                "bytes": section["constructor_function_bytes"],
+            }))
+        for role, value in section.items():
+            if role in ("function_rva", "function_bytes",
+                        "constructor_function_rva",
+                        "constructor_function_bytes",
+                        "constructor_pre_hook_rva",
+                        "constructor_pre_hook_bytes",
+                        "constructor_post_call_rva",
+                        "constructor_post_call_bytes"):
+                continue
+            if role == "zero_sources":
+                out.extend((phase, "zero_source", dict(record))
+                           for record in value)
+            else:
+                out.append((phase, role, dict(value)))
+    return out
+
+
+def _relay_abi_records(profile: Mapping) -> list[tuple[str, str, str, dict]]:
+    reservation = profile["player_reservation"]
+    out: list[tuple[str, str, str, dict]] = []
+    for selector in sorted(reservation["selectors"],
+                           key=lambda item: int(item["hook_rva"])):
+        out.append(("selector", "pre", "hook_rva", selector))
+        out.append(("selector", "continuation", "hook_rva", selector))
+    release = reservation["release"]
+    out.append(("release", "pre", "hook_rva", release))
+    out.append(("release", "continuation", "hook_rva", release))
+    creation = reservation["lifecycle"]["creation"]
+    out.append(("constructor", "pre", "hook_rva", {
+        "hook_rva": creation["constructor_call"]["rva"],
+        "pre_hook_rva": creation["constructor_pre_hook_rva"],
+        "pre_hook_bytes": creation["constructor_pre_hook_bytes"],
+    }))
+    out.append(("constructor", "post", "hook_rva", {
+        "hook_rva": creation["constructor_call"]["rva"],
+        "continuation_rva": creation["constructor_post_call_rva"],
+        "continuation_bytes": creation["constructor_post_call_bytes"],
+    }))
     return out
 
 
@@ -211,43 +271,6 @@ def _field_rows(profile: Mapping) -> list[str]:
                     _instruction_cell(_hex_bytes(stock), stock_lines),
                     _instruction_cell(_hex_bytes(replacement), replacement_lines),
                     f"field +{int(record['field_off'])}, {int(record['field_w'])} byte(s)",
-                )
-            )
-            + " |"
-        )
-    return rows
-
-
-def _byte_rows(profile: Mapping) -> list[str]:
-    rows: list[str] = []
-    for record in sorted(profile["raw_patches"], key=lambda item: int(item["rva"])):
-        rva = int(record["rva"])
-        context = f"byte patch at RVA 0x{rva:08X}"
-        stock = _as_bytes(record["orig"], context=context)
-        replacement = _as_bytes(record["new"], context=f"{context} replacement")
-        if len(stock) != int(record["len"]) or len(replacement) != len(stock):
-            raise ValueError(f"{context}: stock/replacement lengths differ")
-        stock_lines = _instruction_lines(profile, rva, stock, context=context)
-        replacement_lines = _instruction_lines(
-            profile, rva, replacement, context=f"{context} replacement")
-        _validate_stored_asm(record, stock_lines, context=context)
-        notes: list[str] = []
-        if "mode" in record:
-            notes.append(str(record["mode"]))
-        if "sidecar_disp" in record:
-            notes.append(f"sidecar +0x{int(record['sidecar_disp']):X}")
-        if "clear_rva" in record:
-            notes.append(f"clear RVA 0x{int(record['clear_rva']):08X}")
-        rows.append(
-            "| "
-            + " | ".join(
-                (
-                    _site_cell(f"byte-{rva:08x}", rva),
-                    str(len(stock)),
-                    _code(record["cat"]),
-                    _instruction_cell(_hex_bytes(stock), stock_lines),
-                    _instruction_cell(_hex_bytes(replacement), replacement_lines),
-                    _escape("; ".join(notes) if notes else "—"),
                 )
             )
             + " |"
@@ -336,7 +359,7 @@ def _assignment_rows(profile: Mapping) -> list[str]:
             raise ValueError(f"{context}: stock CALL does not resolve to the shared helper")
         stock_lines = _instruction_lines(profile, rva, stock, context=context)
         notes = (
-            f"optional diagnostic; owner 0x{int(record['function_rva']):08X}; "
+            f"mandatory pre-publication guard; owner 0x{int(record['function_rva']):08X}; "
             f"writer 0x{int(record['writer_rva']):08X}; lock bracket "
             f"0x{int(record['lock_call_rva']):08X}–0x{int(record['unlock_call_rva']):08X}"
         )
@@ -346,15 +369,177 @@ def _assignment_rows(profile: Mapping) -> list[str]:
                 (
                     _site_cell(f"assignment-hook-{rva:08x}", rva),
                     "5",
-                    _code("diagnostic_hook"),
+                    _code("assignment_guard_hook"),
                     _instruction_cell(_hex_bytes(stock), stock_lines),
-                    _instruction_cell("E8 ?? ?? ?? ??", ["call generation_wrap_relay"]),
+                    _instruction_cell("E8 ?? ?? ?? ??", ["call generation_guard_relay"]),
                     _escape(notes) + "<br>" + _code("rel32(relay) = relayVA - (moduleBase + RVA + 5)"),
                 )
             )
             + " |"
         )
     return rows
+
+
+def _reservation_rows(profile: Mapping) -> list[str]:
+    rows: list[str] = []
+    reservation = profile["player_reservation"]
+    head_rva = int(profile["head_rva"])
+    tail_rva = int(profile["tail_rva"])
+    for record in sorted(reservation["selectors"],
+                         key=lambda item: int(item["hook_rva"])):
+        rva = int(record["hook_rva"])
+        stock = _as_bytes(record["hook_bytes"],
+                          context=f"player selector at RVA 0x{rva:08X}")
+        if len(stock) != 6 or stock[:2] != b"\x8b\x05" or \
+                rva + 6 + int.from_bytes(stock[2:], "little", signed=True) != head_rva:
+            raise ValueError("player selector stock bytes do not load the free head")
+        stock_lines = _instruction_lines(
+            profile, rva, stock, context=f"player selector at RVA 0x{rva:08X}")
+        notes = (
+            f"mandatory; candidate {record['object_register'].upper()}; owner "
+            f"0x{int(record['function_rva']):08X}; manager lock "
+            f"0x{int(record['lock_call_rva']):08X}–"
+            f"0x{int(record['unlock_call_rva']):08X}; leaf ordinary path / "
+            f"player tail-jump uses verified 0x{int(record['stack_allocation']):X} "
+            "owner frame"
+        )
+        rows.append(
+            "| " + " | ".join((
+                _site_cell(f"player-selector-{rva:08x}", rva),
+                "6", _code("player_selector_hook"),
+                _instruction_cell(_hex_bytes(stock), stock_lines),
+                _instruction_cell("E8 ?? ?? ?? ?? 90",
+                                  ["call player_selector_relay", "nop"]),
+                _escape(notes) + "<br>" +
+                _code("rel32(relay) = relayVA - (moduleBase + RVA + 5)"),
+            )) + " |"
+        )
+
+    release = reservation["release"]
+    rva = int(release["hook_rva"])
+    stock = _as_bytes(release["hook_bytes"],
+                      context=f"player release at RVA 0x{rva:08X}")
+    if len(stock) != 6 or stock[:2] != b"\x8b\x05" or \
+            rva + 6 + int.from_bytes(stock[2:], "little", signed=True) != tail_rva:
+        raise ValueError("player release stock bytes do not load the free tail")
+    stock_lines = _instruction_lines(
+        profile, rva, stock, context=f"player release at RVA 0x{rva:08X}")
+    notes = (
+        f"mandatory canonical release CALL; continuation "
+        f"0x{int(release['resume_rva']):08X}; reserved path quarantines the "
+        "original entry and redirects RBX/EDI so the verified stock FIFO block "
+        "is an endpoint-preserving self-link no-op"
+    )
+    rows.append(
+        "| " + " | ".join((
+            _site_cell(f"player-release-{rva:08x}", rva),
+            "6", _code("player_release_hook"),
+            _instruction_cell(_hex_bytes(stock), stock_lines),
+            _instruction_cell("E8 ?? ?? ?? ?? 90",
+                              ["call player_release_relay", "nop"]),
+            _escape(notes) + "<br>" +
+            _code("rel32(relay) = relayVA - (moduleBase + RVA + 5)"),
+        )) + " |"
+    )
+
+    creation = reservation["lifecycle"]["creation"]
+    constructor = creation["constructor_call"]
+    rva = int(constructor["rva"])
+    stock = _as_bytes(
+        constructor["bytes"],
+        context=f"player constructor call at RVA 0x{rva:08X}")
+    target_rva = int(creation["constructor_function_rva"])
+    if len(stock) != 5 or stock[0] != 0xE8 or \
+            rva + 5 + int.from_bytes(stock[1:], "little", signed=True) != target_rva:
+        raise ValueError("player constructor stock call does not target the exact constructor")
+    stock_lines = _instruction_lines(
+        profile, rva, stock,
+        context=f"player constructor call at RVA 0x{rva:08X}")
+    notes = (
+        f"mandatory authenticated constructor wrapper; exact target/entry "
+        f"0x{target_rva:08X}; the near relay is a register-neutral absolute "
+        "tail-jump to the compiled wrapper, which returns through the stock CALL"
+    )
+    rows.append(
+        "| " + " | ".join((
+            _site_cell(f"player-constructor-{rva:08x}", rva),
+            "5", _code("player_constructor_hook"),
+            _instruction_cell(_hex_bytes(stock), stock_lines),
+            _instruction_cell("E8 ?? ?? ?? ??",
+                              ["call player_constructor_relay"]),
+            _escape(notes) + "<br>" +
+            _code("rel32(relay) = relayVA - (moduleBase + RVA + 5)"),
+        )) + " |"
+    )
+    return rows
+
+
+def _lifecycle_details(profile: Mapping) -> str:
+    rows = []
+    for phase, role, record in _lifecycle_records(profile):
+        rva = int(record["rva"])
+        if role in ("owner", "constructor_owner"):
+            raw = bytes.fromhex(record["bytes"])
+            if len(raw) != 16:
+                raise ValueError("player lifecycle owner fingerprint is not 16 bytes")
+            lines = ["16-byte owner-entry fingerprint"]
+        else:
+            raw = _as_bytes(record["bytes"],
+                            context=f"player lifecycle {phase}/{role}")
+            lines = _instruction_lines(
+                profile, rva, raw, context=f"player lifecycle {phase}/{role}")
+        site_id = (f"player-lifecycle-{phase}-{role.replace('_', '-')}-"
+                   f"{rva:08x}")
+        rows.append(
+            "| " + " | ".join((
+                _site_cell(site_id, rva),
+                _code(phase),
+                _code(role),
+                _code(_hex_bytes(raw)),
+                _escape("; ".join(lines)),
+            )) + " |"
+        )
+    return _simple_details(
+        f"Player lifecycle proof ({len(rows)})",
+        "| RVA | Phase | Role | Exact bytes | Disassembly |",
+        "|---:|---|---|---|---|",
+        rows,
+    )
+
+
+def _relay_abi_details(profile: Mapping) -> str:
+    rows = []
+    for owner, role, _, record in _relay_abi_records(profile):
+        prefix = "pre_hook" if role == "pre" else "continuation"
+        hook_rva = int(record["hook_rva"])
+        rva = int(record[f"{prefix}_rva"])
+        limit = (64 if owner == "constructor" and role == "post" else
+                 256 if owner == "selector" or role == "pre" else 128)
+        raw = _as_bytes(record[f"{prefix}_bytes"],
+                        context=f"player {owner} {role} ABI window",
+                        max_len=limit)
+        if not (0 < len(raw) <= limit):
+            raise ValueError(f"player {owner} {role} ABI window has invalid width")
+        lines = _instruction_lines(
+            profile, rva, raw, context=f"player {owner} {role} ABI window")
+        site_id = f"player-abi-{owner}-{role}-{hook_rva:08x}"
+        note = ("exact stock fingerprint before and after the hook; no cap mutation "
+                "may overlap this span" if owner == "constructor" else
+                "stock fingerprint; runtime derives and verifies the raised "
+                "expectation from the same field/byte/table-reference records")
+        rows.append(
+            "| " + " | ".join((
+                _site_cell(site_id, rva), _code(owner), _code(role),
+                str(len(raw)), _code(_hex_bytes(raw)),
+                _escape("; ".join(lines)), _escape(note),
+            )) + " |"
+        )
+    return _simple_details(
+        f"Player relay ABI windows ({len(rows)})",
+        "| RVA | Owner | Window | Len | Exact stock bytes | Disassembly | Runtime check |",
+        "|---:|---|---|---:|---|---|---|",
+        rows,
+    )
 
 
 def _appendix(profile: Mapping) -> str:
@@ -364,31 +549,6 @@ def _appendix(profile: Mapping) -> str:
         "These rows are independent coverage evidence or explicit exclusions. They are not additional writes.",
         "",
     ]
-
-    release_rows = []
-    for record in sorted(profile["release_sites"], key=lambda item: int(item["rva"])):
-        rva = int(record["rva"])
-        raw_patch_rva = int(record["raw_patch_rva"])
-        release_rows.append(
-            "| "
-            + " | ".join(
-                (
-                    _site_cell(f"release-alias-{rva:08x}", rva),
-                    _code(record["orig"]),
-                    _code(record["asm"]),
-                    f"covered by {_code(f'byte-{raw_patch_rva:08x}')}; {_escape(record['policy'])}",
-                )
-            )
-            + " |"
-        )
-    parts.append(
-        _simple_details(
-            f"Release-site census ({len(release_rows)})",
-            "| Clear RVA | Stock bytes | Stock disassembly | Coverage |",
-            "|---:|---|---|---|",
-            release_rows,
-        )
-    )
 
     excluded_rows = []
     for record in sorted(profile.get("excluded_literals", []), key=lambda item: int(item["rva"])):
@@ -400,25 +560,6 @@ def _appendix(profile: Mapping) -> str:
                     _site_cell(f"excluded-literal-{rva:08x}", rva),
                     _code(record["cat"]),
                     _code(record["asm"]),
-                    _escape(record["why"]),
-                )
-            )
-            + " |"
-        )
-    for record in sorted(profile.get("excluded_shift11", []), key=lambda item: int(item["rva"])):
-        rva = int(record["rva"])
-        source = (
-            f"source RVA 0x{int(record['source_rva']):08X}, +0x{int(record['source_disp']):X}"
-            if "source_rva" in record and "source_disp" in record
-            else "no classified source"
-        )
-        excluded_rows.append(
-            "| "
-            + " | ".join(
-                (
-                    _site_cell(f"excluded-shift-{rva:08x}", rva),
-                    _code("excluded_shift11"),
-                    _escape(source),
                     _escape(record["why"]),
                 )
             )
@@ -447,6 +588,10 @@ def _appendix(profile: Mapping) -> str:
                 "|---:|---|---|---|",
                 excluded_rows,
             ),
+            "",
+            _lifecycle_details(profile),
+            "",
+            _relay_abi_details(profile),
         )
     )
     return "\n".join(parts)
@@ -456,11 +601,13 @@ def _render_runtime(tag: str, label: str, version: str, filename: str, profile: 
     if profile.get("runtime") != tag:
         raise ValueError(f"{tag}: profile runtime tag is {profile.get('runtime')!r}")
     fields = _field_rows(profile)
-    byte_patches = _byte_rows(profile)
     table_refs = _table_reference_rows(profile)
     init_patches = _initializer_rows(profile)
+    reservation_hooks = _reservation_rows(profile)
     assignment_hooks = _assignment_rows(profile)
-    core_count = len(fields) + len(byte_patches) + len(table_refs) + len(init_patches)
+    core_count = (len(fields) + len(table_refs) +
+                  len(init_patches) + len(reservation_hooks))
+    total_count = core_count + len(assignment_hooks)
     hooks = profile["assignment_hooks"]
     image_base = _code(f"0x{int(profile['image_base']):X}")
     table_rva = _code(f"0x{int(profile['table_rva']):08X}")
@@ -487,13 +634,15 @@ def _render_runtime(tag: str, label: str, version: str, filename: str, profile: 
         f"| Image base | {image_base} |",
         f"| Stock table RVA | {table_rva} |",
         f"| Head / tail / lock RVAs | {head_rva} / {tail_rva} / {lock_rva} |",
-        f"| Core mutation records | {core_count:,} |",
-        f"| Optional diagnostic redirects | {len(assignment_hooks)} |",
+        f"| Core cap/player mutation records | {core_count:,} |",
+        f"| Mandatory player reservation redirects | {len(reservation_hooks)} |",
+        f"| Mandatory assignment-guard redirects | {len(assignment_hooks)} |",
+        f"| Total mandatory mutation records | {total_count:,} |",
         "",
         "## How to read dynamic replacements",
         "",
-        "Static field, sidecar, and initializer replacements show every byte exactly. "
-        "The table address and diagnostic relay address are selected at runtime, so the "
+        "Static field and initializer replacements show every byte exactly. "
+        "The table and player/assignment-guard relay addresses are selected at runtime, so the "
         "four-byte RIP-relative `disp32` table fields and `rel32` CALL fields cannot be "
         "fixed in a launch-independent file. Those bytes are shown as `??`; the invariant "
         "opcode bytes, symbolic disassembly, and exact displacement expression are shown "
@@ -503,18 +652,41 @@ def _render_runtime(tag: str, label: str, version: str, filename: str, profile: 
         "",
         _details(f"Field rewrites ({len(fields)})", fields),
         "",
-        _details(f"Whole-window sidecar rewrites ({len(byte_patches)})", byte_patches),
-        "",
         _details(f"RIP-relative table disp32 rewrites ({len(table_refs)})", table_refs),
         "",
         _details(f"Conditional initializer guards ({len(init_patches)})", init_patches),
         "",
-        "## Optional generation-wrap diagnostic",
+        "## Mandatory vanilla player-handle reservation",
+        "",
+        "The constructor redirect arms the exact allocation before the authenticated "
+        "PlayerCharacter constructor runs. The five allocator selectors then compare "
+        "the candidate base object with the "
+        "published PlayerCharacter singleton. FormID 0x14 is deliberately not the "
+        "predicate: lifecycle evidence below proves registration occurs after handle "
+        "allocation. Each relay keeps ordinary allocation on a stack-neutral no-call "
+        "leaf path; only exact singleton equality tail-jumps to the normal C++ helper "
+        "using the verified owner shadow space, so the helper's own unwind metadata "
+        "applies. The release relay is also a CALL/RET leaf: it quarantines the player "
+        "entry and redirects the stock FIFO writes to the old tail (or permanent scratch "
+        "when empty), making the verified continuation an endpoint-preserving no-op.",
+        "",
+        _details(f"Player reservation redirects ({len(reservation_hooks)})",
+                 reservation_hooks),
+        "",
+        "## Mandatory pre-publication generation guard",
         "",
         f"The shared stock assignment helper is fingerprinted at RVA {helper_rva} "
         f"with bytes {_code(_hex_bytes(bytes.fromhex(hooks['helper_bytes'])))}. "
-        "The helper is not overwritten; each call below is redirected to an allocated relay "
-        "only when generation-wrap detection is enabled and all fingerprints verify.",
+        "The helper is not overwritten. Every call below must redirect to an allocated relay "
+        "before the 2M transaction may remain committed. The relay authenticates the exact "
+        "slot state before calling the stock pointer publisher; an attempted 32nd reuse "
+        "fail-stops before table-pointer publication, so successful publications stop at "
+        "reuse 31 and `publishedWraps=0`. Here a published wrap means a repeated-generation/"
+        "ABA publication, not the numeric age field rolling over: assignment 32 / reuse 31 "
+        "legitimately advances age 31 to age 0, which was never issued from the pristine "
+        "pool. Assignment 33 / reuse 32 would repeat age 1 and is prevented. Setting "
+        "GenerationWrapDetection=0 therefore refuses the cap raise rather than omitting "
+        "these redirects.",
         "",
         _details(f"Assignment-call redirects ({len(assignment_hooks)})", assignment_hooks),
         "",
@@ -538,24 +710,29 @@ def _render_runtime(tag: str, label: str, version: str, filename: str, profile: 
 def _render_index(profiles: Mapping[str, Mapping]) -> str:
     rows = []
     core_total = 0
-    hook_total = 0
-    used_categories = {"table_relocation", "diagnostic_hook"}
+    guard_total = 0
+    mutation_total = 0
+    used_categories = {
+        "table_relocation", "assignment_guard_hook",
+        "player_selector_hook", "player_release_hook", "player_constructor_hook",
+    }
     for tag, label, version, filename in RUNTIME_SPECS:
         profile = profiles[tag]
         used_categories.update(record["cat"] for record in profile["patches"])
-        used_categories.update(record["cat"] for record in profile["raw_patches"])
         used_categories.update(record["cat"] for record in profile["init_patches"])
         fields = len(profile["patches"])
-        byte_patches = len(profile["raw_patches"])
         table_refs = len(profile["table_refs"])
         init_patches = len(profile["init_patches"])
-        core = fields + byte_patches + table_refs + init_patches
-        hooks = len(profile["assignment_hooks"]["sites"])
+        reservations = len(profile["player_reservation"]["selectors"]) + 2
+        core = fields + table_refs + init_patches + reservations
+        guards = len(profile["assignment_hooks"]["sites"])
         core_total += core
-        hook_total += hooks
+        guard_total += guards
+        mutation_total += core + guards
         rows.append(
-            f"| [{label} {version}]({filename}) | {fields} | {byte_patches} | "
-            f"{table_refs} | {init_patches} | **{core}** | {hooks} |"
+            f"| [{label} {version}]({filename}) | {fields} | {table_refs} | "
+            f"{init_patches} | {reservations} | **{core}** | {guards} | "
+            f"**{core + guards}** |"
         )
     documented_categories = {category for category, _ in _CATEGORY_DESCRIPTIONS}
     if used_categories != documented_categories:
@@ -569,26 +746,28 @@ def _render_index(profiles: Mapping[str, Mapping]) -> str:
             "",
             "This directory is the human-readable rendering of the four maintained "
             "`artifacts/patch_*.json` profiles. It contains every cap-raise executable "
-            "mutation record and every optional generation-wrap call redirect, with stock "
+            "mutation record, every mandatory player reservation redirect, and every "
+            "mandatory pre-publication assignment-guard redirect, with stock "
             "and replacement bytes and disassembly shown side by side.",
             "",
-            "| Runtime | Field rewrites | Sidecar windows | Table refs | Init guards | Core sites | Optional redirects |",
-            "|---|---:|---:|---:|---:|---:|---:|",
+            "| Runtime | Field rewrites | Table refs | Init guards | Player hooks | Core sites | Guard redirects | Total mutations |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|",
             *rows,
-            f"| **Total** | | | | | **{core_total:,}** | **{hook_total}** |",
+            f"| **Total** | | | | | **{core_total:,}** | **{guard_total}** | **{mutation_total:,}** |",
             "",
             "## Reading the audit",
             "",
-            "Each runtime is split into the four core mutation mechanisms and the separate, "
-            "fail-soft diagnostic hook. RVA, byte length, internal classification, complete "
+            "Each runtime is split into the three cap mechanisms, mandatory player-slot "
+            "reservation hooks, and the mandatory fail-closed assignment guard. RVA, byte "
+            "length, internal classification, complete "
             "stock bytes/disassembly, and replacement bytes/disassembly are recorded for "
-            "every site. Release aliases and explicit false-positive exclusions appear in "
+            "every site. Explicit false-positive exclusions appear in "
             "a non-patch appendix.",
             "",
             "A static document cannot contain launch-specific displacement bytes. Table "
-            "references target a dynamically allocated 64 MiB table, and diagnostic calls "
-            "target an allocated relay page. The table's RIP-relative `disp32` fields and "
-            "the calls' `rel32` fields are shown as `?? ?? ?? ??`, together with the exact "
+            "references target a dynamically allocated 32 MiB table, while player and "
+            "assignment-guard redirects target allocated relay pages. RIP-relative `disp32` fields "
+            "and `rel32` redirect fields are shown as `?? ?? ?? ??`, together with the exact "
             "formula used to produce them. Every other replacement byte is exact.",
             "",
             "## Classification legend",
@@ -643,6 +822,11 @@ def main() -> None:
         "GOG": json.loads(pathlib.Path(args.gog).read_text(encoding="utf-8")),
         "VR": json.loads(pathlib.Path(args.vr).read_text(encoding="utf-8")),
     }
+    missing = [tag for tag, profile in profiles.items()
+               if "player_reservation" not in profile]
+    if missing:
+        raise ValueError("profiles lack player reservation metadata: " +
+                         ", ".join(missing))
     documents = render_all(profiles)
     output_dir = pathlib.Path(args.out_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

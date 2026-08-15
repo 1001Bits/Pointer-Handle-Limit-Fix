@@ -30,35 +30,54 @@ namespace shcr
 
         PluginState g_state;
 
-        void OnTablePrepared(
+        bool OnTablePrepared(
             void* a_context,
             const RuntimeContext& a_runtime,
             HandleTableView a_table) noexcept
         {
             auto& state = *static_cast<PluginState*>(a_context);
+            if (!state.settings.generationWrapDetection) {
+                Log("ABORT: GenerationWrapDetection=0 is incompatible with "
+                    "the 2M/21+5 layout; cap raise refused.");
+                return false;
+            }
             state.diagnosticPrepared = diagnostic::Prepare(
-                a_runtime, a_table, state.settings.generationWrapDetection,
-                &state.attribution);
+                a_runtime, a_table, true, &state.attribution);
+            if (!state.diagnosticPrepared) {
+                Log("ABORT: GenerationWrapDetection=1 requires the exact "
+                    "pre-publication guard; cap raise refused.");
+            }
+            return state.diagnosticPrepared;
         }
 
-        void OnCommittedWhileManagerLocked(
+        bool OnCommittedWhileManagerLocked(
             void* a_context,
             const RuntimeContext& a_runtime,
             HandleTableView a_table) noexcept
         {
             auto& state = *static_cast<PluginState*>(a_context);
 
-            // The reporter is armed before any assignment call is redirected.
-            // Its first tick is one minute away, so it cannot contend with the
-            // manager lock still held by the patch transaction.
+            // Install the requested guard before starting the detached
+            // reporter thread.  On install refusal no thread can retain the
+            // transaction-owned table while PatchTransaction rolls it back.
+            if (state.settings.generationWrapDetection) {
+                if (!state.diagnosticPrepared)
+                    return false;
+                state.diagnosticInstalled = diagnostic::Install();
+                if (!state.diagnosticInstalled) {
+                    Log("ABORT: mandatory pre-publication generation-wrap "
+                        "guard installation failed; cap raise will roll back.");
+                    return false;
+                }
+            }
+
             const bool reporterStarted = monitor::Start(
                 a_runtime, a_table, state.settings.stress.enabled);
-            if (state.diagnosticPrepared && reporterStarted) {
-                state.diagnosticInstalled = diagnostic::Install();
-            } else if (state.diagnosticPrepared) {
-                Log("ERROR: generation-wrap detector disabled because its "
-                    "reporting thread could not start; cap raise remains active.");
+            if (!reporterStarted && state.diagnosticInstalled) {
+                Log("WARNING: the mandatory generation-wrap guard is active, "
+                    "but periodic hottest-slot reporting could not start.");
             }
+            return true;
         }
 
         void OnPatchAborted(void* a_context) noexcept
@@ -77,12 +96,18 @@ namespace shcr
         OpenLog(g_state.runtime.runtimeVersion);
         g_state.settings = LoadSettings();
 
-        Log("SkyrimHandleCapRaise 2.0.0 (4M build)");
+        Log("SkyrimHandleCapRaise 2.2.0 (2M compatibility build)");
         Log("configuration: GenerationWrapDetection=%u VerboseLogging=%u "
-            "SampleSize=%u",
+            "LifecycleVerification=%u SampleSize=%u",
             g_state.settings.generationWrapDetection ? 1u : 0u,
             g_state.settings.stress.liveDiagnosticsEnabled ? 1u : 0u,
+            g_state.settings.stress.lifecycleVerificationEnabled ? 1u : 0u,
             g_state.settings.stress.diagnosticsDetailedSampleLimit);
+        if (g_state.settings.stress.lifecycleVerificationEnabled &&
+            !g_state.settings.stress.liveDiagnosticsEnabled) {
+            Log("WARNING: LifecycleVerification=1 requires VerboseLogging=1; "
+                "lifecycle checkpoints are disabled for this run.");
+        }
 
         const patch::Lifecycle lifecycle{
             &g_state,
@@ -142,7 +167,7 @@ struct SKSEPluginVersionData
 
 extern "C" __declspec(dllexport) SKSEPluginVersionData SKSEPlugin_Version = {
     SKSEPluginVersionData::kVersion,
-    0x020000,
+    0x020200,
     "SkyrimHandleCapRaise",
     "Skyrim Handle Audit",
     "",
@@ -169,7 +194,7 @@ extern "C" __declspec(dllexport) bool SKSEPlugin_Query(
     if (a_info) {
         a_info->infoVersion = 1;
         a_info->name = "SkyrimHandleCapRaise";
-        a_info->version = 0x020000;
+        a_info->version = 0x020200;
     }
     return true;
 }

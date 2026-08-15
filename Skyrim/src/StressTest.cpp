@@ -1,5 +1,11 @@
 #include "StressTest.h"
 
+#include "EngineFixesInterop.h"
+#include "GenerationDiagnostic.h"
+#include "PatchTransaction.h"
+#include "ReservedPlayerSlot.h"
+#include "RuntimeTypes.h"
+
 #include <windows.h>
 
 #include <algorithm>
@@ -75,17 +81,56 @@ namespace shcr::stress
         constexpr std::uint32_t kDataLoaded = 8;
         constexpr std::uint32_t kReferenceCountMask = 0x3FF;
         constexpr std::uint32_t kHandleValidBit = 0x400;
-        constexpr std::uint32_t kLegacyObjectIndexMask = 0x1FFFFF;
-        constexpr std::uint32_t kStockCrossingIndex = 0x100000;
-        constexpr std::uint32_t kFull22Index = 0x200000;
-        constexpr std::uint32_t kMinimumReuseFreeCushion = 0x80000;
-        constexpr std::uint32_t kMaxFull22AttributionAttempts = 64;
+        constexpr std::uint32_t kObjectIndexMask = 0x1FFFFF;
+        constexpr std::uint32_t kStockCrossingIndex = player_slot::kIndex;
+        constexpr std::uint32_t kFirstOrdinaryRaisedIndex =
+            player_slot::kIndex + 1u;
+        // The 2M compatibility layout's prerelease target is 1,800,000. Keep
+        // at least 256K ordinary slots available for the FIFO rotation and
+        // incidental live allocations; the frozen gate additionally proves
+        // the larger observed gross margin at the exact target.
+        constexpr std::uint32_t kMinimumReuseFreeCushion = 0x40000;
+        constexpr std::uint32_t kMaxRaisedAttributionAttempts = 64;
         constexpr std::uint32_t kMaxDiagnosticDetailedSamples = 4096;
         constexpr std::uint32_t kDiagnosticReferencesPerTask = 4096;
         constexpr std::uint32_t kDiagnosticTaskMicroseconds = 4000;
         constexpr std::uint32_t kDiagnosticDelayMilliseconds = 16;
         constexpr std::uint64_t kDiagnosticReportIntervalMilliseconds = 60u * 1000u;
         constexpr std::size_t   kMaxDetailBytesPerTask = 64 * 1024;
+
+        static_assert(kObjectIndexMask == generation::kIndexMask);
+        static_assert(kFirstOrdinaryRaisedIndex < generation::kEntryCount);
+
+        constexpr generation::Transition kFirstOrdinaryAssignment =
+            generation::ObserveAssignment(0, 1);
+        constexpr generation::Transition kOrdinaryGenerationZeroAssignment =
+            generation::ObserveAssignment(
+                generation::kGenerationCount - 1u, 0);
+        constexpr generation::Transition kFirstOrdinaryWrap =
+            generation::ObserveAssignment(
+                generation::kGenerationCount, 1);
+        constexpr generation::Transition kSaturatedAssignment =
+            generation::ObserveAssignment(
+                (std::numeric_limits<std::uint32_t>::max)(), 0);
+        static_assert(kFirstOrdinaryAssignment.assignmentCount == 1 &&
+                      kFirstOrdinaryAssignment.reuseCount == 0 &&
+                      kFirstOrdinaryAssignment.generationMatches &&
+                      !kFirstOrdinaryAssignment.abaWrap);
+        static_assert(kOrdinaryGenerationZeroAssignment.assignmentCount ==
+                          generation::kGenerationCount &&
+                      kOrdinaryGenerationZeroAssignment.reuseCount ==
+                          generation::kGenerationCount - 1u &&
+                      kOrdinaryGenerationZeroAssignment.generationMatches &&
+                      !kOrdinaryGenerationZeroAssignment.abaWrap);
+        static_assert(kFirstOrdinaryWrap.assignmentCount ==
+                          generation::kGenerationCount + 1u &&
+                      kFirstOrdinaryWrap.reuseCount ==
+                          generation::kGenerationCount &&
+                      kFirstOrdinaryWrap.generationMatches &&
+                      kFirstOrdinaryWrap.abaWrap);
+        static_assert(kSaturatedAssignment.saturated &&
+                      !kSaturatedAssignment.generationMatches &&
+                      !kSaturatedAssignment.abaWrap);
 
         constexpr std::uint32_t PackRuntime(
             std::uint32_t a_major,
@@ -111,6 +156,7 @@ namespace shcr::stress
             std::uint32_t managerLockRva;
             std::uint32_t lockManagerRva;
             std::uint32_t unlockManagerRva;
+            std::uint32_t playerSingletonRva;
         };
 
         // Address Library IDs and their resolved RVAs:
@@ -123,18 +169,18 @@ namespace shcr::stress
         constexpr RuntimeProfile kProfiles[] = {
             { PackRuntime(1, 5, 97, 0), "Skyrim SE 1.5.97", 0x01EBE428, 0x001320F0,
               0x001EE670, 0x001329D0, 0x001774E0, 0x01EC47AC, 0x01EC47B0,
-              0x01EC47B8, 0x00C07350, 0x00C075A0 },
+              0x01EC47B8, 0x00C07350, 0x00C075A0, 0x02F26EF8 },
             { PackRuntime(1, 6, 1170, 0), "Skyrim AE 1.6.1170", 0x020F6320, 0x00179050,
               0x0023B780, 0x00179710, 0x001C24F0, 0x020FC5EC, 0x020FC5F0,
-              0x020FC5F8, 0x00CC9140, 0x00CC9390 },
+              0x020FC5F8, 0x00CC9140, 0x00CC9390, 0x031874F8 },
             // The SKSE load interface tags GOG in the packed runtime's low
             // nibble even though SkyrimSE.exe reports ProductVersion .0.
             { PackRuntime(1, 6, 1179, 1), "Skyrim GOG 1.6.1179", 0x020F7720, 0x00178E80,
               0x0023B5B0, 0x00179540, 0x001C2320, 0x020FD9EC, 0x020FD9F0,
-              0x020FD9F8, 0x00CCAC00, 0x00CCAE50 },
+              0x020FD9F8, 0x00CCAC00, 0x00CCAE50, 0x03188918 },
             { PackRuntime(1, 4, 15, 0), "Skyrim VR 1.4.15", 0x01F82AD8, 0x001428A0,
               0x001FF150, 0x00143180, 0x001873F0, 0x01F8964C, 0x01F89650,
-              0x01F89658, 0x00C421D0, 0x00C42420 },
+              0x01F89658, 0x00C421D0, 0x00C42420, 0x02FEB9F0 },
         };
 
         // GetHandle returns a non-trivial four-byte BSPointerHandle.  MSVC uses
@@ -166,14 +212,6 @@ namespace shcr::stress
             std::uint32_t pad14;
         };
         static_assert(sizeof(RawBSTArray) == 0x18);
-
-        struct RawHandleEntry
-        {
-            std::uint32_t bits;
-            std::uint32_t pad;
-            void*         pointer;
-        };
-        static_assert(sizeof(RawHandleEntry) == 0x10);
 
         constexpr std::uint8_t kReferenceFormTypes[] = {
             0x3D,  // REFR
@@ -251,6 +289,7 @@ namespace shcr::stress
         enum class Phase
         {
             kSyntheticFill,
+            kSyntheticSecondPass,
             kRealReferences,
             kSecondPass,
             kWaitForGameLoad,
@@ -275,6 +314,14 @@ namespace shcr::stress
 
         struct State
         {
+            struct LifecycleSnapshot
+            {
+                patch::ReservedPlayerLifecycleSnapshot lifecycle{};
+                std::uint32_t assignments = 0;
+                const void* playerObject = nullptr;
+                const void* playerSingleton = nullptr;
+            };
+
             Settings  settings;
             Callbacks callbacks;
 
@@ -290,7 +337,7 @@ namespace shcr::stress
             const volatile std::uint32_t* freeHead = nullptr;
             const volatile std::uint32_t* freeTail = nullptr;
             std::uintptr_t               imageBase = 0;
-            const RawHandleEntry*        handleTable = nullptr;
+            const HandleEntry*           handleTable = nullptr;
             std::uint32_t                handleEntryCount = 0;
 
             std::vector<void*>       realReferences;
@@ -298,6 +345,8 @@ namespace shcr::stress
             SyntheticReference*      syntheticReferences = nullptr;
             std::size_t              syntheticCapacity = 0;
             std::size_t              syntheticCursor = 0;
+            std::size_t              syntheticVerifyCursor = 0;
+            std::size_t              syntheticVerifyExpected = 0;
             std::size_t              realCursor = 0;
             std::size_t              verifyCursor = 0;
             std::uint32_t            liveScanCursor = kStockCrossingIndex;
@@ -324,6 +373,10 @@ namespace shcr::stress
             std::uint64_t       reuseRotationsThisCycle = 0;
             std::uint64_t       reuseTotalRotations = 0;
             std::uint64_t       reuseInitialFreeCount = 0;
+            std::uint32_t       reuseInitialHandle = 0;
+            std::uint32_t       reuseInitialAssignmentCount = 0;
+            std::uint64_t       reuseInitialWrapCount = 0;
+            SyntheticReference* reuseInitialObject = nullptr;
 
             std::size_t         churnHeldIndex = (std::numeric_limits<std::size_t>::max)();
             SyntheticReference* churnCurrent = nullptr;
@@ -331,7 +384,6 @@ namespace shcr::stress
             std::uint32_t       churnHandle = 0;
             std::uint32_t       churnIndex = 0;
             std::uint32_t       churnCompleted = 0;
-            std::uint32_t       churnWrapAliases = 0;
             std::size_t         churnCleanupCursor = 0;
             std::uint32_t       churnTableVerifyCursor = 0;
             HeldHandle          churnNeighbor{};
@@ -354,6 +406,14 @@ namespace shcr::stress
             std::atomic<bool> taskWorkReady{ true };
             std::atomic<std::uint64_t> diagnosticNextPassTick{ 0 };
 
+            std::uint32_t lifecycleDataLoadedCount = 0;
+            std::uint32_t lifecyclePreLoadCount = 0;
+            std::uint32_t lifecyclePostLoadCount = 0;
+            std::uint32_t lifecycleNewGameCount = 0;
+            std::uint32_t lifecycleLoadAttemptCount = 0;
+            std::uint32_t lifecyclePendingLoadAttempt = 0;
+            bool          lifecycleDataLoadedSeen = false;
+
             LARGE_INTEGER qpcFrequency{};
             std::mutex    logLock;
             std::string   detailBuffer;
@@ -369,14 +429,15 @@ namespace shcr::stress
             std::uint64_t secondPassFailures = 0;
             std::uint64_t secondPassMismatches = 0;
             std::uint64_t detailedLogs = 0;
-            std::uint64_t full22DetailedLogs = 0;
+            std::uint64_t raisedDetailedLogs = 0;
             std::uint64_t attributedDetailedLogs = 0;
-            std::uint32_t full22AttributionAttempts = 0;
-            std::uint32_t full22AttributedLogs = 0;
+            std::uint32_t raisedAttributionAttempts = 0;
+            std::uint32_t raisedAttributedLogs = 0;
             std::uint64_t realAboveStock = 0;
-            std::uint64_t realWithFull22Index = 0;
+            std::uint64_t realWithRaisedIndex = 0;
             std::uint32_t maxIndex = 0;
             bool          crossingLogged = false;
+            bool          reservedPlayerLogged = false;
             bool          detailsTruncatedLogged = false;
             bool          waitingForGameLogged = false;
             bool          liveSampleMode = false;
@@ -393,6 +454,12 @@ namespace shcr::stress
             [[nodiscard]] bool IsLiveDiagnostics() const noexcept
             {
                 return settings.liveDiagnosticsEnabled && !settings.enabled;
+            }
+
+            [[nodiscard]] bool IsLifecycleVerification() const noexcept
+            {
+                return IsLiveDiagnostics() &&
+                       settings.lifecycleVerificationEnabled;
             }
 
             [[nodiscard]] std::uint32_t ActiveReferencesPerTask() const noexcept
@@ -431,17 +498,31 @@ namespace shcr::stress
 
             [[nodiscard]] std::uint32_t AgeMask() const noexcept
             {
-                return settings.indexBits == 22 ? 0x0FC00000u : 0x03F00000u;
+                return settings.indexBits == generation::kIndexBits ?
+                    generation::kGenerationMask : 0x03F00000u;
             }
 
             [[nodiscard]] std::uint32_t InUseMask() const noexcept
             {
-                return settings.indexBits == 22 ? 0x10000000u : 0x04000000u;
+                return generation::kInUseMask;
             }
 
             [[nodiscard]] std::uint32_t AgeIncrement() const noexcept
             {
                 return 1u << settings.indexBits;
+            }
+
+            [[nodiscard]] bool UsesReservedPlayerSlot() const noexcept
+            {
+                return settings.indexBits == generation::kIndexBits &&
+                       handleEntryCount == generation::kEntryCount;
+            }
+
+            [[nodiscard]] bool IsReservedPlayerSlot(
+                std::uint32_t a_index) const noexcept
+            {
+                return UsesReservedPlayerSlot() &&
+                       a_index == player_slot::kIndex;
             }
 
             [[nodiscard]] bool IsStockControl() const noexcept
@@ -458,6 +539,16 @@ namespace shcr::stress
                     static_cast<const std::uint8_t*>(a_reference) + 0x28,
                     sizeof(packed));
                 return packed;
+            }
+
+            [[nodiscard]] static std::uint32_t ReadFormID(
+                const void* a_reference) noexcept
+            {
+                std::uint32_t formID = 0;
+                std::memcpy(&formID,
+                    static_cast<const std::uint8_t*>(a_reference) + 0x14,
+                    sizeof(formID));
+                return formID;
             }
 
             [[nodiscard]] bool IsSyntheticReference(const void* a_reference) const noexcept
@@ -635,17 +726,20 @@ namespace shcr::stress
                 if (settings.maxDetailedLogs == 0)
                     return false;
 
-                const bool reservedFull22Row = a_index >= kFull22Index &&
-                    full22AttributedLogs == 0 &&
-                    full22AttributionAttempts < kMaxFull22AttributionAttempts;
-                if (a_index < settings.detailedLogFromIndex && !reservedFull22Row)
+                const bool reservedRaisedRow =
+                    a_index >= kFirstOrdinaryRaisedIndex &&
+                    raisedAttributedLogs == 0 &&
+                    raisedAttributionAttempts < kMaxRaisedAttributionAttempts;
+                if (a_index < settings.detailedLogFromIndex &&
+                    !reservedRaisedRow)
                     return false;
 
-                if (detailedLogs >= settings.maxDetailedLogs && !reservedFull22Row) {
+                if (detailedLogs >= settings.maxDetailedLogs &&
+                    !reservedRaisedRow) {
                     if (!detailsTruncatedLogged) {
                         detailsTruncatedLogged = true;
                         Log("stress: detailed rows capped at %u; remaining high-index "
-                            "references are still verified (up to 64 >=2M attribution "
+                            "references are still verified (up to 64 >1M attribution "
                             "attempts remain)",
                             settings.maxDetailedLogs);
                     }
@@ -698,12 +792,14 @@ namespace shcr::stress
                 ++detailedLogs;
                 if (namesResolved)
                     ++attributedDetailedLogs;
-                if (a_index >= kFull22Index) {
-                    ++full22DetailedLogs;
-                    if (full22AttributionAttempts < kMaxFull22AttributionAttempts)
-                        ++full22AttributionAttempts;
+                if (a_index >= kFirstOrdinaryRaisedIndex) {
+                    ++raisedDetailedLogs;
+                    if (raisedAttributionAttempts <
+                        kMaxRaisedAttributionAttempts) {
+                        ++raisedAttributionAttempts;
+                    }
                     if (namesResolved)
-                        ++full22AttributedLogs;
+                        ++raisedAttributedLogs;
                 }
                 return namesResolved;
             }
@@ -739,21 +835,23 @@ namespace shcr::stress
                     Fail("one or more handle lookup, identity, or temporary-pin checks failed");
                     return;
                 }
-                if (!liveSampleMode && settings.indexBits == 22 &&
-                    realWithFull22Index == 0) {
-                    Fail("no real reference reached index 0x200000; the 22nd index bit was not proven");
+                if (!liveSampleMode &&
+                    settings.indexBits == generation::kIndexBits &&
+                    realWithRaisedIndex == 0) {
+                    Fail("no real reference reached an ordinary index above 0x100000; the 21st index bit was not proven");
                     return;
                 }
-                if (!liveSampleMode && settings.indexBits == 22 &&
+                if (!liveSampleMode &&
+                    settings.indexBits == generation::kIndexBits &&
                     settings.maxDetailedLogs != 0 &&
-                    full22AttributedLogs == 0) {
-                    Fail("no >=2M real-reference row resolved both plugin attribution and a form/base identity");
+                    raisedAttributedLogs == 0) {
+                    Fail("no >1M real-reference row resolved both plugin attribution and a form/base identity");
                     return;
                 }
                 FlushDetails();
                 Log("stress: COMPLETE phase; snapshot=%zu filler=%llu real=%llu "
                     "nonzero=%llu zero=%llu held=%zu maxIndex=%06X detailed=%llu "
-                    "attributed=%llu detailed>=2M=%llu attributed>=2M=%u",
+                    "attributed=%llu detailed>1M=%llu attributed>1M=%u",
                     realReferences.size(),
                     static_cast<unsigned long long>(fillerAttempted),
                     static_cast<unsigned long long>(realAttempted),
@@ -763,19 +861,18 @@ namespace shcr::stress
                     maxIndex,
                     static_cast<unsigned long long>(detailedLogs),
                     static_cast<unsigned long long>(attributedDetailedLogs),
-                    static_cast<unsigned long long>(full22DetailedLogs),
-                    full22AttributedLogs);
+                    static_cast<unsigned long long>(raisedDetailedLogs),
+                    raisedAttributedLogs);
                 Log("stress: immediate resolve failures=%llu mismatches=%llu; "
                     "second-pass failures=%llu mismatches=%llu; lookup-release failures=%llu; "
-                    "snapshot nulls=%llu; real>=1M=%llu real>=2M=%llu",
+                    "snapshot nulls=%llu; real>1M=%llu",
                     static_cast<unsigned long long>(immediateResolveFailures),
                     static_cast<unsigned long long>(immediateResolveMismatches),
                     static_cast<unsigned long long>(secondPassFailures),
                     static_cast<unsigned long long>(secondPassMismatches),
                     static_cast<unsigned long long>(lookupReleaseFailures),
                     static_cast<unsigned long long>(snapshotNulls),
-                    static_cast<unsigned long long>(realAboveStock),
-                    static_cast<unsigned long long>(realWithFull22Index));
+                    static_cast<unsigned long long>(realAboveStock));
                 if (liveSampleMode) {
                     Log("stress: LIVE SAMPLE COMPLETE; %llu plugin/form-attributed live "
                         "references were observed above Skyrim's vanilla cap; Skyrim remains running",
@@ -899,9 +996,32 @@ namespace shcr::stress
                     return true;
                 }
 
+                const bool reservedPlayer = IsReservedPlayerSlot(index);
+                if (reservedPlayer && a_synthetic) {
+                    static_cast<void>(ReleaseLookupReference(resolved));
+                    Fail("a synthetic reference acquired the reserved player slot");
+                    return false;
+                }
+                if (reservedPlayer) {
+                    const std::uint32_t formID = ReadFormID(a_reference);
+                    if (handle != player_slot::kVanillaRawHandle ||
+                        formID != player_slot::kPlayerFormID) {
+                        static_cast<void>(ReleaseLookupReference(resolved));
+                        Fail("the reserved player slot published a non-player or non-vanilla handle");
+                        return false;
+                    }
+                    if (!reservedPlayerLogged) {
+                        reservedPlayerLogged = true;
+                        Log("stress: reserved player handle PASS; slot=%06X "
+                            "handle=%08X formID=%08X",
+                            index, handle, formID);
+                    }
+                }
+
                 heldHandles.push_back({ a_reference, handle, index });
 
-                if (index >= kStockCrossingIndex && !crossingLogged) {
+                if (!reservedPlayer && index >= kStockCrossingIndex &&
+                    !crossingLogged) {
                     crossingLogged = true;
                     Log("stress: CROSSED stock cap at handle=%08X index=%06X "
                         "(%s reference)",
@@ -911,18 +1031,22 @@ namespace shcr::stress
                 }
 
                 if (!a_synthetic) {
-                    if (index >= kStockCrossingIndex)
+                    if (!reservedPlayer && index >= kStockCrossingIndex)
                         ++realAboveStock;
-                    if (index >= kFull22Index)
-                        ++realWithFull22Index;
-                    try {
-                        static_cast<void>(
-                            AppendReferenceDetail(a_reference, handle, index));
-                    } catch (...) {
-                        // Keep the temporary GetSmartPointer ownership balanced
-                        // even if detail-buffer allocation throws.
-                        static_cast<void>(ReleaseLookupReference(resolved));
-                        throw;
+                    if (!reservedPlayer &&
+                        index >= kFirstOrdinaryRaisedIndex) {
+                        ++realWithRaisedIndex;
+                    }
+                    if (!reservedPlayer) {
+                        try {
+                            static_cast<void>(AppendReferenceDetail(
+                                a_reference, handle, index));
+                        } catch (...) {
+                            // Keep the temporary GetSmartPointer ownership
+                            // balanced even if detail-buffer allocation throws.
+                            static_cast<void>(ReleaseLookupReference(resolved));
+                            throw;
+                        }
                     }
                 }
                 return ReleaseLookupReference(resolved);
@@ -969,7 +1093,7 @@ namespace shcr::stress
                     return false;
                 }
 
-                const RawHandleEntry& entry = handleTable[a_index];
+                const HandleEntry& entry = handleTable[a_index];
                 const std::uint32_t bits = entry.bits;
                 const auto* expectedSubobject =
                     reinterpret_cast<const std::uint8_t*>(a_reference) + 0x20;
@@ -982,11 +1106,11 @@ namespace shcr::stress
 
                 const std::uint32_t packed = ReadPackedWord(a_reference);
                 const std::uint32_t expectedMetadata = kHandleValidBit |
-                    ((a_index & kLegacyObjectIndexMask) << 11);
+                    ((a_index & kObjectIndexMask) << 11);
                 if ((packed & kReferenceCountMask) != 2 ||
                     (packed & ~kReferenceCountMask) != expectedMetadata ||
-                    a_reference->pad2C != a_index) {
-                    Fail("synthetic live object has incorrect refcount, legacy mirror, valid bit, or sidecar");
+                    a_reference->pad2C != 0) {
+                    Fail("synthetic live object has an incorrect refcount, complete 21-bit index cache, valid bit, or untouched +0x2C padding");
                     return false;
                 }
                 return true;
@@ -1000,20 +1124,225 @@ namespace shcr::stress
                     WaitForLoadedGame();
             }
 
+            void BeginSyntheticSecondPass()
+            {
+                if (!settings.verifySecondPass) {
+                    BeginReleaseProbe();
+                    return;
+                }
+                if (heldHandles.empty()) {
+                    Fail("synthetic second lookup pass has no retained handles");
+                    return;
+                }
+
+                syntheticVerifyCursor = 0;
+                syntheticVerifyExpected = heldHandles.size();
+                phase = Phase::kSyntheticSecondPass;
+                Log("stress: synthetic allocation pass complete; starting second exact "
+                    "lookup pass over %zu retained synthetic handles before any release "
+                    "or reuse",
+                    syntheticVerifyExpected);
+            }
+
+            void ProcessSyntheticSecondPass()
+            {
+                if (heldHandles.size() != syntheticVerifyExpected) {
+                    ++secondPassMismatches;
+                    Fail("retained synthetic handle set changed during the second lookup pass");
+                    return;
+                }
+                if (syntheticVerifyCursor >= syntheticVerifyExpected) {
+                    Log("stress: SYNTHETIC SECOND PASS PASS; verified=%zu retained=%zu "
+                        "exact-object=PASS live-entry=PASS balanced-pins=PASS; no release "
+                        "or reuse began before completion",
+                        syntheticVerifyCursor,
+                        syntheticVerifyExpected);
+                    BeginReleaseProbe();
+                    return;
+                }
+
+                const HeldHandle& held = heldHandles[syntheticVerifyCursor];
+                if (!held.expected || !IsSyntheticReference(held.expected) ||
+                    held.index >= handleEntryCount ||
+                    (held.handle & IndexMask()) != held.index) {
+                    ++secondPassMismatches;
+                    Fail("synthetic second-pass record has an invalid object, handle, or index");
+                    return;
+                }
+                if (!VerifyLiveSyntheticState(
+                        static_cast<const SyntheticReference*>(held.expected),
+                        held.handle,
+                        held.index)) {
+                    ++secondPassMismatches;
+                    return;
+                }
+
+                void* resolved = nullptr;
+                const bool lookupOK = getSmartPointer(&held.handle, &resolved);
+                if (!lookupOK) {
+                    ++secondPassFailures;
+                    if (resolved)
+                        static_cast<void>(ReleaseLookupReference(resolved));
+                    if (phase != Phase::kFailed) {
+                        Fail("GetSmartPointer failed during the synthetic second lookup pass");
+                    }
+                    return;
+                }
+                if (resolved != held.expected) {
+                    ++secondPassMismatches;
+                    if (resolved)
+                        static_cast<void>(ReleaseLookupReference(resolved));
+                    if (phase != Phase::kFailed) {
+                        Fail("synthetic second lookup pass resolved a handle to the wrong object");
+                    }
+                    return;
+                }
+                if (!ReleaseLookupReference(resolved))
+                    return;
+
+                ++syntheticVerifyCursor;
+            }
+
             [[nodiscard]] bool ReuseTargetIsFreeAtOldAge() const noexcept
             {
                 if (reuseTarget.index >= handleEntryCount)
                     return false;
-                const RawHandleEntry& entry = handleTable[reuseTarget.index];
+                const HandleEntry& entry = handleTable[reuseTarget.index];
                 return (entry.bits & InUseMask()) == 0 && entry.pointer == nullptr &&
                        (entry.bits & AgeMask()) == (reuseOldHandle & AgeMask());
             }
 
+            [[nodiscard]] bool VerifyNoWrapDetectorProgress(
+                std::uint32_t a_expectedAssignments,
+                const char* a_stage)
+            {
+                if (settings.reuseProbeCycles !=
+                        generation::kGenerationCount)
+                    return true;
+                if (!diagnostic::IsActive()) {
+                    Fail("31-cycle no-wrap proof lost the mandatory generation guard");
+                    return false;
+                }
+                const diagnostic::EventSnapshot events =
+                    diagnostic::ReadEventSnapshot();
+                if (events.unreliableSlot != 0) {
+                    Fail("31-cycle no-wrap proof observed unreliable generation tracking");
+                    return false;
+                }
+                if (events.totalWraps != reuseInitialWrapCount ||
+                    events.lastWrapEvent != 0 ||
+                    events.preventedWrapAttempts != 0 ||
+                    events.lastPreventedEvent != 0) {
+                    Fail("31-cycle no-wrap proof observed a generation-wrap event");
+                    return false;
+                }
+                const std::uint32_t assignments =
+                    diagnostic::AssignmentCount(reuseTarget.index);
+                if (assignments != a_expectedAssignments) {
+                    Log("stress: NO-WRAP detector mismatch at %s: target=%06X "
+                        "expectedAssignments=%u observedAssignments=%u",
+                        a_stage ? a_stage : "unknown stage",
+                        reuseTarget.index,
+                        a_expectedAssignments,
+                        assignments);
+                    Fail("31-cycle no-wrap target assignment count was not exact");
+                    return false;
+                }
+                return true;
+            }
+
+            [[nodiscard]] bool FinishNoWrapBoundaryProof()
+            {
+                if (settings.reuseProbeCycles !=
+                        generation::kGenerationCount)
+                    return true;
+                if (reuseCompleted != generation::kGenerationCount - 1u) {
+                    Fail("no-wrap boundary proof was requested at the wrong completed-cycle count");
+                    return false;
+                }
+                if (!VerifyNoWrapDetectorProgress(
+                        generation::kGenerationCount,
+                        "final exact-slot assignment")) {
+                    return false;
+                }
+                if (reuseInitialAssignmentCount != 1u ||
+                    reuseInitialHandle !=
+                        (reuseTarget.index | generation::kEntryCount) ||
+                    reuseTarget.handle != reuseTarget.index ||
+                    reuseTarget.index != (reuseInitialHandle & IndexMask()) ||
+                    reuseTarget.expected == reuseInitialObject ||
+                    (reuseTarget.handle &
+                        ~(generation::kIndexMask |
+                          generation::kGenerationMask)) != 0) {
+                    Fail("31-cycle no-wrap boundary handles were not exact");
+                    return false;
+                }
+                if (!VerifyLiveSyntheticState(
+                        static_cast<const SyntheticReference*>(reuseTarget.expected),
+                        reuseTarget.handle,
+                        reuseTarget.index) ||
+                    !RejectStaleSyntheticHandle(
+                        reuseInitialHandle,
+                        "captured initial handle resolved at the no-wrap boundary") ||
+                    !ResolveSyntheticHandleExactly(
+                        reuseTarget.handle,
+                        static_cast<const SyntheticReference*>(reuseTarget.expected),
+                        "generation-zero boundary handle did not resolve to the exact final target")) {
+                    return false;
+                }
+
+                const diagnostic::EventSnapshot events =
+                    diagnostic::ReadEventSnapshot();
+                const std::uint32_t highestReuse =
+                    static_cast<std::uint32_t>(events.hottestHandle >> 32);
+                const std::uint32_t hottestHandle =
+                    static_cast<std::uint32_t>(events.hottestHandle);
+                const std::uint32_t hottestSlot =
+                    hottestHandle & generation::kIndexMask;
+                if (events.unreliableSlot != 0 ||
+                    events.totalWraps != 0 || events.lastWrapEvent != 0 ||
+                    events.preventedWrapAttempts != 0 ||
+                    events.lastPreventedEvent != 0 ||
+                    highestReuse != generation::kGenerationCount - 1u ||
+                    hottestSlot != reuseTarget.index ||
+                    hottestHandle != reuseTarget.handle ||
+                    (hottestHandle & ~(generation::kIndexMask |
+                        generation::kGenerationMask)) != 0 ||
+                    diagnostic::AssignmentCount(hottestSlot) !=
+                        generation::kGenerationCount) {
+                    Fail("31-cycle no-wrap detector/hottest-slot evidence was not exact");
+                    return false;
+                }
+
+                Log("stress: NO-WRAP BOUNDARY PASS; cycles=31 target=%06X "
+                    "initialHandle=%08X finalHandle=%08X initialAssignments=%u "
+                    "finalAssignments=%u reuseCount=31 guard=active "
+                    "tracking=exact finalGeneration=0 object-changed=PASS "
+                    "exact-target=PASS initial-stale=REJECTED "
+                    "immediate-stale-rejection-each-cycle=PASS "
+                    "wrapEvents=0 preventedWrapAttempts=0 highestReuse=%u hottestSlot=%06X "
+                    "hottestHandle=%08X; table exhaustion was never requested",
+                    reuseTarget.index,
+                    reuseInitialHandle,
+                    reuseTarget.handle,
+                    reuseInitialAssignmentCount,
+                    diagnostic::AssignmentCount(reuseTarget.index),
+                    highestReuse, hottestSlot, hottestHandle);
+                return true;
+            }
+
             void BeginReuseCycle()
             {
-                if (reuseCompleted >= settings.reuseProbeCycles) {
+                const bool startingGuardBoundaryAttempt =
+                    settings.reuseProbeCycles == generation::kGenerationCount &&
+                    reuseCompleted == generation::kGenerationCount - 1u;
+                if (startingGuardBoundaryAttempt) {
+                    if (!FinishNoWrapBoundaryProof())
+                        return;
+                } else if (reuseCompleted >= settings.reuseProbeCycles) {
                     Log("stress: REUSE PROBE PASS; cycles=%u target=%06X totalFIFOrotations=%llu; "
-                        "exact-slot=PASS next-age=PASS sidecar=PASS stale-rejection=PASS "
+                        "exact-slot=PASS next-age=PASS refcount-cache=PASS "
+                        "dword-invalidation=PASS stale-rejection=PASS "
                         "neighbor=PASS; table exhaustion was never requested",
                         reuseCompleted,
                         reuseTarget.index,
@@ -1083,6 +1412,15 @@ namespace shcr::stress
                     reuseExpectedHandle,
                     reuseNeighbor.index,
                     handleEntryCount * 2u);
+                if (startingGuardBoundaryAttempt) {
+                    Log("stress: NO-WRAP GUARD ATTEMPT; cycle=32/32 target=%06X "
+                        "priorAssignments=32 nextHandle=%08X capturedInitial=%08X "
+                        "expectedStop=before-pointer-publication wraps=0 "
+                        "preventedWrapAttempts=0",
+                        reuseTarget.index,
+                        reuseExpectedHandle,
+                        reuseInitialHandle);
+                }
             }
 
             void BeginReuseProbe()
@@ -1096,14 +1434,14 @@ namespace shcr::stress
                 for (std::size_t i = heldHandles.size(); i != 0; --i) {
                     const std::size_t candidateIndex = i - 1;
                     const HeldHandle& candidate = heldHandles[candidateIndex];
-                    if (candidate.index < kFull22Index ||
+                    if (candidate.index < kFirstOrdinaryRaisedIndex ||
                         !IsSyntheticReference(candidate.expected)) {
                         continue;
                     }
 
                     if (candidateIndex != 0) {
                         const HeldHandle& neighbor = heldHandles[candidateIndex - 1];
-                        if (neighbor.index >= kFull22Index &&
+                        if (neighbor.index >= kFirstOrdinaryRaisedIndex &&
                             neighbor.index + 1u == candidate.index &&
                             IsSyntheticReference(neighbor.expected)) {
                             reuseHeldIndex = candidateIndex;
@@ -1114,7 +1452,7 @@ namespace shcr::stress
                     }
                     if (candidateIndex + 1 < heldHandles.size()) {
                         const HeldHandle& neighbor = heldHandles[candidateIndex + 1];
-                        if (neighbor.index >= kFull22Index &&
+                        if (neighbor.index >= kFirstOrdinaryRaisedIndex &&
                             candidate.index + 1u == neighbor.index &&
                             IsSyntheticReference(neighbor.expected)) {
                             reuseHeldIndex = candidateIndex;
@@ -1125,7 +1463,7 @@ namespace shcr::stress
                     }
                 }
                 if (reuseHeldIndex == (std::numeric_limits<std::size_t>::max)()) {
-                    Fail("FIFO reuse probe could not find a separate adjacent pair of harness-owned >=2M handles");
+                    Fail("FIFO reuse probe could not find a separate adjacent pair of harness-owned >1M handles");
                     return;
                 }
 
@@ -1135,13 +1473,51 @@ namespace shcr::stress
                 }
                 if (reuseInitialFreeCount < kMinimumReuseFreeCushion) {
                     FinishReuseInconclusive(
-                        "locked free-list count was below the required 0x80000-slot cushion");
+                        "locked allocatable free-list count was below the required 0x40000-slot cushion");
                     return;
                 }
-                Log("stress: REUSE PROBE locked free-slot cushion accepted: free=%llu "
+                Log("stress: REUSE PROBE locked allocatable free-slot cushion "
+                    "accepted: free=%llu "
                     "required>=%u; the target has not been released yet",
                     static_cast<unsigned long long>(reuseInitialFreeCount),
                     kMinimumReuseFreeCushion);
+
+                if (settings.reuseProbeCycles ==
+                        generation::kGenerationCount) {
+                    if (!diagnostic::IsActive()) {
+                        Fail("31-cycle no-wrap proof requires the mandatory generation guard");
+                        return;
+                    }
+                    const diagnostic::EventSnapshot events =
+                        diagnostic::ReadEventSnapshot();
+                    reuseInitialHandle = reuseTarget.handle;
+                    reuseInitialObject = static_cast<SyntheticReference*>(
+                        reuseTarget.expected);
+                    reuseInitialAssignmentCount =
+                        diagnostic::AssignmentCount(reuseTarget.index);
+                    reuseInitialWrapCount = events.totalWraps;
+                    if (events.unreliableSlot != 0 ||
+                        events.totalWraps != 0 ||
+                        events.lastWrapEvent != 0 ||
+                        events.preventedWrapAttempts != 0 ||
+                        events.lastPreventedEvent != 0 ||
+                        reuseInitialAssignmentCount != 1u ||
+                        (reuseInitialHandle & generation::kGenerationMask) !=
+                            (1u << generation::kIndexBits) ||
+                        (reuseInitialHandle &
+                            ~(generation::kIndexMask |
+                              generation::kGenerationMask)) != 0 ||
+                        (reuseInitialHandle & IndexMask()) != reuseTarget.index) {
+                        Fail("31-cycle no-wrap proof did not start from one exact tracked assignment with zero wraps");
+                        return;
+                    }
+                    Log("stress: NO-WRAP BOUNDARY armed; cycles=31 target=%06X "
+                        "initialHandle=%08X initialAssignments=%u detector=active "
+                        "tracking=exact wrapEvents=0 preventedWrapAttempts=0",
+                        reuseTarget.index,
+                        reuseInitialHandle,
+                        reuseInitialAssignmentCount);
+                }
 
                 BeginReuseCycle();
             }
@@ -1165,7 +1541,7 @@ namespace shcr::stress
                      i != 0 && releaseProbeTargets.size() < settings.releaseProbeCount;
                      --i) {
                     const HeldHandle& held = heldHandles[i - 1];
-                    if (held.index < kFull22Index ||
+                    if (held.index < kFirstOrdinaryRaisedIndex ||
                         !IsSyntheticReference(held.expected)) {
                         continue;
                     }
@@ -1174,7 +1550,7 @@ namespace shcr::stress
                     releaseProbeMaxIndex = (std::max)(releaseProbeMaxIndex, held.index);
                 }
                 if (releaseProbeTargets.size() != settings.releaseProbeCount) {
-                    Fail("not enough harness-owned synthetic handles at or above index 0x200000 for the targeted release probe");
+                    Fail("not enough harness-owned synthetic handles above reserved index 0x100000 for the targeted release probe");
                     return;
                 }
 
@@ -1194,7 +1570,9 @@ namespace shcr::stress
                         return a_held.handle == 0;
                     });
                     Log("stress: RELEASE PROBE PASS; released=%u range=%06X..%06X; "
-                        "owner-count=1 sidecar=0 entry-free-prior-age=PASS stale-rejection=PASS",
+                        "owner-count=1 complete-index-cache-cleared=PASS "
+                        "padding+0x2C-untouched=PASS entry-free-prior-age=PASS "
+                        "stale-rejection=PASS",
                         settings.releaseProbeCount,
                         releaseProbeMinIndex,
                         releaseProbeMaxIndex);
@@ -1285,7 +1663,7 @@ namespace shcr::stress
             {
                 const std::uint64_t rotationLimit =
                     static_cast<std::uint64_t>(handleEntryCount) * 2ull;
-                if (reuseTotalRotations >= rotationLimit) {
+                if (reuseRotationsThisCycle >= rotationLimit) {
                     FinishReuseInconclusive(
                         "FIFO target was not reached within twice the table size");
                     return;
@@ -1326,6 +1704,12 @@ namespace shcr::stress
                 ++reuseTotalRotations;
                 const std::uint32_t index = handle & IndexMask();
                 heldHandles[reuseHeldIndex] = { reuseScratch, handle, index };
+                if (settings.reuseProbeCycles == generation::kGenerationCount &&
+                    reuseCompleted == generation::kGenerationCount - 1u &&
+                    index == reuseTarget.index) {
+                    Fail("mandatory pre-publication generation guard returned after publishing the repeated raw handle");
+                    return;
+                }
                 if (!VerifyLiveSyntheticState(reuseScratch, handle, index) ||
                     !ResolveSyntheticHandleExactly(
                         handle,
@@ -1358,13 +1742,40 @@ namespace shcr::stress
 
                     reuseTarget = { reuseScratch, handle, index };
                     ++reuseCompleted;
-                    Log("stress: REUSE PROBE cycle %u/%u exact-slot PASS target=%06X "
-                        "handle=%08X FIFOrotations=%llu",
-                        reuseCompleted,
-                        settings.reuseProbeCycles,
-                        index,
-                        handle,
-                        static_cast<unsigned long long>(reuseRotationsThisCycle));
+                    if (settings.reuseProbeCycles ==
+                            generation::kGenerationCount) {
+                        if (!RejectStaleSyntheticHandle(
+                                reuseInitialHandle,
+                                "captured initial handle resolved during the 31-cycle no-wrap proof")) {
+                            return;
+                        }
+                    }
+                    if (!VerifyNoWrapDetectorProgress(
+                            reuseCompleted + 1u,
+                            "per-cycle exact-slot assignment")) {
+                        return;
+                    }
+                    if (settings.reuseProbeCycles ==
+                            generation::kGenerationCount) {
+                        Log("stress: REUSE PROBE cycle %u/32 exact-slot PASS target=%06X "
+                            "handle=%08X FIFOrotations=%llu assignmentCount=%u "
+                            "stale-old=REJECTED captured-initial=REJECTED "
+                            "exact-target=PASS tracking=exact wrapEvents=0 "
+                            "preventedWrapAttempts=0",
+                            reuseCompleted,
+                            index,
+                            handle,
+                            static_cast<unsigned long long>(reuseRotationsThisCycle),
+                            diagnostic::AssignmentCount(index));
+                    } else {
+                        Log("stress: REUSE PROBE cycle %u/%u exact-slot PASS target=%06X "
+                            "handle=%08X FIFOrotations=%llu",
+                            reuseCompleted,
+                            settings.reuseProbeCycles,
+                            index,
+                            handle,
+                            static_cast<unsigned long long>(reuseRotationsThisCycle));
+                    }
                     BeginReuseCycle();
                     return;
                 }
@@ -1414,11 +1825,11 @@ namespace shcr::stress
                 bool a_requireFreeEntry)
             {
                 if (ReadPackedWord(a_reference) != 1 || a_reference->pad2C != 0) {
-                    Fail("canonical release did not restore owner-only refcount and clear the sidecar");
+                    Fail("canonical stock dword invalidation did not restore the owner-only refcount and leave +0x2C padding untouched");
                     return false;
                 }
 
-                const RawHandleEntry& entry = handleTable[a_index];
+                const HandleEntry& entry = handleTable[a_index];
                 const auto* oldSubobject =
                     reinterpret_cast<const std::uint8_t*>(a_reference) + 0x20;
                 if (entry.pointer == oldSubobject) {
@@ -1463,9 +1874,10 @@ namespace shcr::stress
                         churnNeighbor = held;
                     }
                 }
-                if (!churnCurrent || churnIndex < kFull22Index ||
+                if (!churnCurrent ||
+                    churnIndex < kFirstOrdinaryRaisedIndex ||
                     !churnNeighbor.expected) {
-                    Fail("the exhausted table did not contain a harness-owned >=2M target slot");
+                    Fail("the exhausted table did not contain a harness-owned >1M target slot");
                     return;
                 }
 
@@ -1487,16 +1899,11 @@ namespace shcr::stress
                     Fail("churn finished before all configured generations completed");
                     return;
                 }
-                if (settings.churnCycles >= 64 && churnWrapAliases == 0) {
-                    Fail("64 churn cycles completed without observing the expected age alias");
-                    return;
-                }
-
-                Log("stress: CHURN COMPLETE; cycles=%u target=%06X generation-wrap-aliases=%u; "
-                    "all non-aliased stale handles rejected and exact object identity preserved",
+                Log("stress: CHURN COMPLETE; cycles=%u target=%06X "
+                    "publishedWraps=0; all stale handles rejected and exact "
+                    "object identity preserved within the safe reuse limit",
                     churnCompleted,
-                    churnIndex,
-                    churnWrapAliases);
+                    churnIndex);
                 Log("stress: CHURN CLEANUP COMPLETE; released %zu synthetic handles and returned "
                     "the synthetic arena; no table entry retains a synthetic pointer",
                     churnCleanupCursor);
@@ -1562,7 +1969,7 @@ namespace shcr::stress
                     ((oldHandle & AgeMask()) + AgeIncrement()) & AgeMask();
                 const std::uint32_t expectedHandle = churnIndex | expectedAge;
                 if (newIndex != churnIndex || newHandle != expectedHandle) {
-                    Fail("churn did not reuse the exact slot with the next six-bit age");
+                    Fail("churn did not reuse the exact slot with the next five-bit age");
                     return;
                 }
                 if (*freeHead != 0xFFFFFFFFu || *freeTail != 0xFFFFFFFFu) {
@@ -1594,12 +2001,8 @@ namespace shcr::stress
                     }
                 }
                 if (aliasesThisGeneration != 0) {
-                    churnWrapAliases += aliasesThisGeneration;
-                    Log("stress: CHURN expected six-bit age wrap at cycle %u: handle=%08X "
-                        "numerically aliases %u earlier generation(s)",
-                        churnCompleted + 1,
-                        newHandle,
-                        aliasesThisGeneration);
+                    Fail("safe-range churn unexpectedly produced a repeated raw handle");
+                    return;
                 }
 
                 heldHandles[churnHeldIndex] = { churnNext, newHandle, newIndex };
@@ -1666,7 +2069,10 @@ namespace shcr::stress
 
             [[nodiscard]] bool VerifyManagerFreeList(
                 const char* a_label,
-                std::uint64_t* a_freeEntriesOut = nullptr)
+                std::uint64_t* a_allocatableFreeEntriesOut = nullptr,
+                bool a_requireLivePlayer = false,
+                bool* a_playerLiveOut = nullptr,
+                LifecycleSnapshot* a_lifecycleSnapshotOut = nullptr)
             {
                 if (!lockManager || !unlockManager || !managerLock) {
                     Fail("manager lock metadata is unavailable for final free-list verification");
@@ -1674,18 +2080,55 @@ namespace shcr::stress
                 }
 
                 const char* failure = nullptr;
-                std::uint64_t freeEntries = 0;
+                std::uint64_t physicalFreeEntries = 0;
+                std::uint64_t allocatableFreeEntries = 0;
                 std::uint64_t linkedEntries = 0;
                 std::uint32_t head = 0xFFFFFFFFu;
                 std::uint32_t tail = 0xFFFFFFFFu;
+                const bool reservationApplies = UsesReservedPlayerSlot();
+                bool reservedDetached = false;
+                bool reservedLive = false;
 
                 lockManager(managerLock);
                 head = *freeHead;
                 tail = *freeTail;
                 for (std::uint32_t i = 0; i < handleEntryCount; ++i) {
-                    const RawHandleEntry& entry = handleTable[i];
-                    if ((entry.bits & InUseMask()) == 0) {
-                        ++freeEntries;
+                    const HandleEntry& entry = handleTable[i];
+                    const bool inUse = (entry.bits & InUseMask()) != 0;
+                    if (reservationApplies && i == player_slot::kIndex) {
+                        if (!inUse) {
+                            ++physicalFreeEntries;
+                            reservedDetached = true;
+                            if (!player_slot::IsDetached(entry)) {
+                                failure = "the detached player reservation does not match its exact sentinel";
+                            }
+                        } else {
+                            reservedLive = true;
+                            const std::uint32_t handle =
+                                i | (entry.bits & AgeMask());
+                            if (!player_slot::IsLiveGenerationZero(entry) ||
+                                entry.pad != 0 ||
+                                handle != player_slot::kVanillaRawHandle) {
+                                failure = "the live player reservation has invalid padding, pointer, or raw handle";
+                            } else {
+                                // The harness runs after kDataLoaded, unlike the
+                                // allocator's early singleton-pointer gate, so
+                                // FormID 0x14 is established here.
+                                const auto* reference =
+                                    static_cast<const std::uint8_t*>(entry.pointer) - 0x20;
+                                if (ReadFormID(reference) !=
+                                    player_slot::kPlayerFormID) {
+                                    failure = "the live reserved slot does not point to FormID 00000014";
+                                }
+                            }
+                        }
+                        if (failure)
+                            break;
+                        continue;
+                    }
+                    if (!inUse) {
+                        ++physicalFreeEntries;
+                        ++allocatableFreeEntries;
                         if (entry.pointer != nullptr) {
                             failure = "a free-list entry retained a non-null object pointer";
                             break;
@@ -1694,11 +2137,15 @@ namespace shcr::stress
                 }
 
                 if (!failure) {
-                    if (freeEntries == 0) {
+                    if (allocatableFreeEntries == 0) {
                         if (head != 0xFFFFFFFFu || tail != 0xFFFFFFFFu)
                             failure = "empty free list has non-empty head/tail endpoints";
                     } else if (head >= handleEntryCount || tail >= handleEntryCount) {
                         failure = "non-empty free list has an out-of-range endpoint";
+                    } else if (reservationApplies &&
+                               (head == player_slot::kIndex ||
+                                tail == player_slot::kIndex)) {
+                        failure = "the reserved player slot appears as a free-list endpoint";
                     } else {
                         std::uint32_t current = head;
                         for (;;) {
@@ -1706,7 +2153,12 @@ namespace shcr::stress
                                 failure = "free-list chain contains an out-of-range index";
                                 break;
                             }
-                            const RawHandleEntry& entry = handleTable[current];
+                            if (reservationApplies &&
+                                current == player_slot::kIndex) {
+                                failure = "the free-list chain visits the reserved player slot";
+                                break;
+                            }
+                            const HandleEntry& entry = handleTable[current];
                             if ((entry.bits & InUseMask()) != 0 || entry.pointer != nullptr) {
                                 failure = "free-list chain visits an in-use or published entry";
                                 break;
@@ -1718,14 +2170,45 @@ namespace shcr::stress
                                     failure = "free-list tail is not self-linked";
                                 break;
                             }
-                            if (linkedEntries >= freeEntries) {
+                            if (linkedEntries >= allocatableFreeEntries) {
                                 failure = "free-list chain cycles or omits its recorded tail";
                                 break;
                             }
                             current = next;
                         }
-                        if (!failure && linkedEntries != freeEntries)
-                            failure = "free-list chain count differs from the number of free entries";
+                        if (!failure &&
+                            linkedEntries != allocatableFreeEntries) {
+                            failure = "free-list chain count differs from the number of allocatable free entries";
+                        }
+                    }
+                }
+
+                if (!failure && a_requireLivePlayer &&
+                    (!reservationApplies || !reservedLive)) {
+                    failure = "the lifecycle checkpoint did not contain a live reserved player";
+                }
+                LifecycleSnapshot lifecycleSnapshot{};
+                if (!failure && a_lifecycleSnapshotOut) {
+                    lifecycleSnapshot.lifecycle =
+                        patch::ReadReservedPlayerLifecycleSnapshot();
+                    lifecycleSnapshot.assignments =
+                        diagnostic::ReservedPlayerAssignmentCount();
+                    if (reservedLive) {
+                        const HandleEntry& reserved =
+                            handleTable[player_slot::kIndex];
+                        lifecycleSnapshot.playerObject =
+                            static_cast<const std::uint8_t*>(
+                                reserved.pointer) - 0x20;
+                        if (profile && profile->playerSingletonRva != 0) {
+                            std::memcpy(&lifecycleSnapshot.playerSingleton,
+                                reinterpret_cast<const void*>(imageBase +
+                                    profile->playerSingletonRva),
+                                sizeof(lifecycleSnapshot.playerSingleton));
+                        }
+                        if (lifecycleSnapshot.playerObject !=
+                                lifecycleSnapshot.playerSingleton) {
+                            failure = "the manager-locked lifecycle snapshot has mismatched player identities";
+                        }
                     }
                 }
                 unlockManager(managerLock);
@@ -1734,14 +2217,102 @@ namespace shcr::stress
                     Fail(failure);
                     return false;
                 }
-                if (a_freeEntriesOut)
-                    *a_freeEntriesOut = freeEntries;
-                Log("stress: %s free-list integrity PASS; free=%llu inUse=%llu head=%06X tail=%06X",
+                if (a_allocatableFreeEntriesOut)
+                    *a_allocatableFreeEntriesOut = allocatableFreeEntries;
+                if (a_playerLiveOut)
+                    *a_playerLiveOut = reservedLive;
+                if (a_lifecycleSnapshotOut)
+                    *a_lifecycleSnapshotOut = lifecycleSnapshot;
+                Log("stress: %s free-list integrity PASS; allocatableFree=%llu "
+                    "physicalFree=%llu inUse=%llu head=%06X tail=%06X "
+                    "playerReservation=%s playerRawHandle=%s "
+                    "reservedSlotInOrdinaryFIFO=no",
                     a_label,
-                    static_cast<unsigned long long>(freeEntries),
-                    static_cast<unsigned long long>(handleEntryCount - freeEntries),
+                    static_cast<unsigned long long>(allocatableFreeEntries),
+                    static_cast<unsigned long long>(physicalFreeEntries),
+                    static_cast<unsigned long long>(
+                        handleEntryCount - physicalFreeEntries),
                     head,
-                    tail);
+                    tail,
+                    !reservationApplies ? "n/a" :
+                        (reservedDetached ? "detached" :
+                            (reservedLive ? "live-player" : "invalid")),
+                    reservedLive ? "00100000" : "n/a");
+                return true;
+            }
+
+            [[nodiscard]] bool VerifyLifecycleCheckpoint(
+                const char* a_event,
+                std::uint32_t a_ordinal,
+                bool a_requireLivePlayer,
+                std::uint32_t a_loadAttempt = 0)
+            {
+                if (enginefixes::WasFormCachingLifecycleOwnerAuthenticated()) {
+                    RuntimeContext runtime{};
+                    runtime.imageBase = imageBase;
+                    runtime.runtimeVersion = profile ?
+                        profile->runtimeVersion : 0;
+                    if (!enginefixes::RevalidateFormCachingLifecycleOwner(
+                            runtime)) {
+                        Fail("the authenticated Engine Fixes FormCaching hook chain changed");
+                        return false;
+                    }
+                    Log("lifecycle: EngineFixesFormCaching revalidation PASS "
+                        "event=%s ordinal=%u", a_event, a_ordinal);
+                }
+                char label[96]{};
+                std::snprintf(label, sizeof(label),
+                    "LIFECYCLE %s #%u", a_event, a_ordinal);
+                label[sizeof(label) - 1] = '\0';
+
+                if (a_loadAttempt != 0) {
+                    Log("lifecycle: checkpoint BEGIN event=%s ordinal=%u "
+                        "loadAttempt=%u",
+                        a_event, a_ordinal, a_loadAttempt);
+                } else {
+                    Log("lifecycle: checkpoint BEGIN event=%s ordinal=%u",
+                        a_event, a_ordinal);
+                }
+                bool playerLive = false;
+                LifecycleSnapshot lifecycleSnapshot{};
+                if (!VerifyManagerFreeList(
+                        label, nullptr, a_requireLivePlayer, &playerLive,
+                        &lifecycleSnapshot)) {
+                    return false;
+                }
+                if (a_loadAttempt != 0) {
+                    Log("lifecycle: checkpoint PASS event=%s ordinal=%u "
+                        "loadAttempt=%u playerReservation=%s "
+                        "playerRawHandle=%s reservedSlot=100000 "
+                        "ordinaryFIFO=ABSENT",
+                        a_event,
+                        a_ordinal,
+                        a_loadAttempt,
+                        playerLive ? "live-player" : "detached",
+                        playerLive ? "00100000" : "n/a");
+                } else {
+                    Log("lifecycle: checkpoint PASS event=%s ordinal=%u "
+                        "playerReservation=%s playerRawHandle=%s "
+                        "reservedSlot=100000 ordinaryFIFO=ABSENT",
+                        a_event,
+                        a_ordinal,
+                        playerLive ? "live-player" : "detached",
+                        playerLive ? "00100000" : "n/a");
+                }
+                Log("lifecycle: snapshot event=%s ordinal=%u "
+                    "constructorAssignments=%llu releaseQuarantines=%llu "
+                    "lifecycleAssignments=%u reservation=%s raw=%s "
+                    "object=%p singleton=%p",
+                    a_event, a_ordinal,
+                    static_cast<unsigned long long>(
+                        lifecycleSnapshot.lifecycle.constructorAssignments),
+                    static_cast<unsigned long long>(
+                        lifecycleSnapshot.lifecycle.releaseQuarantines),
+                    lifecycleSnapshot.assignments,
+                    playerLive ? "live-player" : "detached",
+                    playerLive ? "00100000" : "n/a",
+                    lifecycleSnapshot.playerObject,
+                    lifecycleSnapshot.playerSingleton);
                 return true;
             }
 
@@ -2081,7 +2652,7 @@ namespace shcr::stress
                         "the next newly-used references are above the vanilla cap",
                         lastIndex,
                         syntheticCursor);
-                    BeginReleaseProbe();
+                    BeginSyntheticSecondPass();
                 }
             }
 
@@ -2298,7 +2869,9 @@ namespace shcr::stress
                 }
 
                 const std::uint32_t index = liveScanCursor++;
-                const RawHandleEntry& entry = handleTable[index];
+                if (IsReservedPlayerSlot(index))
+                    return;
+                const HandleEntry& entry = handleTable[index];
                 const std::uint32_t bits = entry.bits;
                 if ((bits & InUseMask()) == 0)
                     return;
@@ -2320,7 +2893,7 @@ namespace shcr::stress
                 // A successful exact-age lookup pins the object. Recheck the
                 // published entry while pinned so attribution never follows a
                 // stale/reused candidate captured at the start of this step.
-                const RawHandleEntry& confirmed = handleTable[index];
+                const HandleEntry& confirmed = handleTable[index];
                 const std::uint32_t confirmedBits = confirmed.bits;
                 const void* expectedSubobject =
                     static_cast<const std::uint8_t*>(resolved) + 0x20;
@@ -2388,7 +2961,9 @@ namespace shcr::stress
                 }
 
                 const std::uint32_t index = liveScanCursor++;
-                const RawHandleEntry& entry = handleTable[index];
+                if (IsReservedPlayerSlot(index))
+                    return;
+                const HandleEntry& entry = handleTable[index];
                 const std::uint32_t bits = entry.bits;
                 if ((bits & InUseMask()) == 0)
                     return;
@@ -2420,8 +2995,8 @@ namespace shcr::stress
                 ++realAttempted;
                 ++nonzeroHandles;
                 ++realAboveStock;
-                if (index >= kFull22Index)
-                    ++realWithFull22Index;
+                if (index >= kFirstOrdinaryRaisedIndex)
+                    ++realWithRaisedIndex;
                 maxIndex = (std::max)(maxIndex, index);
 
                 bool attributed = false;
@@ -2465,6 +3040,9 @@ namespace shcr::stress
                     switch (phase) {
                     case Phase::kSyntheticFill:
                         ProcessSynthetic();
+                        break;
+                    case Phase::kSyntheticSecondPass:
+                        ProcessSyntheticSecondPass();
                         break;
                     case Phase::kRealReferences:
                         ProcessReal();
@@ -2774,6 +3352,26 @@ namespace shcr::stress
             if (a_state->started.exchange(true, std::memory_order_acq_rel))
                 return;
 
+            if (a_state->IsLifecycleVerification()) {
+                // SKSE AE can emit startup save/load notifications before
+                // kDataLoaded.  They are not part of the requested one-process
+                // lifecycle run, so establish the counter/attempt epoch here.
+                a_state->lifecycleDataLoadedSeen = true;
+                a_state->lifecycleDataLoadedCount = 0;
+                a_state->lifecyclePreLoadCount = 0;
+                a_state->lifecyclePostLoadCount = 0;
+                a_state->lifecycleNewGameCount = 0;
+                a_state->lifecycleLoadAttemptCount = 0;
+                a_state->lifecyclePendingLoadAttempt = 0;
+                ++a_state->lifecycleDataLoadedCount;
+                if (!a_state->VerifyLifecycleCheckpoint(
+                        "kDataLoaded",
+                        a_state->lifecycleDataLoadedCount,
+                        false)) {
+                    return;
+                }
+            }
+
             if (a_state->IsLiveDiagnostics()) {
                 a_state->Log("diagnostics: received SKSE kDataLoaded; arming read-only "
                     "post-load high-handle scan");
@@ -2819,6 +3417,7 @@ namespace shcr::stress
             State* state = g_state.load(std::memory_order_acquire);
             if (!state || !a_message)
                 return;
+            bool pairedLifecyclePostLoad = false;
 
             if (a_message->type == kDataLoaded) {
                 try {
@@ -2829,7 +3428,34 @@ namespace shcr::stress
                 return;
             }
 
+            if (state->IsLifecycleVerification() &&
+                !state->lifecycleDataLoadedSeen &&
+                (a_message->type == kPreLoadGame ||
+                 a_message->type == kPostLoadGame ||
+                 a_message->type == kNewGame)) {
+                const char* event = a_message->type == kPreLoadGame ?
+                    "kPreLoadGame" : a_message->type == kPostLoadGame ?
+                    "kPostLoadGame" : "kNewGame";
+                state->Log("lifecycle: startup message IGNORED event=%s "
+                    "reason=before-kDataLoaded",
+                    event);
+                return;
+            }
+
             if (a_message->type == kPreLoadGame && state->IsLiveDiagnostics()) {
+                if (state->IsLifecycleVerification()) {
+                    ++state->lifecyclePreLoadCount;
+                    ++state->lifecycleLoadAttemptCount;
+                    state->lifecyclePendingLoadAttempt =
+                        state->lifecycleLoadAttemptCount;
+                    if (!state->VerifyLifecycleCheckpoint(
+                            "kPreLoadGame",
+                            state->lifecyclePreLoadCount,
+                            false,
+                            state->lifecyclePendingLoadAttempt)) {
+                        return;
+                    }
+                }
                 state->gameLoadSeen.store(false, std::memory_order_release);
                 if (state->started.load(std::memory_order_acquire) &&
                     !state->finished.load(std::memory_order_acquire)) {
@@ -2838,6 +3464,51 @@ namespace shcr::stress
                     state->WaitForLoadedGame();
                 }
                 return;
+            }
+
+            if (a_message->type == kPostLoadGame) {
+                const std::uintptr_t rawResult =
+                    reinterpret_cast<std::uintptr_t>(a_message->data);
+                const bool resultIsValid =
+                    a_message->dataLen == sizeof(bool) && rawResult <= 1;
+                const bool loadSucceeded = resultIsValid && rawResult == 1;
+                if (!loadSucceeded) {
+                    if (state->IsLifecycleVerification()) {
+                        const std::uint32_t attempt =
+                            state->lifecyclePendingLoadAttempt;
+                        if (attempt != 0) {
+                            state->Log("lifecycle: load attempt END loadAttempt=%u "
+                                "result=%s",
+                                attempt,
+                                resultIsValid ? "failure" : "invalid-data");
+                        } else {
+                            state->Log("lifecycle: kPostLoadGame IGNORED "
+                                "reason=no-paired-kPreLoadGame result=%s",
+                                resultIsValid ? "failure" : "invalid-data");
+                        }
+                        state->lifecyclePendingLoadAttempt = 0;
+                    }
+                    state->Log("%s: received unsuccessful SKSE "
+                        "kPostLoadGame; recurring reports remain paused%s",
+                        state->IsLiveDiagnostics() ? "diagnostics" :
+                            (state->IsStockControl() ? "stock-control" : "stress"),
+                        resultIsValid ? "" :
+                            " (invalid result payload was ignored)");
+                    return;
+                }
+
+                if (state->IsLifecycleVerification()) {
+                    pairedLifecyclePostLoad =
+                        state->lifecyclePendingLoadAttempt != 0;
+                    if (pairedLifecyclePostLoad) {
+                        state->Log("lifecycle: load attempt END loadAttempt=%u "
+                            "result=success",
+                            state->lifecyclePendingLoadAttempt);
+                    } else {
+                        state->Log("lifecycle: kPostLoadGame IGNORED "
+                            "reason=no-paired-kPreLoadGame result=success");
+                    }
+                }
             }
 
             if (a_message->type == kPostLoadGame || a_message->type == kNewGame) {
@@ -2858,6 +3529,30 @@ namespace shcr::stress
                 if (state->IsLiveDiagnostics()) {
                     if (state->finished.load(std::memory_order_acquire))
                         return;
+                    if (state->IsLifecycleVerification()) {
+                        const bool postLoad =
+                            a_message->type == kPostLoadGame;
+                        if (postLoad && !pairedLifecyclePostLoad) {
+                            state->Log("lifecycle: successful unpaired "
+                                "kPostLoadGame is not lifecycle evidence");
+                        } else {
+                            std::uint32_t& ordinal = postLoad ?
+                                state->lifecyclePostLoadCount :
+                                state->lifecycleNewGameCount;
+                            ++ordinal;
+                            const std::uint32_t loadAttempt = postLoad ?
+                                state->lifecyclePendingLoadAttempt : 0;
+                            if (!state->VerifyLifecycleCheckpoint(
+                                    postLoad ? "kPostLoadGame" : "kNewGame",
+                                    ordinal,
+                                    true,
+                                    loadAttempt)) {
+                                return;
+                            }
+                            if (postLoad)
+                                state->lifecyclePendingLoadAttempt = 0;
+                        }
+                    }
                     state->Log("diagnostics: received SKSE %s; first recurring "
                         "high-handle report is scheduled in one minute",
                         a_message->type == kPostLoadGame ? "kPostLoadGame" : "kNewGame");
@@ -2912,7 +3607,7 @@ namespace shcr::stress
 
             const bool diagnostics = a_settings.liveDiagnosticsEnabled;
             if (diagnostics &&
-                (a_settings.indexBits != 22 ||
+                (a_settings.indexBits != generation::kIndexBits ||
                  a_settings.diagnosticsDetailedSampleLimit >
                      kMaxDiagnosticDetailedSamples ||
                  !a_callbacks.resolveAttribution ||
@@ -2921,7 +3616,8 @@ namespace shcr::stress
                 return false;
             }
             if (!diagnostics &&
-                ((a_settings.indexBits != 20 && a_settings.indexBits != 22) ||
+                ((a_settings.indexBits != 20 &&
+                  a_settings.indexBits != generation::kIndexBits) ||
                  a_settings.maxReferencesPerTask == 0 ||
                  a_settings.maxTaskMicroseconds == 0 ||
                  a_settings.coordinatorDelayMilliseconds == 0)) {
@@ -2953,29 +3649,33 @@ namespace shcr::stress
                 return false;
             }
             if (!diagnostics && a_settings.churnCycles != 0 &&
-                (a_settings.indexBits != 22 ||
+                (a_settings.indexBits != generation::kIndexBits ||
                  a_settings.syntheticFillToIndex != entryCount ||
                  a_settings.releaseProbeCount != 0 ||
                  a_settings.reuseProbeCycles != 0 ||
-                 a_settings.churnCycles > 1024 ||
+                  a_settings.churnCycles > generation::kSafeReuseLimit ||
                  !a_settings.stopOnVerificationFailure)) {
                 return false;
             }
             if (!diagnostics && a_settings.releaseProbeCount != 0 &&
-                (a_settings.indexBits != 22 ||
-                 a_settings.syntheticFillToIndex <= kFull22Index ||
+                (a_settings.indexBits != generation::kIndexBits ||
+                 a_settings.syntheticFillToIndex <=
+                     kFirstOrdinaryRaisedIndex ||
                  a_settings.releaseProbeCount >
-                     a_settings.syntheticFillToIndex - kFull22Index ||
+                     a_settings.syntheticFillToIndex -
+                         kFirstOrdinaryRaisedIndex ||
                  a_settings.churnCycles != 0 ||
                  a_settings.stockOverflowAttempts != 0 ||
                  !a_settings.stopOnVerificationFailure)) {
                 return false;
             }
             if (!diagnostics && a_settings.reuseProbeCycles != 0 &&
-                (a_settings.indexBits != 22 ||
-                 a_settings.reuseProbeCycles != 1 ||
+                (a_settings.indexBits != generation::kIndexBits ||
+                 (a_settings.reuseProbeCycles != 1 &&
+                  a_settings.reuseProbeCycles != generation::kGenerationCount) ||
                  a_settings.releaseProbeCount == 0 ||
-                 a_settings.syntheticFillToIndex <= kFull22Index ||
+                 a_settings.syntheticFillToIndex <=
+                     kFirstOrdinaryRaisedIndex ||
                  a_settings.syntheticFillToIndex >= entryCount ||
                  a_settings.churnCycles != 0 ||
                  a_settings.stockOverflowAttempts != 0 ||
@@ -3004,7 +3704,7 @@ namespace shcr::stress
             state->callbacks = a_callbacks;
             state->profile = profile;
             state->tasks = tasks;
-            state->handleTable = static_cast<const RawHandleEntry*>(
+            state->handleTable = static_cast<const HandleEntry*>(
                 a_callbacks.handleTable);
             state->handleEntryCount = a_callbacks.handleEntryCount;
             state->imageBase = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
