@@ -155,7 +155,7 @@ The reserved slot always republishes the same generation-zero raw value. If
 Player is destroyed and recreated in one process, a stale old player handle
 can resolve to the new Player. That tradeoff is necessary to preserve the
 complete vanilla constant. It applies only to the reserved slot; ordinary
-slots use five-bit age advancement and are covered by the reuse detector.
+slots use five-bit age advancement and are covered by the mandatory reuse guard.
 
 ## Allocation, lookup, and release
 

@@ -1212,7 +1212,7 @@ namespace shcr::stress
                        (entry.bits & AgeMask()) == (reuseOldHandle & AgeMask());
             }
 
-            [[nodiscard]] bool VerifyNoWrapDetectorProgress(
+            [[nodiscard]] bool VerifyNoWrapGuardProgress(
                 std::uint32_t a_expectedAssignments,
                 const char* a_stage)
             {
@@ -1239,7 +1239,7 @@ namespace shcr::stress
                 const std::uint32_t assignments =
                     diagnostic::AssignmentCount(reuseTarget.index);
                 if (assignments != a_expectedAssignments) {
-                    Log("stress: NO-WRAP detector mismatch at %s: target=%06X "
+                    Log("stress: NO-WRAP guard mismatch at %s: target=%06X "
                         "expectedAssignments=%u observedAssignments=%u",
                         a_stage ? a_stage : "unknown stage",
                         reuseTarget.index,
@@ -1260,7 +1260,7 @@ namespace shcr::stress
                     Fail("no-wrap boundary proof was requested at the wrong completed-cycle count");
                     return false;
                 }
-                if (!VerifyNoWrapDetectorProgress(
+                if (!VerifyNoWrapGuardProgress(
                         generation::kGenerationCount,
                         "final exact-slot assignment")) {
                     return false;
@@ -1310,7 +1310,7 @@ namespace shcr::stress
                         generation::kGenerationMask)) != 0 ||
                     diagnostic::AssignmentCount(hottestSlot) !=
                         generation::kGenerationCount) {
-                    Fail("31-cycle no-wrap detector/hottest-slot evidence was not exact");
+                    Fail("31-cycle no-wrap guard/hottest-slot evidence was not exact");
                     return false;
                 }
 
@@ -1512,7 +1512,7 @@ namespace shcr::stress
                         return;
                     }
                     Log("stress: NO-WRAP BOUNDARY armed; cycles=31 target=%06X "
-                        "initialHandle=%08X initialAssignments=%u detector=active "
+                        "initialHandle=%08X initialAssignments=%u guard=active "
                         "tracking=exact wrapEvents=0 preventedWrapAttempts=0",
                         reuseTarget.index,
                         reuseInitialHandle,
@@ -1750,7 +1750,7 @@ namespace shcr::stress
                             return;
                         }
                     }
-                    if (!VerifyNoWrapDetectorProgress(
+                    if (!VerifyNoWrapGuardProgress(
                             reuseCompleted + 1u,
                             "per-cycle exact-slot assignment")) {
                         return;

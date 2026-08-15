@@ -344,7 +344,7 @@ namespace shcr::diagnostic
                     sizeof(a_profile.assignmentHelperBytes)) != 0) {
                 if (a_logMismatch) {
                     Log("ERROR: generation-wrap guard assignment helper at "
-                        "rva %08X differs from the verified runtime; detector "
+                        "rva %08X differs from the verified runtime; guard "
                         "preparation refused.",
                         a_profile.assignmentHelperRva);
                 }
@@ -400,7 +400,7 @@ namespace shcr::diagnostic
                     g_runtime.imageBase + a_profile.assignmentHelperRva) {
                     if (a_logMismatch) {
                         Log("ERROR: generation-wrap guard call %u resolves "
-                            "to %016llX, not verified helper %016llX; detector "
+                            "to %016llX, not verified helper %016llX; guard "
                             "preparation refused.", index,
                             static_cast<unsigned long long>(target),
                             static_cast<unsigned long long>(
@@ -458,8 +458,8 @@ namespace shcr::diagnostic
 
         [[noreturn]] void FatalAssignmentHookRollback() noexcept
         {
-            Log("FATAL: generation-wrap detector could not restore all five "
-                "original assignment calls after a diagnostic install failure.");
+            Log("FATAL: generation-wrap guard could not restore all five "
+                "original assignment calls after a guard install failure.");
             Log("Terminating Skyrim because continuing through a partially "
                 "written call site is unsafe; the cap-table transaction itself "
                 "had succeeded.");
